@@ -1,0 +1,61 @@
+{
+	"easycom": {
+		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
+	},
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/main/index/index",
+			"style": {
+				"navigationBarTitleText": "ChatGPT专业版",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#26B3A0",
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/main/chat/index",
+			"style": {
+				"navigationBarTitleText": "对话",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#26B3A0",
+				"navigationBarTextStyle": "white"
+			}
+		}, {
+			"path": "pages/main/ask/index",
+			"style": {
+				"navigationBarTitleText": "关于",
+				"enablePullDownRefresh": false,
+				"navigationBarBackgroundColor": "#26B3A0",
+				"navigationBarTextStyle": "white"
+			}
+		}
+	],
+	"tabBar": {
+		"color": "#999999",
+		"selectedColor": "#26B3A0",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/main/index/index",
+			"iconPath": "static/tabbar/home_blue2.png",
+			"selectedIconPath": "static/tabbar/home_blue3_selected.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/main/chat/index",
+			"iconPath": "static/tabbar/all_blue2.png",
+			"selectedIconPath": "static/tabbar/all_blue2_selected.png",
+			"text": "对话"
+		}, {
+			"pagePath": "pages/main/ask/index",
+			"iconPath": "static/tabbar/all_blue2.png",
+			"selectedIconPath": "static/tabbar/all_blue2_selected.png",
+			"text": "关于"
+		}]
+	},
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarTitleText": "ChatGPT专业版",
+		"navigationBarBackgroundColor": "#ffffff",
+		"backgroundColor": "#ffffff"
+	},
+	"uniIdRouter": {}
+}

@@ -1,0 +1,34 @@
+{
+  "pages": [
+    "pages/main/index/index",
+    "pages/main/ask/index"
+  ],
+  "subPackages": [],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarTitleText": "ChatGPT专业版",
+    "navigationBarBackgroundColor": "#ffffff",
+    "backgroundColor": "#ffffff"
+  },
+  "tabBar": {
+    "color": "#999999",
+    "selectedColor": "#26B3A0",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/main/index/index",
+        "iconPath": "static/tabbar/home_blue2.png",
+        "selectedIconPath": "static/tabbar/home_blue3_selected.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/main/ask/index",
+        "iconPath": "static/tabbar/all_blue2.png",
+        "selectedIconPath": "static/tabbar/all_blue2_selected.png",
+        "text": "关于"
+      }
+    ]
+  },
+  "usingComponents": {}
+}

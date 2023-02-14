@@ -1,0 +1,22 @@
+{
+    "devDependencies": {
+        "sass": "^1.56.2",
+        "sass-loader": "^10.4.1"
+    },
+    "dependencies": {
+        "uview-ui": "^2.0.31"
+    },
+    "id": "ChatGPT",
+    "name": "",
+    "displayName": "",
+    "version": "1.1.0",
+    "description": "ChatGPT",
+    "keywords": [
+        "ChatGPT"
+    ],
+    "dcloudext": {
+        "category": [
+            "ChatGPT"
+        ]
+    }
+}
