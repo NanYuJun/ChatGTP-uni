@@ -81,7 +81,7 @@ export default {
 					"prompt": query,
 					"key": uni.getStorageSync('key') || ''
 				}, {
-					timeout: 30000
+					timeout: 300000
 				})
 				uni.hideLoading()
 				if (data.code != 1000) {
