@@ -1,5 +1,5 @@
 import App from './App'
-
+import './utils/statistics.js'
 // #ifndef VUE3
 import Vue from 'vue'
 import uView from "uview-ui";
