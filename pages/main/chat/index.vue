@@ -1,6 +1,24 @@
 <template>
 	<view class="chat">
-		<view class="chat-item" v-for="item in chat">
+		<view class="chat-item">
+			<u-transition :show="true" mode="fade-left">
+				<view class="chat-item__left u-flex">
+					<u-avatar src="../../../static/avatar.jpeg" shape="square"></u-avatar>
+					<view class="chat-item__left-right">
+						<view class="chat-item__left-name">
+							ChatGPT
+						</view>
+						<view class="chat-item__left-bottom">
+							<view class="chat-item__left-message">
+								我是智能机器人ChatGPT,开始你的提问吧！
+							</view>
+						</view>
+
+					</view>
+				</view>
+			</u-transition>
+		</view>
+		<view class="chat-item" v-for="(item,index) in chat" :key="index">
 
 			<u-transition :show="true" mode="fade-right" v-if="item.problem">
 				<view class="chat-item__right">
@@ -13,7 +31,7 @@
 			</u-transition>
 			<u-transition :show="true" mode="fade-left">
 				<view class="chat-item__left u-flex">
-					<u-avatar src="../../../static/avatar.png" shape="square"></u-avatar>
+					<u-avatar src="../../../static/avatar.jpeg" shape="square"></u-avatar>
 					<view class="chat-item__left-right">
 						<view class="chat-item__left-name">
 							ChatGPT

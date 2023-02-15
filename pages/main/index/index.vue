@@ -45,8 +45,12 @@
 			</u-transition>
 
 		</view>
-		<view class="alert">
-
+		<view class="content" style="margin-top:20rpx;: 100%;text-align: center;">
+			<p>🧧戳！今日周三外卖节美团必领9元！<a href="https://click.meituan.com/t?t=1&c=2&p=rqBpfr5z4LCF">红包1</a>-<a
+					href="https://click.meituan.com/t?t=1&c=2&p=rqBpfr5z4LCF">红包2</a></p>
+			<p>饿了么翻倍红包5-15红包😋 <a href="//gpt.qqip.net/ad/eleme.jpeg">饿了么扫码</a></p>
+			<p>👇数量有限，先到先得👇</p>
+			<p>公众号：超省黑卡<a style="margin-left:20rpx;" href="//gpt.qqip.net/ad/mp.jpg">二维码</a></p>
 		</view>
 		<u-popup :show="show" :round="10" mode="bottom" :closeable="true" @close="show=false">
 			<view style="padding:20rpx">

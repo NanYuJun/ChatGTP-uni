@@ -16,6 +16,7 @@ export default {
 	methods: {
 		init() {
 			this.chat = uni.getStorageSync('historyProblem') || []
+			this.key = uni.getStorageSync('key') || ''
 		},
 		copy(val) {
 			uni.setClipboardData({
@@ -41,6 +42,7 @@ export default {
 			})
 		},
 		async getAnswer() {
+			let index = this.chat.length
 			if (this.problem == '清除记忆') {
 				this.next()
 				return
@@ -75,7 +77,7 @@ export default {
 				}
 				const {
 					data
-				} = await uni.$u.http.post('http://gpt.qqip.net/api/app/chatgpt/info', {
+				} = await uni.$u.http.post('https://gpt.qqip.net/api/app/chatgpt/info', {
 					"prompt": query,
 					"key": uni.getStorageSync('key') || ''
 				})
@@ -85,8 +87,8 @@ export default {
 						title: data.message,
 						icon: 'none'
 					})
-					this.$set(this.chat, this.chat.length - 1, {
-						...this.chat[this.chat.length - 1],
+					this.$set(this.chat, index, {
+						...this.chat[index],
 						answer: 'error'
 					})
 					return
@@ -96,8 +98,8 @@ export default {
 				uni.pageScrollTo({
 					selector: '.seize',
 				})
-				this.$set(this.chat, this.chat.length - 1, {
-					...this.chat[this.chat.length - 1],
+				this.$set(this.chat, index, {
+					...this.chat[index],
 					answer: this.answer
 				})
 				uni.setStorageSync('historyProblem', this.chat)
@@ -115,8 +117,8 @@ export default {
 					title: '获取失败，请联系管理员' + e,
 					icon: 'none'
 				})
-				this.$set(this.chat, this.chat.length - 1, {
-					...this.chat[this.chat.length - 1],
+				this.$set(this.chat, index, {
+					...this.chat[index],
 					answer: 'error'
 				})
 				uni.pageScrollTo({

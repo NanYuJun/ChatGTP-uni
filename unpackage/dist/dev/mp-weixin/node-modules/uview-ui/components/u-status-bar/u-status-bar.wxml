@@ -1,1 +1,0 @@
-<view class="u-status-bar data-v-3c8c2ae7" style="{{$root.s0}}"><slot></slot></view>
