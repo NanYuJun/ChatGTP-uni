@@ -80,6 +80,8 @@ export default {
 				} = await uni.$u.http.post('https://gpt.qqip.net/api/app/chatgpt/info', {
 					"prompt": query,
 					"key": uni.getStorageSync('key') || ''
+				}, {
+					timeout: 30000
 				})
 				uni.hideLoading()
 				if (data.code != 1000) {
