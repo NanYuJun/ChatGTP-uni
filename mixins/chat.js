@@ -77,7 +77,7 @@ export default {
 				}
 				const {
 					data
-				} = await uni.$u.http.post('https://gpt.qqip.net/api/app/chatgpt/info', {
+				} = await uni.$u.http.post('https://chat.w0b.cn/api/app/chatgpt/info', {
 					"prompt": query,
 					"key": uni.getStorageSync('key') || ''
 				}, {
