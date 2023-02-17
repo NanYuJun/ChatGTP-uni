@@ -53,6 +53,7 @@
         </view>
       </u-transition>
     </view>
+     <view style="height:100rpx"></view>
     <view class="send">
       <u--input
         placeholder="请输入内容"
