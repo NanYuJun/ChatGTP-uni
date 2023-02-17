@@ -53,7 +53,6 @@
         </view>
       </u-transition>
     </view>
-    <view class="seize" style="height: 280rpx"> </view>
     <view class="send">
       <u--input
         placeholder="请输入内容"
@@ -136,7 +135,7 @@ export default {
   display: flex;
   background: #fff;
   position: fixed;
-  height: 280rpx;
+  height: 100rpx;
   bottom: var(--window-bottom,0);
   left: 0;
   width: 100%;
@@ -146,7 +145,7 @@ export default {
 
   .u-input {
     width: 600rpx;
-    height: 56rpx;
+    height: 54rpx;
   }
 
   .u-button {

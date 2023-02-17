@@ -46,6 +46,7 @@
 
 		</view>
 		<view class="content" style="margin-top:20rpx;: 100%;text-align: center;">
+			<p>广告：顶级潮牌衣服鞋子:boshe9999</p>
 			<p>🧧戳！今日周三外卖节美团必领9元！<a href="https://click.meituan.com/t?t=1&c=2&p=rqBpfr5z4LCF">红包1</a>-<a
 					href="https://click.meituan.com/t?t=1&c=2&p=rqBpfr5z4LCF">红包2</a></p>
 			<p>饿了么翻倍红包5-15红包😋 <a href="//gpt.qqip.net/ad/eleme.jpeg">饿了么扫码</a></p>

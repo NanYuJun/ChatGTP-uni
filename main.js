@@ -1,9 +1,10 @@
 import App from './App'
-import './utils/statistics.js'
 // #ifndef VUE3
 import Vue from 'vue'
 import uView from "uview-ui";
 Vue.use(uView);
+import './utils/statistics.js'
+import './config/request.js'
 Vue.config.productionTip = false
 App.mpType = 'app'
 const app = new Vue({
