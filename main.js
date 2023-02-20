@@ -3,7 +3,10 @@ import App from './App'
 import Vue from 'vue'
 import uView from "uview-ui";
 Vue.use(uView);
+
+// #ifdef H5
 import './utils/statistics.js'
+// #endif
 import './config/request.js'
 Vue.config.productionTip = false
 App.mpType = 'app'
