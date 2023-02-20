@@ -6,7 +6,7 @@
 		{
 			"path": "pages/main/index/index",
 			"style": {
-				"navigationBarTitleText": "ChatGPT专业版",
+				"navigationBarTitleText": "问答",
 				"enablePullDownRefresh": false,
 				"navigationBarBackgroundColor": "#26B3A0",
 				"navigationBarTextStyle": "white"
@@ -38,7 +38,7 @@
 			"pagePath": "pages/main/index/index",
 			"iconPath": "static/tabbar/home_blue2.png",
 			"selectedIconPath": "static/tabbar/home_blue3_selected.png",
-			"text": "首页"
+			"text": "问答"
 		}, {
 			"pagePath": "pages/main/chat/index",
 			"iconPath": "static/tabbar/all_blue2.png",
@@ -46,8 +46,8 @@
 			"text": "对话"
 		}, {
 			"pagePath": "pages/main/about/index",
-			"iconPath": "static/tabbar/all_blue2.png",
-			"selectedIconPath": "static/tabbar/all_blue2_selected.png",
+			"iconPath": "static/tabbar/about.png",
+			"selectedIconPath": "static/tabbar/about_selected.png",
 			"text": "关于"
 		}]
 	},
