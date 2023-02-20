@@ -12,7 +12,7 @@
 						<view class="tips" @tap="show = true">切换自有KEY</view>
 					</view>
 					<view class="textarea">
-						<u--textarea height="140" v-model="problem" placeholder="支持长按粘贴您的问题"></u--textarea>
+						<u--textarea height="140" v-model="problem" placeholder="支持长按粘贴您的问题" confirm-type="send"></u--textarea>
 					</view>
 					<view class="btn-group">
 						<view class="btn paste" @tap="next">
@@ -25,7 +25,7 @@
 					</view>
 				</view>
 			</u-transition>
-			<u-alert class="u-m-10" title="当前使用人数过多,获取答案可能超过10秒钟" type="error"></u-alert>
+			<mp-html :content="item.desc" v-for="item in ad('5')" :key="item.id"></mp-html>
 			<u-transition :show="true" mode="fade-left">
 				<view class="panel">
 					<view class="head">
@@ -33,7 +33,7 @@
 						<view class="tips"></view>
 					</view>
 					<view class="textarea">
-						<u--textarea height="140" v-model="answer" placeholder="支持可复制您的答案"></u--textarea>
+						<u--textarea height="140" :value="answer" placeholder="支持可复制您的答案" confirm-type="send"></u--textarea>
 					</view>
 					<view class="btn-group">
 						<view class="btn get" style="width:100%">
@@ -45,13 +45,8 @@
 			</u-transition>
 
 		</view>
-		<view class="content" style="margin-top:20rpx;: 100%;text-align: center;">
-			<p>广告：顶级潮牌衣服鞋子:boshe9999</p>
-			<p>🧧戳！今日周三外卖节美团必领9元！<a href="https://click.meituan.com/t?t=1&c=2&p=rqBpfr5z4LCF">红包1</a>-<a
-					href="https://click.meituan.com/t?t=1&c=2&p=rqBpfr5z4LCF">红包2</a></p>
-			<p>饿了么翻倍红包5-15红包😋 <a href="//gpt.qqip.net/ad/eleme.jpeg">饿了么扫码</a></p>
-			<p>👇数量有限，先到先得👇</p>
-			<p>公众号：超省黑卡<a style="margin-left:20rpx;" href="//gpt.qqip.net/ad/mp.jpg">二维码</a></p>
+		<view class="content" style="padding: 20rpx;">
+			<mp-html :content="item.desc" v-for="item in ad('1')" :key="item.id"></mp-html>
 		</view>
 		<u-popup :show="show" :round="10" mode="bottom" :closeable="true" @close="show=false">
 			<view style="padding:20rpx">
@@ -59,8 +54,7 @@
 					自有KEY:
 				</view>
 				<u--textarea style="margin: 10px 0;" height="50" v-model="key" placeholder="输入您的key"></u--textarea>
-				<u-alert style="margin: 10px 0;" type="warning"
-					description="官方key为大家共享使用的,可能会响应相对来说比较慢,使用自己的key可以完美解决这个问题!"></u-alert>
+				<mp-html :content="item.desc" v-for="item in ad('4')" :key="item.id"></mp-html>
 				<view class="btn-group">
 					<view class="btn paste" @tap="paste">
 						<u-button text="重置" @tap="key = '';changeKey()"></u-button>
@@ -146,9 +140,14 @@
 
 <script>
 	import chatMixin from '../../../mixins/chat.js'
+	import adMixin from "../../../mixins/ad.js"
 	export default {
-		mixins: [chatMixin]
-
+		mixins: [chatMixin, adMixin],
+		data() {
+			return {
+				adPosition: "1"
+			};
+		},
 	}
 </script>
 
