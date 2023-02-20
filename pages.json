@@ -20,7 +20,7 @@
 				"navigationBarTextStyle": "white"
 			}
 		}, {
-			"path": "pages/main/ask/index",
+			"path": "pages/main/about/index",
 			"style": {
 				"navigationBarTitleText": "关于",
 				"enablePullDownRefresh": false,
@@ -45,7 +45,7 @@
 			"selectedIconPath": "static/tabbar/all_blue2_selected.png",
 			"text": "对话"
 		}, {
-			"pagePath": "pages/main/ask/index",
+			"pagePath": "pages/main/about/index",
 			"iconPath": "static/tabbar/all_blue2.png",
 			"selectedIconPath": "static/tabbar/all_blue2_selected.png",
 			"text": "关于"
