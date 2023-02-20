@@ -14,10 +14,12 @@ export default {
 
 	},
 	methods: {
+		// 初始化
 		init() {
 			this.chat = uni.getStorageSync('historyProblem') || []
 			this.key = uni.getStorageSync('key') || ''
 		},
+		// 复制
 		copy(val) {
 			uni.setClipboardData({
 				data: this.answer || val,
@@ -29,6 +31,7 @@ export default {
 				}
 			});
 		},
+		// 切换key
 		changeKey() {
 			uni.setStorageSync('key', this.key)
 			this.show = false
@@ -41,8 +44,15 @@ export default {
 				title: '记忆已经清除！'
 			})
 		},
+		// 滚动到最底部
+		toBottom() {
+			this.$nextTick(() => uni.pageScrollTo({
+				scrollTop: 9999,
+				duration: 300
+			}))
+		},
+		// 获取问题答案
 		async getAnswer() {
-			let index = this.chat.length
 			if (this.problem == '清除记忆') {
 				this.next()
 				return
@@ -54,80 +64,104 @@ export default {
 				})
 				return
 			}
-			try {
-				let query = ''
-				this.chat.forEach(item => {
-					query += `\nQ: ${item.problem}\n\n\nA: ${item.answer}。 <|endoftext|>\n`
-				})
-				query += `Q: ${this.problem} + "\nA: `
 
-				if (this.type == 'chat') {
-					this.chat.push({
-						problem: this.problem,
-						answer: ''
-					})
-					uni.pageScrollTo({
-						selector: '.seize',
-					})
-					this.problem = ''
-				} else {
-					uni.showLoading({
-						title: '拼命思考中...',
-					})
+			this.chat = [
+				...this.chat,
+				{
+					name: 'my',
+					message: this.problem,
+					status: 'success'
+				},
+				{
+					name: 'chatgpt',
+					message: '',
+					status: 'loading'
 				}
+			]
+			let index = this.chat.length - 1
+			let loading
+			if (this.type === 'chat') {
+				this.problem = ''
+				this.toBottom()
+			} else {
+				loading = true
+				this.answer = '思考中'
+				const sleep = (ms)=> {
+					setTimeout(() => {
+						if (loading == true) {
+							if(this.answer == '思考中...'){
+								this.answer = '思考中'
+							}else{
+								this.answer += '.'
+							}
+							sleep(ms)
+						}else{
+
+						}
+					}, ms)
+				}
+				sleep(300)
+			}
+			try {
+
 				const {
 					data
 				} = await uni.$u.http.post('/app/chatgpt/info', {
-					"prompt": query,
+					"prompt": this.handlePrompt(),
 					"key": uni.getStorageSync('key') || ''
 				}, {
-					timeout: 300000
+					timeout: 300000 // 由于接口请求时间较长
 				})
-				uni.hideLoading()
-				if (data.code != 1000) {
-					uni.showToast({
-						title: data.message,
-						icon: 'none'
-					})
+
+				if (data.code == 1000) {
+					this.answer = data.data.choices[0].text
 					this.$set(this.chat, index, {
-						...this.chat[index],
-						answer: 'error'
+						name: 'chatgpt',
+						message: data.data.choices[0].text,
+						status: 'success'
 					})
-					return
+				} else {
+					this.answer = data.message
+					this.$set(this.chat, index, {
+						name: 'chatgpt',
+						message: data.message,
+						status: 'error'
+					})
 				}
-				this.answer = data.data.choices[0].text
-				if (!this.answer) return
-				uni.pageScrollTo({
-					selector: '.send',
-				})
-				this.$set(this.chat, index, {
-					...this.chat[index],
-					answer: this.answer
-				})
-				uni.setStorageSync('historyProblem', this.chat)
-				this.init()
 			} catch (e) {
-				uni.hideLoading()
-				if (e.statusCode == 401) {
-					uni.showToast({
-						title: 'key无效',
-						icon: 'none'
-					})
-					return
-				}
-				uni.showToast({
-					title: '获取失败，请联系管理员' + e,
-					icon: 'none'
-				})
+				this.answer = e
 				this.$set(this.chat, index, {
-					...this.chat[index],
-					answer: 'error'
-				})
-				uni.pageScrollTo({
-					selector: '.send',
+					name: 'chatgpt',
+					message: JSON.stringify(e),
+					status: 'error'
 				})
 			}
+			uni.setStorageSync('historyProblem', this.chat)
+			if (this.type === 'chat') {
+				this.toBottom()
+			} else {
+				loading = false
+			}
+		},
+		handlePrompt() {
+			let query = ''
+			this.chat.forEach(item => {
+				if (item.status == 'success') {
+					switch (item.name) {
+						case 'my':
+							query += `\nQ: ${item.message}`
+							break;
+						case 'chatgpt':
+							query += `\nA: ${item.message}`
+							break;
+						default:
+							break;
+					}
+				}
 
+			})
+			query += `<|endoftext|>\n\nA: `
+			return query
 		}
 
 	}
