@@ -1,3 +1,4 @@
+// 广告
 export default {
 	methods:{
 		ad(position){
