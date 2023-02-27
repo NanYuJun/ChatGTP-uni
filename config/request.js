@@ -1,4 +1,4 @@
-const baseURL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8001' : '/api'
+const baseURL = process.env.NODE_ENV === 'development' ? 'https://chat.w0b.cn/api' : 'https://chat.w0b.cn/api'
 import {
 	login
 } from '@/config/login.js'
