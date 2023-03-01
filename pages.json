@@ -2,60 +2,73 @@
 	"easycom": {
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
-	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+	"pages": [
 		{
 			"path": "pages/main/index/index",
 			"style": {
-				"navigationBarTitleText": "问答",
-				"enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#26B3A0",
-				"navigationBarTextStyle": "white"
+				"navigationBarTitleText": "问答"
 			}
 		}, {
 			"path": "pages/main/chat/index",
 			"style": {
-				"navigationBarTitleText": "对话",
-				"enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#26B3A0",
-				"navigationBarTextStyle": "white"
+				"navigationBarTitleText": "对话"
+			}
+		},
+		{
+			"path": "pages/cdk/index",
+			"style": {
+				"navigationBarTitleText": "CDK兑换"
+			}
+		},
+		{
+			"path": "pages/login/index",
+			"style": {
+				"navigationBarTitleText": "登录"
 			}
 		}, {
 			"path": "pages/main/about/index",
 			"style": {
-				"navigationBarTitleText": "关于",
-				"enablePullDownRefresh": false,
-				"navigationBarBackgroundColor": "#26B3A0",
-				"navigationBarTextStyle": "white"
+				"navigationBarTitleText": "关于"
+			}
+		},
+		{
+			"path": "pages/user/index",
+			"style": {
+				"navigationBarTitleText": "",
+				"navigationStyle": "custom"
+
+			}
+		},
+		{
+			"path": "pages/webview/index",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/param/index",
+			"style": {
+				"navigationBarTitleText": ""
 			}
 		}
 	],
 	"tabBar": {
-		"color": "#999999",
-		"selectedColor": "#26B3A0",
-		"borderStyle": "white",
-		"backgroundColor": "#ffffff",
 		"list": [{
-			"pagePath": "pages/main/index/index",
-			"iconPath": "static/tabbar/home_blue2.png",
-			"selectedIconPath": "static/tabbar/home_blue3_selected.png",
-			"text": "问答"
+			"pagePath": "pages/main/index/index"
 		}, {
-			"pagePath": "pages/main/chat/index",
-			"iconPath": "static/tabbar/all_blue2.png",
-			"selectedIconPath": "static/tabbar/all_blue2_selected.png",
-			"text": "对话"
+			"pagePath": "pages/main/chat/index"
 		}, {
-			"pagePath": "pages/main/about/index",
-			"iconPath": "static/tabbar/about.png",
-			"selectedIconPath": "static/tabbar/about_selected.png",
-			"text": "关于"
+			"pagePath": "pages/main/about/index"
+		},{
+			"pagePath": "pages/user/index"
 		}]
 	},
 	"globalStyle": {
-		"navigationBarTextStyle": "black",
-		"navigationBarTitleText": "ChatGPT专业版",
-		"navigationBarBackgroundColor": "#ffffff",
-		"backgroundColor": "#ffffff"
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "",
+		"navigationBarBackgroundColor": "#0071ff",
+		"backgroundColor": "#ffffff",
+		"enablePullDownRefresh": false
 	},
 	"uniIdRouter": {}
 }

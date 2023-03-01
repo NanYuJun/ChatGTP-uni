@@ -1,9 +1,38 @@
+const baseURL = process.env.NODE_ENV === 'development' ? 'https://chat.w0b.cn/api' : 'https://chat.w0b.cn/api'
+import {
+	login
+} from '@/config/login.js'
+
 uni.$u.http.setConfig((config) => {
-    /* config 为默认全局配置*/
-	if (process.env.NODE_ENV === 'development') {
-		config.baseURL = `http://127.0.0.1:8001`; /* 根域名 */
-	} else {
-		config.baseURL = `/api`; /* 根域名 */
-	}
-    return config
+	config.baseURL = baseURL;
+	return config
 })
+
+uni.$u.http.interceptors.request.use((config) => { // 可使用async await 做异步操作
+	config.header.Authorization = uni.getStorageSync('token')
+	return config
+}, config => { // 可使用async await 做异步操作
+	return Promise.reject(config)
+})
+
+uni.$u.http.interceptors.response.use((response) => {
+	if (response.statusCode !== 200) {
+		return Promise.reject(response)
+	}
+	return response
+}, (response) => {
+	// 对响应错误做点什么 （statusCode !== 200）
+	console.log(response)
+	switch (response.statusCode) {
+		case 401:
+			login(401)
+			break;
+		default:
+			break;
+	}
+	return Promise.reject(response)
+})
+
+export default {
+	baseURL
+}
