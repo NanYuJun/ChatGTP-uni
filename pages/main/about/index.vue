@@ -1,93 +1,71 @@
 <template>
-  <view class="container">
-    <view class="bg"></view>
-    <view class="form">
-      <view class="panel" v-for="item in ad('3')" :key="item.id">
-        <view class="head">
-          <view class="title">{{ item.title }}</view>
-        </view>
-        <view class="content">
-          <mp-html :content="item.desc"></mp-html>
-        </view>
-        <view class="bottom">
-          {{ item.remarks }}
-        </view>
-      </view>
-    </view>
-    <tabbar ref="tabBar" />
-  </view>
+	<view class="container" :class="theme">
+		<!-- #ifndef MP-TOUTIAO -->
+		
+		<u-navbar title="关于" leftIconSize="0" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
+			:placeholder="true" titleStyle="color:#fff">
+		</u-navbar>
+		<!-- #endif -->
+		<view class="form">
+			<view class="panel" v-for="item in ad('3')" :key="item.id">
+				<view class="head">
+					<view class="title">{{ item.title }}</view>
+				</view>
+				<view class="content">
+					<mp-html :content="item.desc"></mp-html>
+				</view>
+				<view class="bottom" v-show="item.remarks">
+					{{ item.remarks }}
+				</view>
+			</view>
+		</view>
+		<tabbar ref="tabBar" />
+	</view>
 </template>
 
 <script>
-import adMixin from "../../../mixins/ad.js";
-export default {
-  mixins: [adMixin],
-  onShow(){
-   this.$nextTick(() => {
-      this.$refs.tabBar.setTabbar()
-    })
-  }
-};
 </script>
 
 <style lang="scss" scoped>
-.form {
-  width: 90%;
-  margin: 0 auto;
-  z-index: 999;
+	.form {
+		padding: 30rpx;
+		margin: 0 auto;
+		z-index: 999;
+		height: 100%;
+		background: var(--bg);
 
-  .header {
-    margin-bottom: 30rpx;
 
-    .title {
-      text-align: center;
-      color: #fff;
-      margin: 30rpx 0rpx;
-    }
-  }
+		.panel {
+			padding: 30rpx;
+			background: var(--white);
+			color: var(--font-black);
+			border-radius: 15rpx;
+			margin-bottom: 30rpx;
 
-  .panel {
-    padding: 30rpx;
-    background-color: #fff;
-    border-radius: 15rpx;
-    box-shadow: 0rpx 10rpx 10rpx #eee;
-    margin-bottom: 15rpx;
+			.bottom {
+				font-size: 24rpx;
+			}
 
-    .bottom {
-      font-size: 24rpx;
-    }
+			.head {
+				border-bottom: 1rpx solid #eee;
+				padding-bottom: 30rpx;
 
-    .head {
-      border-bottom: 1rpx solid #eee;
-      padding-bottom: 30rpx;
+				.title {
+					font-weight: bolder;
+					font-size: 30rpx;
+				}
+			}
 
-      .title {
-        font-weight: bolder;
-        font-size: 30rpx;
-      }
-    }
+			.content {
+				margin: 30rpx 0rpx;
+			}
 
-    .content {
-      margin: 30rpx 0rpx;
-    }
-
-    .bottom {
-      background-color: #f0faf8;
-      color: $uni-color-primary;
-      padding: 15rpx;
-      border-radius: 10rpx;
-    }
-  }
-}
-
-.bg {
-  position: fixed;
-  top: 0rpx;
-  left: 0rpx;
-  width: 100%;
-  background-color: $uni-color-primary;
-  min-height: 200rpx;
-  border-radius: 0rpx 0rpx 140rpx 140rpx;
-  z-index: -1;
-}
+			.bottom {
+				background-color: var(--gray);
+				color: $uni-color-primary;
+				padding: 15rpx;
+				border-radius: 10rpx;
+			}
+		}
+	}
 </style>

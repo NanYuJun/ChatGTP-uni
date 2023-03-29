@@ -1,6 +1,11 @@
 <template>
   <view class="param">
-    <mp-html :content="content"></mp-html>
+	  <!-- #ifndef MP-TOUTIAO -->
+	  <u-navbar :title="content.name" autoBack="true" leftIconColor="#fff"   :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
+	  	:placeholder="true" titleStyle="color:#fff">
+	  </u-navbar>
+	  <!-- #endif -->
+    <mp-html :content="content.data"></mp-html>
   </view>
 </template>
 
@@ -21,7 +26,7 @@ export default {
           key,
         },
       });
-      this.content = data.data.data;
+      this.content = data.data;
     },
   },
 };

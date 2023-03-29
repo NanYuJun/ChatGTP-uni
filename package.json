@@ -1,9 +1,12 @@
 {
     "devDependencies": {
         "sass": "^1.56.2",
-        "sass-loader": "^10.4.1"
+        "sass-loader": "^10.4.1",
+        "uniapp-router-view-loader": "^1.1.2"
     },
     "dependencies": {
+        "@hyoga/uni-socket.io": "^3.0.4",
+        "socket.io-client": "^4.6.1",
         "uview-ui": "^2.0.31"
     },
     "id": "ChatGPT",

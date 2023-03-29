@@ -1,5 +1,11 @@
 <template>
-  <view class="cdk">
+  <view class="cdk" :class="theme">
+	  <!-- #ifndef MP-TOUTIAO -->
+	  <u-navbar title="CDK兑换" :autoBack="true" leftIconColor="#fff" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
+	  	:placeholder="true" titleStyle="color:#fff">
+	  	</u-navbar>
+	  <!-- #endif -->
+	  
     <mp-html
       :content="item.desc"
       v-for="item in ad('7')"
@@ -22,13 +28,16 @@
 </template>
 
 <script>
-import adMixins from "@/mixins/ad.js";
 export default {
-  mixins: [adMixins],
   data() {
     return {
       cdk: "",
     };
+  },
+  onLoad() {
+	if(!this.$login()){
+		return
+	}
   },
   methods: {
     async exchange() {
@@ -69,8 +78,11 @@ export default {
 <style lang="scss" scoped>
 .cdk {
   padding: 20rpx;  
+  height: 100%;
+  background: var(--bg);
+  color:var(--font-black);
   &-input {
-    background-color: #f5f5f5;
+    background-color: var(--white);
 	padding: 20rpx;
 	margin: 20rpx 0;
   }
