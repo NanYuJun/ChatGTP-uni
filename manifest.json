@@ -1,5 +1,5 @@
 {
-    "name" : "ChatGPT",
+    "name" : "AI工具",
     "appid" : "__UNI__4AC1694",
     "description" : "",
     "versionName" : "1.0.0",
@@ -44,7 +44,7 @@
             },
             "icons" : {
                 "android" : {
-                    "hdpi" : "/Users/wanghaohao/Desktop/avatar.png",
+                    "hdpi" : "unpackage/res/icons/72x72.png",
                     "xhdpi" : "unpackage/res/icons/96x96.png",
                     "xxhdpi" : "unpackage/res/icons/144x144.png",
                     "xxxhdpi" : "unpackage/res/icons/192x192.png"
@@ -80,7 +80,10 @@
     "mp-weixin" : {
         "appid" : "wx71847cd2b255eca8",
         "setting" : {
-            "urlCheck" : false
+            "urlCheck" : true,
+            "es6" : true,
+            "postcss" : true,
+            "minified" : true
         },
         "usingComponents" : true
     },
@@ -96,5 +99,15 @@
     "uniStatistics" : {
         "enable" : false
     },
-    "vueVersion" : "2"
+    "vueVersion" : "2",
+    "h5" : {
+        "router" : {
+            "base" : ""
+        },
+        "optimization" : {
+            "treeShaking" : {
+                "enable" : true
+            }
+        }
+    }
 }

@@ -1,4 +1,4 @@
-const baseURL = process.env.NODE_ENV === 'development' ? 'https://chat.w0b.cn/api' : 'https://chat.w0b.cn/api'
+const baseURL = process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8001' : ''
 import {
 	login
 } from '@/config/login.js'
@@ -9,7 +9,7 @@ uni.$u.http.setConfig((config) => {
 })
 
 uni.$u.http.interceptors.request.use((config) => { // 可使用async await 做异步操作
-	config.header.Authorization = uni.getStorageSync('token')
+	config.header.Authorization = uni.getStorageSync('appToken')
 	return config
 }, config => { // 可使用async await 做异步操作
 	return Promise.reject(config)

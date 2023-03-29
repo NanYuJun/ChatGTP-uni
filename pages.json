@@ -3,17 +3,23 @@
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [
+
 		{
-			"path": "pages/main/index/index",
-			"style": {
-				"navigationBarTitleText": "问答"
-			}
-		}, {
 			"path": "pages/main/chat/index",
 			"style": {
 				"navigationBarTitleText": "对话"
+				// "leftWindow": true // 当前页面不显示 leftWindow
 			}
 		},
+		{
+			"path": "pages/main/chat/log",
+			"style": {
+				"navigationBarTitleText": "对话",
+				"enablePullDownRefresh": true
+				// "leftWindow": true // 当前页面不显示 leftWindow
+			}
+		},
+
 		{
 			"path": "pages/cdk/index",
 			"style": {
@@ -34,41 +40,99 @@
 		{
 			"path": "pages/user/index",
 			"style": {
-				"navigationBarTitleText": "",
-				"navigationStyle": "custom"
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/user/invitation",
+			"style": {
+				"navigationBarTitleText": "我的邀请",
+				"enablePullDownRefresh": true
+
+			}
+		},
+		{
+			"path": "pages/user/task",
+			"style": {
+				"navigationBarTitleText": "任务中心"
+
+			}
+		},
+		{
+			"path": "pages/user/index2",
+			"style": {
+				"navigationBarTitleText": "我的"
+
 
 			}
 		},
 		{
 			"path": "pages/webview/index",
 			"style": {
-				"navigationBarTitleText": ""
+				"navigationBarTitleText": "外链"
+
 			}
 		},
 		{
 			"path": "pages/param/index",
 			"style": {
 				"navigationBarTitleText": ""
+
+			}
+		},
+		{
+			"path": "pages/main/model/index",
+			"style": {
+				"navigationBarTitleText": "模型"
+
+			}
+		},
+		{
+			"path": "pages/main/key/index",
+			"style": {
+				"navigationBarTitleText": "KEY"
+
+
+			}
+		},
+		{
+			"path": "pages/share/index",
+			"style": {
+				"navigationBarTitleText": "分享"
+
 			}
 		}
 	],
+	"leftWindow": {
+		"path": "leftWindow/index.vue",
+		"style": {
+			"width": "300px"
+		}
+	},
 	"tabBar": {
 		"list": [{
-			"pagePath": "pages/main/index/index"
-		}, {
-			"pagePath": "pages/main/chat/index"
-		}, {
-			"pagePath": "pages/main/about/index"
-		},{
-			"pagePath": "pages/user/index"
-		}]
+				"pagePath": "pages/main/chat/index"
+			},
+			{
+				"pagePath": "pages/main/about/index"
+			}, {
+				"pagePath": "pages/user/index"
+			}, {
+				"pagePath": "pages/main/model/index"
+			}
+		]
 	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#0071ff",
 		"backgroundColor": "#ffffff",
-		"enablePullDownRefresh": false
+		"enablePullDownRefresh": false,
+		"navigationStyle": "custom",
+		"mp-tuotiao":{
+			"navigationStyle":"default"
+		},
+		"leftWindow": false // 当前页面不显示 leftWindow
 	},
 	"uniIdRouter": {}
 }
