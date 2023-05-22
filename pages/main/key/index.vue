@@ -1,10 +1,7 @@
 <template>
-	<view class="change-key" :class="theme">
-		<!-- #ifndef MP-TOUTIAO -->
-		<u-navbar title="KEY" autoBack="true" leftIconColor="#fff"  :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
-			:placeholder="true" titleStyle="color:#fff">
-		</u-navbar>
-		<!-- #endif -->
+	<n-page>
+	<view class="change-key" >
+		<!-- 当前页面不维护了，请无要使用 -->
 		<view class="title"> 自有KEY: </view>
 		<u--textarea height="50" v-model="key" placeholder="输入您的key"></u--textarea>
 		<mp-html :content="item.desc" v-for="item in ad('4')" :key="item.id"></mp-html>
@@ -18,6 +15,7 @@
 			</view>
 		</view>
 	</view>
+	</n-page>
 </template>
 
 <script>
@@ -46,6 +44,7 @@
 
 <style lang="scss" scoped>
 	.change-key {
+		width: 100%;
 		padding: 0 20rpx 20rpx 20rpx;
 
 		.title {

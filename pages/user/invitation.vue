@@ -1,10 +1,7 @@
 <template>
-	<view class="user-invitation" :class="theme">
-		<!-- #ifndef MP-TOUTIAO -->
-		<u-navbar :autoBack="true"  leftIconColor="#fff" title="我的邀请" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'"
-			:safeAreaInsetTop="true" :placeholder="true" titleStyle="color:#fff">
-		</u-navbar>
-		<!-- #endif -->
+	<n-page>
+	<!-- 我的邀请 -->
+	<view class="user-invitation" >
 		<u-list class="user-invitation-list" @scrolltolower="scrolltolower" @upperThreshold="init" :lowerThreshold="100">
 			<u-list-item v-for="(item, index) in list" :key="index">
 				<u-cell :title="item.inviterUserName" :label="item.createTime">
@@ -21,10 +18,8 @@
 				{{tips}}
 			</view>
 		</u-list>
-
-
-
 	</view>
+	</n-page>
 </template>
 
 <script>
@@ -104,7 +99,8 @@
 
 <style lang="scss" scoped>
 	.user-invitation {
-		min-height: 100%;
+		height: 100%;
+		width: 100%;
 		background: var(--bg);
 		color: var(--font-black);
 

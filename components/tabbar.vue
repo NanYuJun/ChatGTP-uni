@@ -51,6 +51,7 @@
 		z-index: 999;
 		background: var(--bg-gray);
 		border-top: 2rpx solid var(--border);
+		cursor: pointer;
 		padding-bottom: constant(safe-area-inset-bottom);
 		padding-bottom: env(safe-area-inset-bottom);
 	}

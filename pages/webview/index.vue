@@ -1,4 +1,5 @@
 <template>
+	<!-- 小程序跳转网页必备页面 -->
 	<view class="webview">
 		<web-view :src="url"></web-view>
 	</view>

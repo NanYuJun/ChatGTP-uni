@@ -7,7 +7,9 @@ ChatGPT 是 OpenAI 开发的一款专门从事对话的人工智能聊天机器�
 
 ## 启动
 
-使用HbuilderX打开项目，然后点击运行即可
+使用HbuilderX打开项目，安装依赖后，然后点击运行即可
+
+安装依赖命令 npm install 或者 yarn
 
 tips: 由于模版有后端逻辑 可以在config/request.js 连接 https://chat.w0b.cn 接口进行查看，H5的话 会有跨域问题可以在hbuilderx中内置浏览器打开查看
 
@@ -50,46 +52,22 @@ tips: 由于模版有后端逻辑 可以在config/request.js 连接 https://chat
 <img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/bf15afd3a7cd4380b7dae17bfd5e5cf1~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230330-233237@2x.png" width="30%" />
 
 
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/146c2efcea8449d28b79c189b2596396~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-102655@2x.png" width="100%" />
-
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/632cf3978d8e4516bb2fd603d84c8edf~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-102740@2x.png" width="100%" />
-
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/fa48d5d3d4dc49149a908c9f6e4d1ac1~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103137@2x.png" width="100%" />
-
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9b62e093cc50461a9ccfaf5bf1d50b45~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103144@2x.png" width="100%" />
-
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/96c2c1f0363f4e0c83a6562e30fd5aa8~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103148@2x.png" width="100%" />
-
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/062fa6ed62e84e68a785e3989228506a~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103154@2x.png" width="100%" />
-
-<img src="https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/8f67db9a7dfe48fd8d82d3b636085801~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103205@2x.png" width="100%" />
-
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b5e412ddf33e443bb15113c52e73fe6b~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103213@2x.png" width="100%" />
-
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cf26e9a8a4814b2eb6874f5850676c71~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103219@2x.png" width="100%" />
-
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/91488d72db64459e92bedcda2d480727~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103233@2x.png" width="100%" />
-
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ba48646cac6f4931891be1211ad5af7e~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103240@2x.png" width="100%" />
-
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f1213607e27a48dc90080b9d9f1c92bc~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103249@2x.png" width="100%" />
-
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/1b40231eaa864ee68185c47377603edf~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103255@2x.png" width="100%" />
-
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f221a49f07ba4fa59a6e3c4ef349bae9~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103302@2x.png" width="100%" />
-
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7703bfd5ddb64eadafc0a786cf3b89cd~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103307@2x.png" width="100%" />
-
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/a86d5cc88cb446ebbd488a15a18c43ed~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103314@2x.png" width="100%" />
-
-<img src="https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6165a7dccba44ef099c4c401c1c3ac18~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103329@2x.png" width="100%" />
-
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/cb3a8347557d46668f8bb5905b7e9a60~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103344@2x.png" width="100%" />
-
-<img src="https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/7e3794d73bfd45908ec8843b78f4123c~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103354@2x.png" width="100%" />
-
-<img src="https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f0a2fe0856e14ef0bd6e78b98f5fc9b5~tplv-k3u1fbpfcp-watermark.image?" alt="WX20230331-103410@2x.png" width="100%" />
-
-
-
-
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/0bace09997e749fdbb73fbdb220d25df~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b02f87c965eb404e90de1a94437214de~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c69dc8050bd6461ca0cf3910f92fa530~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/814c026c3f734b40998e51e5b8719d06~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/f19ed3151f144acca8c3d0674c63d1fb~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/e76b042a795d427a8758951e75b7eea1~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/9340ba84937843eca6a7306a0d9caee8~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/699c13b095b648ccb88dade035f65b1c~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3891e26e9b8e44848951ce719a6e0b62~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/62283d37dd20454c9244b6555cfeb7f8~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/6149b09bcbe147f3abdcc3a3ae8fd4f8~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/ce3e01bcaeb94fe7bc8fcdf61eaa6c45~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/93103fab4df64303ab09079a182111dc~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p3-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b7544a8c2d6f4a1bb62b236841ec8eab~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p1-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/b2ab4480493c4647ac3f69f2d86917e0~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p6-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/c93e563cf9e7428f99c2e4c965097e2b~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/df5a36cfb1614bb98e63e96e9f4af947~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/3831d843d6294cfeb3ea550bdab02c70~tplv-k3u1fbpfcp-watermark.image?)
+![image.png](https://p9-juejin.byteimg.com/tos-cn-i-k3u1fbpfcp/93e77eed5f394e40b9aeea3d2ed36e34~tplv-k3u1fbpfcp-watermark.image?)

@@ -3,27 +3,29 @@
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [
-
+		{
+				"path": "pages/index",
+				"style": {
+					"navigationBarTitleText": "首页"
+				}
+			},
 		{
 			"path": "pages/main/chat/index",
 			"style": {
 				"navigationBarTitleText": "对话"
-				// "leftWindow": true // 当前页面不显示 leftWindow
 			}
 		},
 		{
 			"path": "pages/main/chat/log",
 			"style": {
-				"navigationBarTitleText": "对话",
+				"navigationBarTitleText": "对话记录",
 				"enablePullDownRefresh": true
-				// "leftWindow": true // 当前页面不显示 leftWindow
 			}
 		},
-
 		{
 			"path": "pages/cdk/index",
 			"style": {
-				"navigationBarTitleText": "CDK兑换"
+				"navigationBarTitleText": "卡密兑换"
 			}
 		},
 		{
@@ -38,17 +40,10 @@
 			}
 		},
 		{
-			"path": "pages/user/index",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
-		{
 			"path": "pages/user/invitation",
 			"style": {
 				"navigationBarTitleText": "我的邀请",
 				"enablePullDownRefresh": true
-
 			}
 		},
 		{
@@ -59,11 +54,21 @@
 			}
 		},
 		{
+			"path": "pages/user/index",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
+		{
+			"path": "pages/user/setting",
+			"style": {
+				"navigationBarTitleText": "个人资料"
+			}
+		},
+		{
 			"path": "pages/user/index2",
 			"style": {
 				"navigationBarTitleText": "我的"
-
-
 			}
 		},
 		{
@@ -77,7 +82,6 @@
 			"path": "pages/param/index",
 			"style": {
 				"navigationBarTitleText": ""
-
 			}
 		},
 		{
@@ -88,38 +92,24 @@
 			}
 		},
 		{
-			"path": "pages/main/key/index",
+			"path": "pages/main/model/index_robot",
 			"style": {
-				"navigationBarTitleText": "KEY"
+				"navigationBarTitleText": "助手"
+			}
+		},
+		{
+			"path": "pages/main/model/index_tool",
+			"style": {
+				"navigationBarTitleText": "应用"
 			}
 		},
 		{
 			"path": "pages/share/index",
 			"style": {
 				"navigationBarTitleText": "分享"
-
 			}
 		}
 	],
-	"leftWindow": {
-		"path": "leftWindow/index.vue",
-		"style": {
-			"width": "300px"
-		}
-	},
-	"tabBar": {
-		"list": [{
-				"pagePath": "pages/main/chat/index"
-			},
-			{
-				"pagePath": "pages/main/about/index"
-			}, {
-				"pagePath": "pages/user/index"
-			}, {
-				"pagePath": "pages/main/model/index"
-			}
-		]
-	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "",
@@ -127,10 +117,9 @@
 		"backgroundColor": "#ffffff",
 		"enablePullDownRefresh": false,
 		"navigationStyle": "custom",
-		"mp-tuotiao":{
-			"navigationStyle":"default"
-		},
-		"leftWindow": false // 当前页面不显示 leftWindow
+		"mp-tuotiao": {
+			"navigationStyle": "default"
+		}
 	},
 	"uniIdRouter": {}
 }

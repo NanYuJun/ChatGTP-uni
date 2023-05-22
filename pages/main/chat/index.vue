@@ -1,23 +1,11 @@
 <template>
-	<view class="chat" :class="theme">
-		<!-- #ifndef MP-TOUTIAO -->
-		<u-navbar :title="model.name" leftIconSize="0" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'"
-			:safeAreaInsetTop="true" :placeholder="true" titleStyle="color:#fff">
-		</u-navbar>
-		<!-- #endif -->
-		<view class="chat-ad__position--top" v-if="ad('6').slice(0, 3).length > 0">
-			<image :src="item.title" v-for="item in ad('6').slice(0, 3)" :key="item.id" @tap="handleAdClick(item)">
-			</image>
-		</view>
-		<!-- #ifdef H5 -->
-		<scroll-view scroll-y="true" :style="{height: `calc(100% - ${commonProblem.length > 0 ? '380rpx':'310rpx'})`}"
-			class="chat-main" :scroll-into-view="scrollId">
-			<!-- #endif -->
-			<!-- #ifndef H5 -->
-			<scroll-view scroll-y="true"
-				:style="{a:commonProblem.length,height: `calc(100% - ${commonProblem.length>0 ? '490rpx':'420rpx'})`}"
-				class="chat-main" :scroll-into-view="scrollId">
-				<!-- #endif -->
+	<n-page>
+		<view class="chat">
+			<view class="chat-ad__position--top" v-if="ad('6').slice(0, 3).length > 0">
+				<image :src="item.title" v-for="item in ad('6').slice(0, 3)" :key="item.id" @tap="handleAdClick(item)">
+				</image>
+			</view>
+			<scroll-view scroll-y="true" class="chat-main" :scroll-into-view="scrollId" scroll-with-animation="true">
 				<view class="chat-item">
 					<view v-for="item in ad('2')" :key="item.id">
 						<view class="chat-item__left u-flex">
@@ -73,8 +61,17 @@
 
 
 									</view>
-									<u-icon size="22" style="margin-left: 20rpx;" name="reload" @tap="reload(index)">
-									</u-icon>
+									<!-- #ifdef H5 -->
+									<view
+										style="margin-left:20rpx;display: flex;flex-direction: column;justify-content: center;align-items: center;">
+										<u-icon name="volume" v-if="model.isVoice" size="22"
+											@tap="synthesizeSpeech(item.content)">
+
+										</u-icon>
+										<u-icon size="22" style="margin-top: 20rpx;" name="reload" @tap="reload(index)">
+										</u-icon>
+									</view>
+									<!-- #endif -->
 								</view>
 								<view class="u-m-t-10"
 									style="display: flex;justify-content: space-between;color:#999;font-size: 24rpx;align-items: center;">
@@ -89,9 +86,7 @@
 								<view :id="`chat-item-${index}`">
 
 								</view>
-
 							</view>
-
 						</view>
 					</u-transition>
 					<!-- 我的消息  -->
@@ -103,27 +98,30 @@
 							<u-avatar shape="square" :src="userInfo.avatar || '/static/userAvatar.jpg'" size="35">
 							</u-avatar>
 						</view>
-						<view :id="`chat-item-${index}`">
-
-						</view>
 					</u-transition>
 				</view>
+				<!-- #ifndef H5 -->
 			</scroll-view>
-
+			<!-- #endif -->
+			<!-- #ifdef H5 -->
+			</scroll-view>
+			<!-- #endif -->
 			<!-- 占位用的 -->
-			<view style="height: 200rpx; opacity: 1">
+			<view :style="{height: `${commonProblem.length > 0 ? '200rpx' : '120rpx'}`,opacity: 1}">
 				<view>
-
 					<textarea disabled style="color: #fff" auto-height></textarea>
 				</view>
+
 				<view class="bottom" :class="{ open2: open_set }"
 					style="background-color: transparent; border-top: none">
 				</view>
-				<view style="background-color: #f8f8f8" :style="{ height: Height + 'px' }"></view>
+				<view :style="{'min-height': `${keyboardHeight}`,'height':'auto'}">
+
+				</view>
 			</view>
 			<view class="send" :class="{
-        isTabbar: Height === 0,
-      }">
+				isTabbar:isTabbar
+			}" :style="keyboardHeight && 'padding-bottom:0px!important'">
 				<view class="commonProblem" v-if="commonProblem && commonProblem.length > 0">
 					<u-image src="/static/problem.png" width="20px" height="20px" mode=""></u-image>
 					<view class="commonProblem-item" v-for="item in commonProblem" :key="item.id"
@@ -133,27 +131,28 @@
 
 				</view>
 				<view class="send-line">
-					<view class="send-line-empty" @tap="loading ? stop() : next()">
-						<image v-if="!loading" src="../../../static/menu/empty.png"></image>
+					<view class="send-line-empty" @tap="chatLoading ? stop() : next()">
+						<image v-if="!chatLoading" src="../../../static/menu/empty.png"></image>
 						<u-loading-icon v-else color="white" mode="semicircle" size="18">
 						</u-loading-icon>
 					</view>
 					<view class="send-line-input" :class="{ BigInput: problem.length == 0 && list.length > 0}">
-						<textarea :adjust-position="false" @focus="foucus" @blur="blur" :show-confirm-bar="false"
-							maxlength="1000" auto-height v-model="problem" onfirm-type="send" @confirm="getAnswer()"
-							@keyup.enter="getAnswer()"></textarea>
-						<view class="send-line-input-icon" @tap="Setting"
+						<textarea :adjust-position="false" @focus="inputFocus" @blur="inputBlur"
+							:show-confirm-bar="false" maxlength="1000" auto-height v-model="problem" onfirm-type="send"
+							@confirm="getAnswer()" @keyup.enter="getAnswer()"></textarea>
+						<view class="send-line-input-icon" @tap="openMenu"
 							v-if="problem.length === 0 && list.length > 0">
 							<u-icon name="plus-circle" size="25"></u-icon>
 						</view>
 					</view>
-
-					<view class="send-line-button" @tap="loading ? stop() : getAnswer()"
+					<view class="send-line-button" @tap="chatLoading ? stop() : getAnswer()"
 						v-if="problem.length > 0 || list.length == 0">
-						{{loading ? '停止' : '发送'}}
+						{{chatLoading ? '停止' : '发送'}}
 					</view>
 				</view>
-				<view style="background-color: #f8f8f8; transition: all 0.1s" :style="{ height: Height + 'px' }"></view>
+				<view :style="{'min-height': keyboardHeight,height:'auto'}">
+
+				</view>
 				<view class="send-operation" :class="{ open2: open_set }">
 					<view v-for="item in list" :key="item.id" class="send-operation-item" @tap="go(item.url)"
 						style="position: relative">
@@ -167,9 +166,8 @@
 					</view>
 				</view>
 			</view>
-
-			<tabbar ref="tabBar" />
-	</view>
+		</view>
+	</n-page>
 </template>
 
 <script>
@@ -177,39 +175,51 @@
 		mapState
 	} from 'vuex'
 	import Chat from '@/utils/chat.js'
+	// #ifdef H5
+	import * as sdk from "microsoft-cognitiveservices-speech-sdk";
+	// #endif
 	import {
-		delay
+		isMobile,
+		isWeixin
 	} from '@/utils/utils.js'
+
 	export default {
 		data() {
 			return {
-				chat: [],
-				answer: '',
-				list: [],
-				problem: "",
+				isMobile: isMobile(),
+				isWeixin: isWeixin(),
+				list: [], // 对话底部菜单
+				problem: "", // 问题
 				open_set: false,
-				show: false,
-				start_show: true,
-				is_fouces: false,
-				Height: 0, // 键盘高度
-				userInfo: uni.getStorageSync("userInfo") || {},
+				userInfo: uni.getStorageSync("appUserInfo") || {},
 				commonProblem: [],
 				systemProblem: [],
-				loading: false,
-				isFirst: true,
-				scrollId: ''
+				scrollId: '',
+				commonProblemLength: 0,
+				keyboardHeight: 0,
+				azureKey: ''
+
 			};
 		},
-		computed: mapState({
-			// 从state中拿到数据 箭头函数可使代码更简练
-			tabbar: state => state.tabbar,
-			robot: state => state.robot,
-			modelList: state => state.modelList,
-			model: state => state.model,
-			theme: state => state.theme
-		}),
+		computed: {
+			...mapState({
+				// 从state中拿到数据 箭头函数可使代码更简练
+				robot: state => state.robot,
+				modelList: state => state.modelList,
+				model: state => state.model,
+				chat: state => state.chat,
+				chatLoading: state => state.chatLoading
+			}),
+			// 是否是tabbar页面
+			isTabbar() {
+				var pages = getCurrentPages() // 获取栈实例
+				let route = pages[pages.length - 1].route; // 获取当前页面路由
+				return this.$store.state.tabbar.some(item => item.pagePath === '/' + route)
+			},
+		},
+
 		onLoad() {
-			Chat.onMessage = this.onMessage
+			Chat.setOnMessageAfter(this.toBottom)
 			this.getMenuList();
 		},
 		onShow() {
@@ -218,94 +228,48 @@
 					title: this.model?.name
 				});
 			}
-			this.chat = uni.getStorageSync('chat') || []
+			// #ifdef H5
+			if (this.model.isVoice) {
+				this.getAzureConfig()
+			}
+			// #endif
 			this.getCommonProblem()
 			this.getSystemProblem()
-			this.toBottom();
+			this.toBottom('init');
 		},
 		methods: {
+
+			synthesizeSpeech(e) {
+				uni.showLoading({
+					title: '语音加载中...',
+					mask: true,
+				})
+				// 微软语音key
+				const speechConfig = sdk.SpeechConfig.fromSubscription(this.azureKey, "eastus");
+				speechConfig.speechSynthesisLanguage = "zh-CN";
+				speechConfig.speechSynthesisVoiceName = "zh-CN-YunxiNeural";
+				const audioConfig = sdk.AudioConfig.fromDefaultSpeakerOutput();
+				const speechSynthesizer = new sdk.SpeechSynthesizer(speechConfig, audioConfig);
+				speechSynthesizer.speakTextAsync(
+					e,
+					result => {
+						if (result) {
+							uni.hideLoading()
+							speechSynthesizer.close();
+							return result.audioData;
+						}
+					},
+					error => {
+						console.log(error);
+						speechSynthesizer.close();
+					});
+				speechSynthesizer.SynthesisCompleted = () => {
+					this.speakTextLoading = false
+				}
+			},
 			init() {
 				this.getCommonProblem()
 				this.getSystemProblem()
-			},
-			stop() {
-				this.onMessageSuccess()
-				let index = this.chat.length - 1
-				this.$set(this.chat, index, {
-					...this.chat[index],
-					status: 'error',
-					content: this.chat?. [index]?.content || '已停止，可点击重试进行尝试重新发送～'
-				})
-			},
-			async onMessage(e) {
-				let index = this.chat.findIndex(item => item.id === e.id)
-				// 如果是流返回状态为loading
-				if (e.status == 'loading') {
-					this.answer += e.msg
-					// 一段话仅触发一次
-					if (this.isFirst) {
-						this.isFirst = false
-						this.$set(this.chat, index, {
-							...this.chat[index],
-							date: new Date()
-						})
-						do {
-							this.$set(this.chat, index, {
-								...this.chat[index],
-								content: this.chat[index].content += this.answer[this.chat[index].content
-									.length] || ''
-							})
-							// 每个字50ms出来一次，实现打字效果，避免用户等待焦虑
-							await delay(50)
-							this.toBottom(0)
-						} while (this.loading)
-					}
-
-				} else if (e.msg == '[DONE]') {
-					const wait = async () => {
-						await delay(150)
-						if (this.chat[index].content != this.answer) {
-							await wait()
-						}
-					}
-					// 如果打字效果未加载完毕，等待加载完毕后继续执行
-					await wait()
-					this.$set(this.chat, index, {
-						...this.chat[index],
-						status: 'success'
-					})
-					this.onMessageSuccess()
-				} else {
-					this.answer = e.msg
-					let i = 0
-					do {
-						if (i == 0) {
-							this.$set(this.chat, index, {
-								...this.chat[index],
-								date: new Date()
-							})
-						}
-						this.$set(this.chat, index, {
-							...this.chat[index],
-							content: this.chat[index].content += e.msg[i] || '',
-						})
-						i++
-						await delay(50)
-						this.toBottom(0)
-					} while (this.loading && i < e.msg.length)
-
-					this.$set(this.chat, index, {
-						...this.chat[index],
-						status: e.status,
-					})
-					this.onMessageSuccess()
-				}
-			},
-			async onMessageSuccess() {
-				this.loading = false
-				this.isFirst = true
-				this.answer = ''
-				uni.setStorageSync('chat', this.chat)
 			},
 			// 获取常见问题
 			async getCommonProblem() {
@@ -314,8 +278,8 @@
 				} = await uni.$u.http.post('/app/chatgpt/model_problem/list', {
 					modelId: this.model.id
 				})
-
 				this.commonProblem = data.data
+				this.commonProblemLength = this.commonProblem.length
 			},
 			// 获取AI消息
 			async getSystemProblem() {
@@ -326,6 +290,16 @@
 					chatStatus: 1
 				})
 				this.systemProblem = data.data
+			},
+			async getAzureConfig() {
+				const {
+					data
+				} = await uni.$u.http.get('/app/application/info/config', {
+					params: {
+						key: 'azure'
+					}
+				})
+				this.azureKey = data.data.param1
 			},
 			// 复制
 			copy(val) {
@@ -339,21 +313,15 @@
 					},
 				});
 			},
-			go(e) {
-				uni.$u.route(e);
-			},
 			sendCommonProblem(e) {
 				this.problem = e.name
-				this.getAnswer()
+			},
+			stop() {
+				Chat.stop()
 			},
 			// 下个问题
 			next() {
-				this.onMessageSuccess()
-				this.chat = []
-				uni.showToast({
-					title: "记忆已经清除！",
-				});
-				uni.removeStorageSync('chat')
+				Chat.next()
 			},
 			async getMenuList() {
 				let platform
@@ -376,120 +344,54 @@
 					.platform === 0) || []
 			},
 			// 滚动到最底部
-			toBottom() {
+			toBottom(e) {
 				this.scrollId = ''
+				if (e == 'init') {
+					setTimeout(() => {
+						this.scrollId = `chat-item-${this.chat.length - 1}`
+					}, 500)
+					return
+				}
 				this.$nextTick(() => {
 					this.scrollId = `chat-item-${this.chat.length - 1}`
 				})
 			},
 			reload(index) {
-				if (this.loading) {
-					return uni.showToast({
-						title: '请等待上一个问题回答完毕，再进行重试！',
-						icon: 'none'
-					})
-				}
-				this.problem = this.chat[index - 1].content
-				this.getAnswer()
+				Chat.reload(index)
 			},
 			// 获取问题答案
-			async getAnswer() {
-				if (this.loading) {
-					return uni.showToast({
-						title: '请等待上一个问题回答完毕，再进行提问！',
-						icon: 'none'
-					})
-				}
-				if (this.problem == "清除记忆") {
-					this.next();
-					return;
-				}
-				if (!this.problem) {
-					uni.showToast({
-						title: "你还没有输入问题呢！",
-						icon: "none",
-					});
-					return;
-				}
-				this.loading = true
-				this.chat.push({
-					role: "user",
-					content: this.problem,
-					status: "success",
-					date: new Date()
-				})
-
-				let problem = this.problem
-				this.problem = "";
-				const index = this.chat.length
-				Chat.sendMessage({
-					messages: this.chat,
-					problem,
-					key: uni.getStorageSync("key") || "",
-					modelId: this.model.id,
-					token: uni.getStorageSync('appToken'),
-					id: index
-				})
-				this.chat.push({
-					id: index,
-					role: "assistant",
-					content: '',
-					status: 'loading'
-				})
-
-				this.toBottom();
+			getAnswer() {
+				Chat.getAnswer(this.problem)
+				this.problem = ''
 			},
 			handleAdClick(e) {
-				// #ifdef H5
-				window.open(e.desc);
-				// #endif
-				// #ifndef H5
-				if (e.desc.indexOf("webview") > -1 || e.desc.indexOf("http") == -1) {
-					uni.navigateTo({
-						url: e.desc,
-					});
-					return;
-				}
-				uni.setClipboardData({
-					data: e.desc || val,
-					success: function() {
-						uni.showToast({
-							title: "链接复制成功，由于小程序限制，请使用浏览器打开",
-							icon: "none",
-						});
-					},
-				});
-				// #endif
+				go(e.desc)
+
 			},
-			toPath(e) {
-				uni.$u.route({
-					url: e,
-				});
-			},
-			Setting() {
+			openMenu() {
 				this.open_set = !this.open_set;
+				this.toBottom()
 			},
-			foucus(e) {
-				this.Height = e.target?.height || 0;
+			inputFocus(e) {
 				this.open_set = false;
-				this.is_fouces = true;
+				// #ifndef H5
+				this.keyboardHeight = `${e.detail.height - 50 + (this.isTabbar ? 100 : 50)}px`
+				// #endif
 			},
-			blur(e) {
-				this.Height = 0;
-				this.is_fouces = false;
-			},
+			inputBlur() {
+				this.open_set = false;
+				this.keyboardHeight = 0
+			}
 		},
 	};
 </script>
 
 <style lang="scss" scoped>
 	.chat {
-		min-height: 100%;
-		height: 100%;
+		flex: 1;
+		overflow: hidden;
 		display: flex;
 		flex-direction: column;
-		background: var(--bg);
-		overflow: hidden;
 
 		&-ad__position--top {
 			position: absolute;
@@ -504,9 +406,12 @@
 		}
 
 		&-main {
-			box-sizing: border-box;
+			height: calc(100% - 200rpx);
+			flex: 1;
+			display: flex;
+			flex-direction: column;
 			padding: 0 20rpx;
-
+			box-sizing: border-box;
 		}
 
 		&-item {
@@ -567,7 +472,6 @@
 					font-size: 28rpx;
 					border-top-left-radius: 0;
 					max-width: 68vw;
-
 				}
 
 				&-bottom {
@@ -601,16 +505,14 @@
 		left: 0;
 		width: 100%;
 		// 处理苹果系统键盘兼容
-		padding-bottom: 0;
-		bottom: var(--window-bottom);
+		bottom: 0rpx !important;
+		// 处理苹果底部兼容
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
 
 		&.isTabbar {
 			bottom: 100rpx !important;
-			// 处理苹果底部兼容
-			padding-bottom: constant(safe-area-inset-bottom);
-			padding-bottom: env(safe-area-inset-bottom);
 		}
-
 
 		&-line {
 			z-index: 99;

@@ -1,5 +1,5 @@
 {
-    "name" : "AI工具",
+    "name" : "千问AI办公助手",
     "appid" : "__UNI__4AC1694",
     "description" : "",
     "versionName" : "1.0.0",
@@ -78,7 +78,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "wx71847cd2b255eca8",
+        "appid" : "wx6012a7261113e464",
         "setting" : {
             "urlCheck" : true,
             "es6" : true,
@@ -102,12 +102,14 @@
     "vueVersion" : "2",
     "h5" : {
         "router" : {
-            "base" : ""
+            "base" : "",
+            "mode" : "hash"
         },
         "optimization" : {
             "treeShaking" : {
                 "enable" : true
             }
-        }
+        },
+        "title" : ""
     }
 }

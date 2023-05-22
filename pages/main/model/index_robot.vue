@@ -1,12 +1,13 @@
 <template>
 	<n-page>
 	<view class="model" >
-		<view class="u-font-40 u-m-t-50 title">
-			我是您贴心的AI助理
+		<view class="hello">
+			HI,
 		</view>
-		<view class="u-font-24 subtitle u-m-t-20">
-			回答您所有的问题，快选择一个角色和我聊天吧！
+		<view class="u-font-32 subtitle u-m-t-40">
+			我是智能AI协作助手
 		</view>
+		<image class="jqr" src="../../../static/model/jqr.png" mode=""></image>
 		<view class="model-content u-flex u-flex-between">
 			<view class="model-content-item u-m-t-20" v-for="(item,index) in modelList" :key="index"
 				:class="{actived:item.id === model.id}" @click="changeModel(item)">
@@ -15,18 +16,21 @@
 					<view class="">
 						{{item.name}}
 					</view>
-					<view class="u-m-t-10 u-font-24 u-content-color">
+					<view class="model-content-item-desc">
 						{{item.desc || ''}}
 					</view>
-				</view>
 
+				</view>
+				<view class="model-content-item-remarks" v-show="item.remarks">
+					{{item.remarks}}
+				</view>
 				<image class="isVip" v-show="item.isVip" src="/static/is_vip.png">
 			</view>
 		</view>
+		
 	</view>
 	</n-page>
 </template>
-
 <script>
 	import {
 		mapState
@@ -43,20 +47,28 @@
 		}),
 	}
 </script>
-
 <style lang="scss">
 	.model {
-		width: 100%;
+		position: relative;
 		padding: 20rpx;
 		box-sizing: border-box;
 		background: var(--bg);
+		width: 100%;
 
-		.title,
-		.subtitle {
-			color: var(--font-black);
-			width: 100%;
-			text-align: center;
+		.hello {
+			height: 120rpx;
+			width: 120rpx;
+			font-size: 120rpx;
+			font-family: fantasy;
+			color: #fff;
 
+		}
+
+		.jqr {
+			width: 420rpx;
+			position: absolute;
+			right: 0;
+			top: 100rpx;
 		}
 
 		.subtitle {
@@ -66,38 +78,50 @@
 		&-content {
 			display: flex;
 			justify-content: center;
-			margin: 40rpx 30rpx;
 			flex-wrap: wrap;
+			margin: -10rpx;
+			margin-top: 20rpx;
 
 			&-item {
 				display: flex;
-				box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, 0.1);
-				padding: 40rpx 0;
-				border-radius: 20rpx;
 				flex-direction: column;
 				align-items: center;
+				margin: 40rpx 10rpx;
 				justify-content: center;
-				width: 280rpx;
-				margin: 15rpx;
 				position: relative;
-				border: 2px solid #fff;
+				width: 220rpx;
 
-				background: var(--white);
-
-				&.actived {
-					border: 2px solid $uni-color-primary;
+				image {
+					border-radius: 20rpx;
+					width: 220rpx;
+					height: 300rpx;
 				}
 
 				&-title {
-					color: var(--font-black);
-					margin-top: 20rpx;
+					margin-top: 10rpx;
 					height: 60rpx;
+					color: #fff;
+					font-size: 36rpx;
+					font-weight: 600;
+
 				}
 
-				image {
-					width: 180rpx;
-					height: 180rpx;
-					// border-radius: 50%;
+				&-desc {
+					color: #cfcfcf;
+					font-size: 28rpx;
+					font-weight: lighter;
+				}
+
+				&-remarks {
+					position: absolute;
+					top: 30rpx;
+					color: #fff;
+					background-color: #3f5c45ba;
+					font-size: 12px;
+					padding: 0 20rpx;
+					border-radius: 15px;
+
+
 				}
 
 				view {
@@ -106,7 +130,7 @@
 
 				.isVip {
 					position: absolute;
-					top: 20rpx;
+					top: 230rpx;
 					left: 20rpx;
 					width: 50rpx;
 					height: 50rpx;

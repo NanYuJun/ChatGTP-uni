@@ -1,11 +1,6 @@
 <template>
-	<view class="container" :class="theme">
-		<!-- #ifndef MP-TOUTIAO -->
-		
-		<u-navbar title="关于" leftIconSize="0" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
-			:placeholder="true" titleStyle="color:#fff">
-		</u-navbar>
-		<!-- #endif -->
+	<n-page>
+	<view class="container">
 		<view class="form">
 			<view class="panel" v-for="item in ad('3')" :key="item.id">
 				<view class="head">
@@ -19,8 +14,9 @@
 				</view>
 			</view>
 		</view>
-		<tabbar ref="tabBar" />
+		
 	</view>
+	</n-page>
 </template>
 
 <script>

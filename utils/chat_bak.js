@@ -9,6 +9,7 @@ import {
 } from '@/utils/utils.js'
 import Vue from "vue"
 
+// 这个是打字效果 之前由于openai返回过慢  
 
 class Chat {
 	constructor() {
@@ -31,6 +32,7 @@ class Chat {
 				let index = store.state.chat.findIndex(item => item.id === e.id)
 				// 如果是流返回状态为loading
 				if (e.status == 'loading') {
+					this.answer += e.msg
 					// 一段话仅触发一次
 					if (this.isFirst) {
 						this.isFirst = false
@@ -39,26 +41,61 @@ class Chat {
 							...store.state.chat[index],
 							date: new Date()
 						})
+						do {
+							store.commit("setChat", {
+								index,
+								...store.state.chat[index],
+								content: store.state.chat[index].content += this.answer[
+									store.state.chat[index]
+									.content.length] || ''
+							})
+
+							// 每个字50ms出来一次，实现打字效果，避免用户等待焦虑
+							await delay(50)
+							this.onMessageAfter(0)
+						} while (store.state.chatLoading)
 					}
-					store.commit("setChat", {
-						index,
-						...store.state.chat[index],
-						content: store.state.chat[index].content + e.msg || ''
-					})
-					this.onMessageAfter(0)
 
 				} else if (e.msg == '[DONE]') {
+					const wait = async () => {
+						await delay(150)
+						if (store.state.chat[index].content != this.answer) {
+							await wait()
+						}
+					}
+					// 如果打字效果未加载完毕，等待加载完毕后继续执行
+					await wait()
 					store.commit("setChat", {
 						index,
 						...store.state.chat[index],
 						status: 'success'
 					})
+
 					this.onMessageSuccess()
 				} else {
+					this.answer = e.msg
+					let i = 0
+					do {
+						if (i == 0) {
+							store.commit("setChat", {
+								index,
+								...store.state.chat[index],
+								date: new Date()
+							})
+
+						}
+						store.commit("setChat", {
+							index,
+							...store.state.chat[index],
+							content: store.state.chat[index].content += e.msg[i] || '',
+						})
+						i++
+						await delay(50)
+						this.onMessageAfter(0)
+					} while (store.state.chatLoading && i < e.msg.length)
 					store.commit("setChat", {
 						index,
 						...store.state.chat[index],
-						content: e.msg,
 						status: e.status,
 					})
 					this.onMessageSuccess()

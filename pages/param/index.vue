@@ -1,12 +1,9 @@
 <template>
+	<n-page>
   <view class="param">
-	  <!-- #ifndef MP-TOUTIAO -->
-	  <u-navbar :title="content.name" autoBack="true" leftIconColor="#fff"   :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
-	  	:placeholder="true" titleStyle="color:#fff">
-	  </u-navbar>
-	  <!-- #endif -->
     <mp-html :content="content.data"></mp-html>
   </view>
+  </n-page>
 </template>
 
 <script>
@@ -34,6 +31,7 @@ export default {
 
 <style scoped>
 .param {
+	width: 100%;
   padding: 20rpx;
 }
 </style>

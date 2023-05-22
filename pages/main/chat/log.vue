@@ -1,11 +1,7 @@
 <template>
-	<view class="chat" :class="theme">
-		<!-- #ifndef MP-TOUTIAO -->
-		<u-navbar :autoBack="true" leftIconColor="#fff" title="对话记录" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'"
-			:safeAreaInsetTop="true" :placeholder="true" titleStyle="color:#fff">
-		</u-navbar>
-<!-- #endif -->
-		<u-list class="chat-list" @scrolltolower="scrolltolower"  @upperThreshold="init" :lowerThreshold="100">
+	<n-page>
+	<view class="chat" >
+		<u-list class="chat-list" @scrolltolower="scrolltolower" @upperThreshold="init" :lowerThreshold="100">
 			<u-list-item class="chat-item" v-for="(item, index) in list" :key="index">
 				<!-- 我的消息  -->
 				<u-transition :show="true" mode="fade-right">
@@ -19,7 +15,6 @@
 						<u-avatar shape="square" :src="userInfo.avatar || '/static/userAvatar.jpg'" size="35">
 						</u-avatar>
 					</view>
-
 				</u-transition>
 				<!-- 机器人消息 -->
 				<u-transition :show="true" mode="fade-left">
@@ -29,14 +24,14 @@
 
 							<view class="chat-item__left-bottom">
 								<view class="chat-item__left-message" @longtap="copy(item.answer)">
-									<mp-html :markdown="true" :content="item.answer || '获取消息失败'" :selectable="true"></mp-html>
+									<mp-html :markdown="true" :content="item.answer || '获取消息失败'" :selectable="true">
+									</mp-html>
 								</view>
 							</view>
 							<view class="u-m-t-10"
 								style="display: flex;justify-content: space-between;color:#999;font-size: 24rpx;align-items: center;">
 								<view style="display: flex;" @tap="copy(item.answer)">
 									复制
-								
 								</view>
 								<view class="">
 									{{item.updateTime}}
@@ -55,8 +50,7 @@
 			</view>
 		</u-list>
 	</view>
-
-	</view>
+	</n-page>
 </template>
 
 <script>
@@ -112,7 +106,7 @@
 				const {
 					data
 				} = await uni.$u.http.post('/app/chatgpt/log/page', {
-					inviterUserId: uni.getStorageSync('userInfo').id,
+					inviterUserId: uni.getStorageSync('appUserInfo').id,
 					page: this.page,
 					size: 10,
 
@@ -154,6 +148,7 @@
 		box-sizing: border-box;
 		min-height: 100%;
 		overflow-y: auto;
+		width: 100%;
 		height: 100%;
 		background: var(--bg);
 

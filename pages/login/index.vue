@@ -1,12 +1,8 @@
 <template>
-	<view class="login" :class="theme">
-		 <!-- #ifndef MP-TOUTIAO -->
-		<u-navbar title="登录" :autoBack="true" leftIconColor="#fff" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
-			:placeholder="true" titleStyle="color:#fff">
-			</u-navbar>
-		<!-- #endif -->
+	<n-page>
+	<view class="login" >
 		<!-- 账号密码登录 -->
-		<view class="login-account" v-show="type == 'useraccount'">
+		<view class="login-account" v-if="type == 'useraccount'">
 			<view class="login-account-header">
 				<view class="hello">
 					<text>Hi，欢迎使用</text>
@@ -27,17 +23,22 @@
 				<button type="button" @click="login({nickname: nickname,password: password,})">
 					登录
 				</button>
+				<view class="login-outher">
+					<view class="login-outher-item" @tap="wechatLogin" v-if="">
+						<u-icon name="weixin-fill" color="#fff" size="30"></u-icon>
+					</view>
+				</view>
 			</view>
 		</view>
 		<!-- 注册 -->
-		<view class="login-register" v-show="type == 'register'">
+		<view class="login-register"  v-if="type == 'register'">
 			<view class="login-register-header">
 				<view class="hello">
 					<text>Hi，欢迎注册</text>
 				</view>
 			</view>
 			<view class="login-register-content">
-				
+
 				<view class="login-register-content-tip">账号</view>
 				<input v-model="nickname" type="text" placeholder="请输入账号" placeholder-class="placeholder" />
 				<view class="login-register-content-tip">密码</view>
@@ -54,7 +55,7 @@
 			</view>
 		</view>
 		<!-- 微信小程序登录 -->
-		<view class="login-wechat" v-show="type == 'miniprogram'">
+		<view class="login-wechat"  v-if="type == 'miniprogram'">
 			<!-- 内容区域 -->
 			<view class="login-wechat__wrapper">
 				<view class="login-wechat__sub-img">
@@ -75,10 +76,15 @@
 		<!-- 微信授权头像昵称 -->
 		<wx-user-info-modal v-model="userInfoShow" :currentUserInfo="userInfo" @updated="updatedUserInfo" />
 	</view>
+</n-page>
 </template>
 
 <script>
+	import {
+		wechatLogin
+	} from '@/config/login.js'
 	import requestConfig from "@/config/request.js";
+	
 	import WxUserInfoModal from "@/uni_modules/tuniaoui-wx-user-info/components/tuniaoui-wx-user-info/tuniaoui-wx-user-info.vue";
 
 	export default {
@@ -112,8 +118,8 @@
 			// #ifdef MP-WEIXIN
 			this.type = e.type || 'miniprogram'; // 默认为账号密码登录
 			// #endif
-			
-			
+
+
 		},
 		onShow() {
 			this.getCaptcha()
@@ -125,6 +131,9 @@
 			// #endif
 		},
 		methods: {
+			wechatLogin() {
+				wechatLogin()
+			},
 			async getCaptcha() {
 				this.captcha = ''
 				const {
@@ -176,7 +185,7 @@
 						uni.removeStorageSync('inviterUserId')
 						this.userInfo = data.data;
 						uni.setStorageSync("appToken", data.data.token);
-						uni.setStorageSync("userInfo", data.data);
+						uni.setStorageSync("appUserInfo", data.data);
 						this.loginBackPage()
 
 					} else {
@@ -218,7 +227,7 @@
 							return (this.userInfoShow = true);
 						}
 						// #endif
-						uni.setStorageSync("userInfo", data.data);
+						uni.setStorageSync("appUserInfo", data.data);
 						this.loginBackPage()
 					} else {
 						uni.showToast({
@@ -260,10 +269,13 @@
 			},
 			// 退回上一页 如果没有则跳转首页
 			loginBackPage() {
-				const tabbar = uni.getStorageSync('tabbar')
-				uni.switchTab({
-					url: tabbar[0].pagePath,
-				});
+				let pages = getCurrentPages() // 获取栈实例
+				if (pages.length > 1) {
+					uni.navigateBack()
+				} else {
+					const tabbar = uni.getStorageSync('tabbar')
+					this.go(tabbar[0].pagePath);
+				}
 			},
 			async updatedUserInfo(e) {
 				this.userInfo = {
@@ -284,7 +296,7 @@
 					);
 					uni.hideLoading()
 					if (data.code == 1000) {
-						uni.setStorageSync("userInfo", this.userInfo);
+						uni.setStorageSync("appUserInfo", this.userInfo);
 						this.loginBackPage()
 					} else {
 						uni.showToast({
@@ -307,7 +319,8 @@
 
 <style lang="scss">
 	.login {
-		height:100%;
+		height: 100%;
+		width: 100%;
 		display: flex;
 		flex-direction: column;
 		justify-content: center;
@@ -317,6 +330,23 @@
 		&-register {
 			&-header {
 				padding: 50rpx 0 !important;
+			}
+		}
+
+		&-outher {
+			margin-top: 60rpx;
+			width: 100%;
+			display: flex;
+			justify-content: center;
+
+			&-item {
+				background-color: green;
+				height: 80rpx;
+				width: 80rpx;
+				border-radius: 50%;
+				display: flex;
+				align-items: center;
+				justify-content: center;
 			}
 		}
 

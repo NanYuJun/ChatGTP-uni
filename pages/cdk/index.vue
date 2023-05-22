@@ -1,11 +1,6 @@
 <template>
-  <view class="cdk" :class="theme">
-	  <!-- #ifndef MP-TOUTIAO -->
-	  <u-navbar title="CDK兑换" :autoBack="true" leftIconColor="#fff" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
-	  	:placeholder="true" titleStyle="color:#fff">
-	  	</u-navbar>
-	  <!-- #endif -->
-	  
+	<n-page>
+  <view class="cdk" >
     <mp-html
       :content="item.desc"
       v-for="item in ad('7')"
@@ -13,7 +8,7 @@
     ></mp-html>
     <view class="cdk-content">
       <view class="cdk-input">
-        <input v-model="cdk" type="text" placeholder="请输入CDK" border />
+        <input v-model="cdk" type="text" placeholder="请输入卡密" border />
       </view>
       <view class="cdk-btn">
         <u-button text="兑换" type="primary" @tap="exchange"> </u-button>
@@ -25,6 +20,7 @@
       :key="item.id"
     ></mp-html>
   </view>
+  </n-page>
 </template>
 
 <script>
@@ -68,7 +64,7 @@ export default {
     async getUserInfo() {
       const { data } = await uni.$u.http.post("/app/user/info/userInfo");
       if (data.code == 1000) {
-        uni.setStorageSync("userInfo", data.data);
+        uni.setStorageSync("appUserInfo", data.data);
       }
     },
   },

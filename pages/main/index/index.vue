@@ -1,5 +1,7 @@
 <template>
-	<view class="container" :class="theme">
+	<n-page>
+	<view class="container" >
+		<!-- 当前页面不维护了，请无要使用 -->
 		<view class="bg"></view>
 		<view class="form">
 			<view class="header">
@@ -43,8 +45,8 @@
 		<view class="content" style="padding: 20rpx">
 			<mp-html :content="item.desc" v-for="item in ad('1')" :key="item.id"></mp-html>
 		</view>
-		<tabbar ref="tabBar" />
 	</view>
+	</n-page>
 </template>
 
 <script>
@@ -111,7 +113,7 @@
 		right: 40rpx;
 		bottom: 120rpx;
 		width: 40%;
-
+		width: 100%;
 		.u-button {
 			box-shadow: 0rpx 10rpx 10rpx #eee !important;
 		}

@@ -13,26 +13,26 @@
 	platform = 4
 	// #endif
 	export default {
-
 		onLaunch: function() {
-
-			let version = "1.0.3"
+			let version = "1.3.4"
 			console.log(
 				`\n %c 云AI助手V${version} %c 公众号：南羽工作室 \n\n`,
 				"color: #ffffff; background: #3c9cff; padding:5px 0;",
 				"color: #3c9cff;background: #ffffff; padding:5px 0;"
 			);
 			let oldVersion = uni.getStorageSync('version') || ''
+			// 处理上个版本和这个版本缓存不一致的内容
 			if (version != oldVersion) {
 				uni.removeStorageSync('chat')
 				uni.setStorageSync('version', version)
 			}
 			uni.hideTabBar();
+			// 获取基本配置
 			this.getTabbar();
 			this.getLoginConfig();
 			this.getRobot();
+			this.getModelList();
 			this.getAd();
-			this.getModelList()
 		},
 		methods: {
 			// 获取底部tabbar
@@ -40,21 +40,23 @@
 				const {
 					data
 				} = await uni.$u.http.post("/app/renovation/tabbar/list");
-
 				this.$store.commit('setTabbar', data.data?.filter(item => item.platform === platform || item
 					.platform === 0) || [])
-				this.$store.commit('setTabbarIndex', 0)
-				data?.data && uni.switchTab({
-					url: data.data?. [0]?.pagePath
-				})
+				var pages = getCurrentPages() // 获取栈实例
+				if (pages.length < 2 && uni.$u.page() != data.data?.[0]?.pagePath) {
+					this.$store.commit('setTabbarIndex', 0)
+					data?.data && uni.$u.route(data?.data?.[0]?.pagePath)
+				}
+
 			},
+			// 获取登录配置
 			async getLoginConfig() {
 				const {
 					data
 				} = await uni.$u.http.get("/app/application/info/loginConfig");
-				uni.setStorageSync("loginConfig", data.data);
+				this.$store.commit('setLoginConfig', data.data)
 			},
-			// 获取机器人配置
+			// 获取AI配置
 			async getRobot() {
 				const {
 					data
@@ -71,27 +73,24 @@
 					data
 				} = await uni.$u.http.post("/app/ad/info/list");
 				data.data.forEach(item => {
+					// 处理富文本转义的问题
 					item.desc = item.desc?.replace(
 						/\<p\>&lt;ad(.*?)&gt;&lt;\/ad&gt;\<\/p\>/g,
 						'<ad$1></ad>'
 					);
 				})
-
 				uni.setStorageSync("ad", data.data?.filter(item => item.platform === platform || item
 					.platform === 0) || []);
 			},
-
 			// 获取模型
 			async getModelList() {
 				const {
 					data
 				} = await uni.$u.http.post('/app/chatgpt/model/list')
 				this.$store.commit('setModelList', data.data)
-				console.log(this.$store.state.model)
 				if (!this.$store.state.model.id) {
-					this.$store.commit('setModel', data.data?. [0] || {})
+					this.$store.commit('setModel', data.data?.[0] || {})
 				}
-
 			}
 		}
 	};
@@ -104,8 +103,6 @@
 	@import "style/theme.scss";
 
 	page {
-		// background: #353541;
-		// background: #ececec;
 		height: 100%;
 		font-size: 28rpx;
 		font-family: "PingFang SC", "Helvetica Neue", Helvetica, Arial, sans-serif;

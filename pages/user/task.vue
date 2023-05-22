@@ -1,49 +1,52 @@
 <template>
-	<view class="user-task" :class="theme">
-		<!-- #ifndef MP-TOUTIAO -->
-		<u-navbar :autoBack="true" leftIconColor="#fff" title="任务中心" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'"
-			:safeAreaInsetTop="true" :placeholder="true" titleStyle="color:#fff">
-		</u-navbar>
-		<!-- #endif -->
-		<view class="u-p-20">
-			<mp-html
-			  :content="item.desc"
-			  v-for="item in ad('5')"
-			  :key="item.id"
-			></mp-html>
-		</view>
-		<u-list class="user-task-list" @scrolltolower="scrolltolower" @upperThreshold="init" :lowerThreshold="100">
-			<u-list-item v-for="(item, index) in list" :key="index">
-				<u-cell :title="item.title">
-					<u-avatar slot="icon" shape="square" size="35" :src="item.img"
-						customStyle="margin: -3px 5px -3px 0">
-					</u-avatar>
-					<view class="title" slot="title">
-						{{item.title}}
-					</view>
-					<view slot="label">
-						<view class="desc">{{item.desc}}</view>
-						<view class="tips">每日可分享
-							<text class="frequency">
-								{{item.dailyLimit}}
-							</text>
-							次,每日可获得
-							<text class="frequency">{{item.giveFrequency}}</text>
-							次
+	<n-page>
+		<!-- 用户任务 -->
+		<view class="user-task" >
+			<view class="u-p-20">
+				<mp-html :content="item.desc" v-for="item in ad('5')" :key="item.id"></mp-html>
+			</view>
+			<u-list class="user-task-list" @scrolltolower="scrolltolower" @upperThreshold="init" :lowerThreshold="100">
+				<u-list-item v-for="(item, index) in list" :key="index">
+					<u-cell :title="item.title">
+						<u-avatar slot="icon" shape="square" size="35" :src="item.img"
+							customStyle="margin: -3px 5px -3px 0">
+						</u-avatar>
+						<view class="title" slot="title">
+							{{item.title}}
 						</view>
-					</view>
-					<view slot="value">
-						<u-button v-if="item.type === 0" type="primary" shape="circle" @tap="startTask(item)">看广告
-						</u-button>
-						<u-button v-else type="primary" shape="circle" openType="share" @tap="task = item">分享</u-button>
-					</view>
-				</u-cell>
-			</u-list-item>
-		</u-list>
-		<view class="u-p-20">
-		<mp-html :content="item.desc" v-for="item in ad('1')" :key="item.id"></mp-html>
+						<view slot="label">
+							<view class="desc">{{item.desc}}</view>
+							<view class="tips" v-if="item.type === 0">每日可观看
+								<text class="frequency">
+									{{item.dailyLimit}}
+								</text>
+								次,每日可获得
+								<text class="frequency">{{item.giveFrequency}}</text>
+								次
+							</view>
+							<view class="tips" v-else>每日可分享
+								<text class="frequency">
+									{{item.dailyLimit}}
+								</text>
+								次,每日可获得
+								<text class="frequency">{{item.giveFrequency}}</text>
+								次
+							</view>
+						</view>
+						<view slot="value">
+							<u-button v-if="item.type === 0" type="primary" shape="circle" @tap="startTask(item)">看广告
+							</u-button>
+							<u-button v-else type="primary" shape="circle" openType="share"
+								@tap="task = item">分享</u-button>
+						</view>
+					</u-cell>
+				</u-list-item>
+			</u-list>
+			<view class="u-p-20">
+				<mp-html :content="item.desc" v-for="item in ad('1')" :key="item.id"></mp-html>
+			</view>
 		</view>
-	</view>
+	</n-page>
 </template>
 
 <script>
@@ -66,7 +69,7 @@
 		// 消息分享
 		onShareAppMessage(res) {
 			this.getReward()
-			let userInfo = uni.getStorageSync('userInfo')
+			let userInfo = uni.getStorageSync('appUserInfo')
 			return {
 				imageUrl: this.robot.invitationImg,
 				title: this.robot.invitationTitle,
@@ -76,7 +79,7 @@
 		// 朋友圈分享
 		onShareTimeline(res) {
 			this.getReward()
-			let userInfo = uni.getStorageSync('userInfo')
+			let userInfo = uni.getStorageSync('appUserInfo')
 			return {
 				imageUrl: this.robot.invitationImg,
 				title: this.robot.invitationTitle,
@@ -118,7 +121,7 @@
 					platform = 3
 					// #endif
 					this.list = data?.data?.filter(item => item.platform === 0 || item.platform === platform)
-					let ad = this.list.filter(item => item.type == 0)?. [0] || {}
+					let ad = this.list.filter(item => item.type == 0)?.[0] || {}
 					if (uni.createRewardedVideoAd && ad) {
 						rewardedVideoAd = uni.createRewardedVideoAd({
 							adUnitId: ad.adId
@@ -173,8 +176,8 @@
 
 <style lang="scss" scoped>
 	.user-task {
-		min-height: 100%;
 		height: 100%;
+		width: 100%;
 		background: var(--bg);
 		color: var(--font-black);
 

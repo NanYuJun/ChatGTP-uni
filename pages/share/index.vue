@@ -1,29 +1,22 @@
 <template>
-	<view class="share" :class="theme">
-		<u-navbar :autoBack="true" leftIconColor="#fff" title="分享赚次数" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'"
-			:safeAreaInsetTop="true" :placeholder="true" titleStyle="color:#fff">
-		</u-navbar>
-		<!-- #ifdef H5 -->
-		<u--image v-if="canvasUrl" :src="canvasUrl" mode="widthFix" width="750px" height="550px"></u--image>
-		<view v-else class="u-p-20 url-content">
-			<view class="url-input">
-				<input v-model="url" type="text" border />
+	<n-page>
+		<view class="share" >
+			<image class="share-img" mode="widthFix" width="750rpx" height="1000rpx" :src="canvasUrl" ></image>
+			<view class="u-p-20 url-content">
+				<view class="url-input">
+					<textarea v-model="url" type="" border />
+				</view>
+				<view class="url-btn">
+					<u-button text="复制广告语" type="primary" @tap="copy"> </u-button>
+				</view>
 			</view>
-			<view class="url-btn">
-				<u-button text="复制邀请地址" type="primary" @tap="copy"> </u-button>
-			</view>
+			<mosowe-canvas-image ref="mosoweCanvasComponents" @canvasImage="_canvasImage" :lists="lists" height="1000"
+				width="750" />
 		</view>
-		<mosowe-canvas-image ref="mosoweCanvasComponents" @canvasImage="_canvasImage" :lists="lists" height="750"
-			width="750" />
-			
-			
-		
-		<!-- #endif -->
-	</view>
+	</n-page>
 </template>
 
 <script>
-	// #ifdef H5
 	export default {
 		// js
 		data() {
@@ -37,13 +30,13 @@
 			if (!this.$login()) {
 				return
 			}
-			let userInfo = uni.getStorageSync('userInfo')
-			this.url = `${window.location.origin}?inviterUserId=${userInfo.id}`
+			let userInfo = uni.getStorageSync('appUserInfo')
+			this.url = `${this.robot.invitationTitle}${window.location.origin}?inviterUserId=${userInfo.id}`
 			this.lists = [{
 					type: 'image',
 					content: this.robot.invitationImg,
-					width: 375,
-					height: 750,
+					width: 750,
+					height: 1000,
 					x: 0,
 					y: 0,
 				},
@@ -51,39 +44,39 @@
 				{
 					type: 'rect',
 					color: '#fff',
-					width: 152.5,
-					height: 192.5,
-					x: 100,
-					y: 330,
+					width: 305,
+					height: 305,
+					x: 200,
+					y: 400,
 				},
 				{
 					type: 'qr',
 					content: `${window.location.origin}?inviterUserId=${userInfo.id}`,
-					width: 135,
-					height: 175,
-					x: 110,
-					y: 340,
+					width: 270,
+					height: 270,
+					x: 220,
+					y: 420,
 				},
-
-				{
-					type: 'text',
-					content: this.robot.invitationTitle,
-					color: '#fff',
-					x: 175,
-					y: 600,
-					align: 'center',
-					size: '20'
-				},
-
 			]
 
 			// this.beginCanvas()
 			this.$nextTick(() => {
 				this.beginCanvas()
 			})
-
 		},
 		methods: {
+			// 复制
+			copy(val) {
+				uni.setClipboardData({
+					data: val,
+					success: function() {
+						uni.showToast({
+							title: "复制成功",
+							icon: "none",
+						});
+					},
+				});
+			},
 			beginCanvas() {
 				this.$refs.mosoweCanvasComponents.createCanvas();
 			},
@@ -101,13 +94,15 @@
 
 		}
 	}
-
-	// #endif
 </script>
-<style lang="scss">
+<style lang="scss" scoped>
 	.share {
-		height: 100%;
 		background: var(--bg);
+		&-img{
+			width: 750rpx;
+			height: 1000rpx;
+		}
+		
 		&-button{
 			position: fixed;
 			bottom: 0;
