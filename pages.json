@@ -2,13 +2,36 @@
 	"easycom": {
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
-	"pages": [
+	"pages": [{
+			"path": "pages/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
 		{
-				"path": "pages/index",
-				"style": {
-					"navigationBarTitleText": "首页"
-				}
-			},
+			"path": "pages/main/index/index_2",
+			"style": {
+				"navigationBarTitleText": ""
+			}
+		},
+		{
+			"path": "pages/main/chat/index_2",
+			"style": {
+				"navigationBarTitleText": "对话"
+			}
+		},
+		{
+			"path": "pages/main/model/index_2",
+			"style": {
+				"navigationBarTitleText": "模型"
+			}
+		},
+		{
+			"path": "pages/user/index_2",
+			"style": {
+				"navigationBarTitleText": "我的"
+			}
+		},
 		{
 			"path": "pages/main/chat/index",
 			"style": {
@@ -59,12 +82,14 @@
 				"navigationBarTitleText": "我的"
 			}
 		},
+
 		{
 			"path": "pages/user/setting",
 			"style": {
 				"navigationBarTitleText": "个人资料"
 			}
 		},
+
 		{
 			"path": "pages/user/index2",
 			"style": {
@@ -107,6 +132,42 @@
 			"path": "pages/share/index",
 			"style": {
 				"navigationBarTitleText": "分享"
+			}
+		},
+		{
+			"path": "pages/integral/index",
+			"style": {
+				"navigationBarTitleText": "积分充值"
+			}
+		},
+		{
+			"path": "pages/vip/index",
+			"style": {
+				"navigationBarTitleText": "购买会员"
+			}
+		},
+		{
+			"path": "pages/distribution/index",
+			"style": {
+				"navigationBarTitleText": "分销中心"
+			}
+		},
+		{
+			"path": "pages/distribution/income",
+			"style": {
+				"navigationBarTitleText": "收益明细"
+			}
+		},
+		{
+			"path": "pages/distribution/cash",
+			"style": {
+				"navigationBarTitleText": "提现"
+			}
+		},
+		{
+			"path": "pages/distribution/cashlist",
+			"style": {
+				"navigationBarTitleText": "提现记录"
 			}
 		}
 	],

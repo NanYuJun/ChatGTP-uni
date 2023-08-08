@@ -5,6 +5,7 @@
 				<image :src="item.title" v-for="item in ad('6').slice(0, 3)" :key="item.id" @tap="handleAdClick(item)">
 				</image>
 			</view>
+			<mp-html content=" ## 引言" :markdown="true"></mp-html>
 			<scroll-view scroll-y="true" class="chat-main" :scroll-into-view="scrollId" scroll-with-animation="true">
 				<view class="chat-item">
 					<view v-for="item in ad('2')" :key="item.id">
@@ -191,7 +192,7 @@
 				list: [], // 对话底部菜单
 				problem: "", // 问题
 				open_set: false,
-				userInfo: uni.getStorageSync("appUserInfo") || {},
+
 				commonProblem: [],
 				systemProblem: [],
 				scrollId: '',
@@ -375,7 +376,7 @@
 			inputFocus(e) {
 				this.open_set = false;
 				// #ifndef H5
-				this.keyboardHeight = `${e.detail.height - 50 + (this.isTabbar ? 100 : 50)}px`
+				this.keyboardHeight = `${e.detail.height - 50 + (this.isTabbar ? 0 : 50)}px`
 				// #endif
 			},
 			inputBlur() {

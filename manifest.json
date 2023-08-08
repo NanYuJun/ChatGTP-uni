@@ -1,5 +1,5 @@
 {
-    "name" : "千问AI办公助手",
+    "name" : "南羽云AI助手",
     "appid" : "__UNI__4AC1694",
     "description" : "",
     "versionName" : "1.0.0",
@@ -78,7 +78,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "wx6012a7261113e464",
+        "appid" : "wxb28f6ae212175d0d",
         "setting" : {
             "urlCheck" : true,
             "es6" : true,

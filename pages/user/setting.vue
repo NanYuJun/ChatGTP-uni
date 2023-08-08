@@ -1,18 +1,21 @@
 <template>
-	<n-page>
+	<n-page title="个人信息" background="#fff">
 		<view class="user-setting">
 			<view class="form">
-				<view class="avatar">
-					<u-avatar :size="60" border :src="userInfo.avatar || '/static/userAvatar.jpg'"
-						@tap="chooseImage"></u-avatar>
+				<view class="avatar" style="position: relative;">
+					<u-avatar :size="80" border
+						:src="$store.state.userInfo.avatar || '/static/user/index_2/notlogin.png'"></u-avatar>
+					<image style="position: absolute;height: 40rpx;width: 40rpx;bottom:0rpx;right:40%;"
+						@tap="chooseImage" src="/static/user/index_2/edit.png" mode=""></image>
 				</view>
 
 				<view class="form-item">
 					<view class="form-item-label">
-						昵称：
+						用户名
 					</view>
 					<view class="form-item-value">
-						<u--input v-model="userInfo.nickname" border="none"></u--input>
+						<u--input v-model="$store.state.userInfo.nickname" border="none" type="nickname"
+							@blur="updateUserInfo"></u--input>
 					</view>
 
 				</view>
@@ -23,7 +26,7 @@
 						v-if="$store.state.loginConfig.offiaccount || $store.state.loginConfig.webWechat">一键绑定微信
 					</u-button>
 					<!-- #endif -->
-					<u-button type="primary" class="u-m-t-20" @tap="updateUserInfo">确定 </u-button>
+
 				</view>
 			</view>
 
@@ -41,12 +44,9 @@
 		data() {
 			return {
 				fileList: [],
-				userInfo: {}
 			};
 		},
-		onShow() {
-			this.getUserInfo()
-		},
+
 		onLoad(e) {
 			if (e.success) {
 				uni.showToast({
@@ -70,7 +70,7 @@
 							success: (uploadFileRes) => {
 								try {
 									let res = JSON.parse(uploadFileRes.data)
-									this.userInfo.avatar = res.data
+									this.$store.state.userInfo.avatar = res.data
 								} catch (e) {
 									uni.showToast({
 										title: '上传失败，请联系管理员',
@@ -84,23 +84,14 @@
 					}
 				});
 			},
-			async getUserInfo() {
-				const {
-					data
-				} = await uni.$u.http.post("/app/user/info/userInfo");
-				if (data.code == 1000) {
-					this.userInfo = data.data
-					uni.setStorageSync('appUserInfo', this.userInfo)
-				}
-			},
 			bindWechat() {
-				wechatLogin(this.userInfo.id)
+				wechatLogin(this.$store.state.userInfo.id)
 			},
 			async updateUserInfo() {
 				const {
 					data
 				} = await uni.$u.http.post("/app/user/info/update", {
-					...this.userInfo
+					...this.$store.state.userInfo
 				});
 				if (data.code == 1000) {
 					uni.showToast({
@@ -122,7 +113,6 @@
 		margin: 20rpx;
 		padding: 20rpx;
 		box-sizing: border-box;
-		background-color: var(--white);
 		border-radius: 10rpx;
 
 		.avatar {
@@ -131,24 +121,27 @@
 		}
 
 		.form {
-			color:var(--font-black);
+			color: var(--font-black);
+
 			&-item {
-				height: 80rpx;
-				display: flex;
 				align-items: center;
 				justify-content: space-between;
-				border-bottom: 1px solid #f5f5f5;
+
 
 				&-value {
-					color:var(--font-black);
-					margin-left: 20rpx;
-					flex: 1;
+
+					border-bottom: 1px solid $uni-color-primary;
+					color: var(--font-black);
+
 					.uni-input-placeholder {
-						color:var(--font-black)!important;
+						color: var(--font-black) !important;
 					}
-					.u-input{
-						color:var(--font-black);
-						
+
+					.u-input {
+						color: var(--font-black);
+						height: 80rpx;
+						line-height: 80rpx;
+
 					}
 				}
 			}

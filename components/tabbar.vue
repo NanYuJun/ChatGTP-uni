@@ -80,7 +80,7 @@
 	}
 
 	.text-active {
-		color: #2e92fd !important;
+		color: $uni-color-primary !important;
 	}
 
 	.icon {

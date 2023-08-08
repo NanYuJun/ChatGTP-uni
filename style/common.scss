@@ -58,3 +58,143 @@
 		}
 	}
 }
+
+* {
+	padding: 0;
+	margin: 0;
+}
+
+ol,
+ul li {
+	list-style: none;
+}
+
+a {
+	text-decoration: none;
+	// 鼠标手
+	cursor: pointer;
+	&:visited {
+		color: inherit;
+	}
+}
+
+
+.n {
+	&-relative,
+	&-rela {
+		position: relative;
+	}
+
+	&-absolute,
+	&-abso {
+		position: absolute;
+	}
+
+	// 单行溢出隐藏
+	&-linehide {
+		white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
+
+	&-flex {
+		display: flex;
+	}
+
+	&-flex-col {
+		display: flex;
+		flex-direction: column;
+	}
+
+	&-flex-wrap {
+		flex-wrap: wrap;
+	}
+
+	&-flex-nowrap {
+		flex-wrap: nowrap;
+	}
+
+	&-col-center {
+		align-items: center;
+	}
+
+	&-col-top {
+		align-items: flex-start;
+	}
+
+	&-col-bottom {
+		align-items: flex-end;
+	}
+
+	&-row-center {
+		justify-content: center;
+	}
+
+	&-row-left {
+		justify-content: flex-start;
+	}
+
+	&-row-right {
+		justify-content: flex-end;
+	}
+
+	&-row-between {
+		justify-content: space-between;
+	}
+
+	&-row-around {
+		justify-content: space-around;
+	}
+
+	&-text-left {
+		text-align: left;
+	}
+
+	&-text-center {
+		text-align: center;
+	}
+
+	&-text-right {
+		text-align: right;
+	}
+
+	// 定义flex等分
+	@for $i from 0 through 12 {
+		&-flex-#{$i} {
+			flex: $i;
+		}
+	}
+
+	// 定义字体(px)单位，小于20都为px单位字体
+	@for $i from 12 to 30 {
+		&-font-#{$i} {
+			font-size: $i + px;
+		}
+	}
+	&-w {
+		width: 100%;
+	}
+	&-h {
+		height: 100%;
+	}
+	// 用scss循环出宽度以100为比例的css 并且最小100 最大1200的
+	@for $i from 1 through 12 {
+		&-w-#{$i}00 {
+			width: $i * 100rpx;
+		}
+	}
+	@for $i from 1 through 12 {
+		&-h-#{$i}00 {
+			height: $i * 100rpx;
+		}
+	}
+	&-m-auto-0 {
+		margin: auto 0;
+	}
+	&-m-0-auto {
+		margin: 0 auto;
+	}
+	&-m-auto {
+		margin: auto;
+	}
+	}

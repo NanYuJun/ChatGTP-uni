@@ -19,7 +19,7 @@ class Chat {
 		this.isFirst = false
 	}
 	setup() {
-		this.socket = io(process.env.NODE_ENV === 'development' ? 'http://127.0.0.1:8002' : config.baseURL, {
+		this.socket = io(process.env.NODE_ENV === 'development' ? 'https://ai.qqip.net' : config.baseURL, {
 			transports: ['websocket', 'polling'],
 			timeout: 5000,
 		});

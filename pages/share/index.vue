@@ -30,8 +30,7 @@
 			if (!this.$login()) {
 				return
 			}
-			let userInfo = uni.getStorageSync('appUserInfo')
-			this.url = `${this.robot.invitationTitle}${window.location.origin}?inviterUserId=${userInfo.id}`
+			this.url = `${this.robot.invitationTitle}${window.location.origin}?inviterUserId=${this.userInfo.id}`
 			this.lists = [{
 					type: 'image',
 					content: this.robot.invitationImg,
@@ -51,7 +50,7 @@
 				},
 				{
 					type: 'qr',
-					content: `${window.location.origin}?inviterUserId=${userInfo.id}`,
+					content: `${window.location.origin}?inviterUserId=${this.userInfo.id}`,
 					width: 270,
 					height: 270,
 					x: 220,

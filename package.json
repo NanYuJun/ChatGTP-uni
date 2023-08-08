@@ -6,6 +6,7 @@
     },
     "dependencies": {
         "@hyoga/uni-socket.io": "^3.0.4",
+        "jweixin-module": "^1.6.0",
         "microsoft-cognitiveservices-speech-sdk": "^1.28.0",
         "socket.io-client": "^4.6.1",
         "uview-ui": "^2.0.31"

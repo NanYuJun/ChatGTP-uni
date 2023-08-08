@@ -1,82 +1,82 @@
 <template>
 	<n-page>
-	<view class="login" >
-		<!-- 账号密码登录 -->
-		<view class="login-account" v-if="type == 'useraccount'">
-			<view class="login-account-header">
-				<view class="hello">
-					<text>Hi，欢迎使用</text>
+		<view class="login">
+			<!-- 账号密码登录 -->
+			<view class="login-account" v-if="type == 'useraccount'">
+				<view class="login-account-header">
+					<view class="hello">
+						<text>Hi，欢迎使用</text>
+					</view>
 				</view>
-			</view>
-			<view class="login-account-content">
-				<view class="login-account-content-tip">账号</view>
-				<input v-model="nickname" type="text" placeholder="请输入账号" placeholder-class="placeholder" />
-				<view class="login-account-content-tip">密码</view>
-				<input v-model="password" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
-				<view class="login-account-content-tip">验证码</view>
-				<view class="login-account-content-captcha">
-					<input v-model="captcha" type="text" placeholder="请输入验证码" placeholder-class="placeholder" />
-					<image class="captchaImg" :src="captchaImg" @tap="getCaptcha">
-				</view>
+				<view class="login-account-content">
+					<view class="login-account-content-tip">账号</view>
+					<input v-model="nickname" type="text" placeholder="请输入账号" placeholder-class="placeholder" />
+					<view class="login-account-content-tip">密码</view>
+					<input v-model="password" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
+					<view class="login-account-content-tip">验证码</view>
+					<view class="login-account-content-captcha">
+						<input v-model="captcha" type="text" placeholder="请输入验证码" placeholder-class="placeholder" />
+						<image class="captchaImg" :src="captchaImg" @tap="getCaptcha">
+					</view>
 
-				<view class="login-account-content-tip link" @tap="type = 'register'">还没有账号？快去注册吧</view>
-				<button type="button" @click="login({nickname: nickname,password: password,})">
-					登录
-				</button>
-				<view class="login-outher">
-					<view class="login-outher-item" @tap="wechatLogin" v-if="">
-						<u-icon name="weixin-fill" color="#fff" size="30"></u-icon>
+					<view class="login-account-content-tip link" @tap="type = 'register'">还没有账号？快去注册吧</view>
+					<button type="button" @click="login({nickname: nickname,password: password,})">
+						登录
+					</button>
+					<view class="login-outher">
+						<view class="login-outher-item" @tap="wechatLogin" v-if="">
+							<u-icon name="weixin-fill" color="#fff" size="30"></u-icon>
+						</view>
 					</view>
 				</view>
 			</view>
-		</view>
-		<!-- 注册 -->
-		<view class="login-register"  v-if="type == 'register'">
-			<view class="login-register-header">
-				<view class="hello">
-					<text>Hi，欢迎注册</text>
+			<!-- 注册 -->
+			<view class="login-register" v-if="type == 'register'">
+				<view class="login-register-header">
+					<view class="hello">
+						<text>Hi，欢迎注册</text>
+					</view>
 				</view>
-			</view>
-			<view class="login-register-content">
+				<view class="login-register-content">
 
-				<view class="login-register-content-tip">账号</view>
-				<input v-model="nickname" type="text" placeholder="请输入账号" placeholder-class="placeholder" />
-				<view class="login-register-content-tip">密码</view>
-				<input v-model="password" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
-				<view class="login-register-content-tip">重复密码</view>
-				<input v-model="passwordV" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
-				<view class="login-register-content-tip">邀请人ID</view>
-				<input v-model="inviterUserId" type="text" placeholder="非必填" :disabled="disabled"
-					placeholder-class="placeholder" />
-				<view class="login-register-content-tip">手机号</view>
-				<input v-model="phone" placeholder="用于同步平台统一身份信息" placeholder-class="placeholder" />
-				<view class="login-register-content-tip link" @tap="type = 'useraccount'">已有账号，前往登录</view>
-				<button type="button" @click="register()">注册</button>
-			</view>
-		</view>
-		<!-- 微信小程序登录 -->
-		<view class="login-wechat"  v-if="type == 'miniprogram'">
-			<!-- 内容区域 -->
-			<view class="login-wechat__wrapper">
-				<view class="login-wechat__sub-img">
-					<image src="/static/login.png"></image>
-				</view>
-				<!-- 标题 -->
-				<view class="login-wechat__title">授权登录</view>
-				<!-- tips -->
-				<view class="login-wechat__sub-title">
-					一键授权登录，完整功能体验
-				</view>
-				<!-- 保存按钮 -->
-				<view class="login-wechat__submit-btn" @tap="getLoginCode">
-					一 键 登 录
+					<view class="login-register-content-tip">账号</view>
+					<input v-model="nickname" type="text" placeholder="请输入账号" placeholder-class="placeholder" />
+					<view class="login-register-content-tip">密码</view>
+					<input v-model="password" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
+					<view class="login-register-content-tip">重复密码</view>
+					<input v-model="passwordV" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
+					<view class="login-register-content-tip">邀请人ID</view>
+					<input v-model="inviterUserId" type="text" placeholder="非必填" :disabled="disabled"
+						placeholder-class="placeholder" />
+					<view class="login-register-content-tip">手机号</view>
+					<input v-model="phone" placeholder="用于同步平台统一身份信息" placeholder-class="placeholder" />
+					<view class="login-register-content-tip link" @tap="type = 'useraccount'">已有账号，前往登录</view>
+					<button type="button" @click="register()">注册</button>
 				</view>
 			</view>
+			<!-- 微信小程序登录 -->
+			<view class="login-wechat" v-if="type == 'miniprogram'">
+				<!-- 内容区域 -->
+				<view class="login-wechat__wrapper">
+					<view class="login-wechat__sub-img">
+						<image src="/static/login.png"></image>
+					</view>
+					<!-- 标题 -->
+					<view class="login-wechat__title">授权登录</view>
+					<!-- tips -->
+					<view class="login-wechat__sub-title">
+						一键授权登录，完整功能体验
+					</view>
+					<!-- 保存按钮 -->
+					<view class="login-wechat__submit-btn" @tap="getLoginCode">
+						一 键 登 录
+					</view>
+				</view>
+			</view>
+			<!-- 微信授权头像昵称 -->
+			<wx-user-info-modal v-model="userInfoShow" :currentUserInfo="userInfo" @updated="updatedUserInfo" />
 		</view>
-		<!-- 微信授权头像昵称 -->
-		<wx-user-info-modal v-model="userInfoShow" :currentUserInfo="userInfo" @updated="updatedUserInfo" />
-	</view>
-</n-page>
+	</n-page>
 </template>
 
 <script>
@@ -84,7 +84,7 @@
 		wechatLogin
 	} from '@/config/login.js'
 	import requestConfig from "@/config/request.js";
-	
+
 	import WxUserInfoModal from "@/uni_modules/tuniaoui-wx-user-info/components/tuniaoui-wx-user-info/tuniaoui-wx-user-info.vue";
 
 	export default {
@@ -185,7 +185,7 @@
 						uni.removeStorageSync('inviterUserId')
 						this.userInfo = data.data;
 						uni.setStorageSync("appToken", data.data.token);
-						uni.setStorageSync("appUserInfo", data.data);
+						this.$store.commit('setUserInfo', data.data)
 						this.loginBackPage()
 
 					} else {
@@ -227,7 +227,7 @@
 							return (this.userInfoShow = true);
 						}
 						// #endif
-						uni.setStorageSync("appUserInfo", data.data);
+						this.$store.commit('setUserInfo', data.data)
 						this.loginBackPage()
 					} else {
 						uni.showToast({
@@ -296,7 +296,7 @@
 					);
 					uni.hideLoading()
 					if (data.code == 1000) {
-						uni.setStorageSync("appUserInfo", this.userInfo);
+						this.$store.commit('setUserInfo', this.userInfo)
 						this.loginBackPage()
 					} else {
 						uni.showToast({

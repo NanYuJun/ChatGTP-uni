@@ -16,6 +16,19 @@ const store = new Vuex.Store({
 		theme: uni.getStorageSync('appTheme') || 'light',
 		model: uni.getStorageSync('model') || {},
 		chatLoading: false,
+		userInfo: uni.getStorageSync('appUserInfo') || {}
+	},
+	actions: {
+		async getUserInfo({
+			commit
+		}) {
+			const {
+				data
+			} = await uni.$u.http.post("/app/user/info/userInfo");
+			if (data.code == 1000) {
+				commit('setUserInfo', data.data)
+			}
+		}
 	},
 	mutations: {
 		setChatLoading(state, data) {
@@ -59,6 +72,10 @@ const store = new Vuex.Store({
 		setModel(state, data) {
 			state.model = data
 			uni.setStorageSync('model', data)
+		},
+		setUserInfo(state, data) {
+			state.userInfo = data
+			uni.setStorageSync('appUserInfo', data)
 		},
 	}
 })

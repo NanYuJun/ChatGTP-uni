@@ -1,4 +1,4 @@
-const baseURL = process.env.NODE_ENV === 'development' ? 'https://ai.qqip.net' : ''
+const baseURL = process.env.NODE_ENV === 'development' ? 'https://testpay.qqip.net/api' : 'https://mp.qqip.net/test/api'
 import {
 	login
 } from '@/config/login.js'

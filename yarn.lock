@@ -273,6 +273,11 @@ json5@^2.1.2:
   resolved "https://registry.npmmirror.com/json5/-/json5-2.2.3.tgz#78cd6f1a19bdc12b73db5ad0c61efd66c1e29283"
   integrity sha512-XmOWe7eyHYH14cLdVPoyg+GOH3rYX++KpzrylJwSW98t3Nk+U8XOl8FWKOgwtzdb8lXGf6zYwDUzeHMWfxasyg==
 
+jweixin-module@^1.6.0:
+  version "1.6.0"
+  resolved "https://registry.npmmirror.com/jweixin-module/-/jweixin-module-1.6.0.tgz#4a7ea614083e3c9c3f49e2fdc2bb882cfa58dfcd"
+  integrity sha512-dGk9cf+ipipHmtzYmKZs5B2toX+p4hLyllGLF6xuC8t+B05oYxd8fYoaRz0T30U2n3RUv8a4iwvjhA+OcYz52w==
+
 klona@^2.0.4:
   version "2.0.6"
   resolved "https://registry.npmmirror.com/klona/-/klona-2.0.6.tgz#85bffbf819c03b2f53270412420a4555ef882e22"

@@ -1,59 +1,102 @@
 <template>
 	<n-page>
 		<!-- 用户任务 -->
-		<view class="user-task" >
-			<view class="u-p-20">
+		<view class="user-task">
+			<view class="n-p-20">
 				<mp-html :content="item.desc" v-for="item in ad('5')" :key="item.id"></mp-html>
 			</view>
-			<u-list class="user-task-list" @scrolltolower="scrolltolower" @upperThreshold="init" :lowerThreshold="100">
-				<u-list-item v-for="(item, index) in list" :key="index">
-					<u-cell :title="item.title">
-						<u-avatar slot="icon" shape="square" size="35" :src="item.img"
-							customStyle="margin: -3px 5px -3px 0">
-						</u-avatar>
-						<view class="title" slot="title">
-							{{item.title}}
+			<view v-for="(item, index) in list" :key="index" class="n-flex n-p-20">
+
+				<u-avatar shape="square" size="35" :src="item.img" >
+				</u-avatar>
+				<view>
+					<view class="title">
+						{{item.title}}
+					</view>
+					<view class="label">
+						<view class="desc">{{item.desc}}</view>
+						<view class="tips" v-if="item.type === 0">每日可观看
+							<text class="frequency">
+								{{item.dailyLimit}}
+							</text>
+							次,每日可获得
+							<text class="frequency">{{item.giveFrequency}}</text>
+							次
 						</view>
-						<view slot="label">
-							<view class="desc">{{item.desc}}</view>
-							<view class="tips" v-if="item.type === 0">每日可观看
-								<text class="frequency">
-									{{item.dailyLimit}}
-								</text>
-								次,每日可获得
-								<text class="frequency">{{item.giveFrequency}}</text>
-								次
-							</view>
-							<view class="tips" v-else>每日可分享
-								<text class="frequency">
-									{{item.dailyLimit}}
-								</text>
-								次,每日可获得
-								<text class="frequency">{{item.giveFrequency}}</text>
-								次
-							</view>
+						<view class="tips" v-else>每日可分享
+							<text class="frequency">
+								{{item.dailyLimit}}
+							</text>
+							次,每日可获得
+							<text class="frequency">{{item.giveFrequency}}</text>
+							次
 						</view>
-						<view slot="value">
-							<u-button v-if="item.type === 0" type="primary" shape="circle" @tap="startTask(item)">看广告
-							</u-button>
-							<u-button v-else type="primary" shape="circle" openType="share"
-								@tap="task = item">分享</u-button>
-						</view>
-					</u-cell>
-				</u-list-item>
-			</u-list>
+					</view>
+
+				</view>
+				<view style="width: 100rpx;">
+					<u-button v-if="item.type === 0" type="primary" size="mini" shape="circle" @tap="startTask(item)">看广告
+					</u-button>
+					<u-button v-else type="primary" shape="circle" openType="share" @tap="task = item" size="mini" >分享</u-button>
+				</view>
+			</view>
+
 			<view class="u-p-20">
 				<mp-html :content="item.desc" v-for="item in ad('1')" :key="item.id"></mp-html>
 			</view>
+
+			<view class="integral">
+				<view class="integral-content u-flex u-flex-between">
+					<view class="integral">
+						<view class="integral-item" :class="current == index ? 'integral-item-active': ''"
+							v-for="(item, index) in integralList" :key="index"
+							:style="{marginLeft: !index ? '15rpx': ''}" @click="integralChange(index)">
+
+							<text class="integral-item-duration">{{ item.title }}</text>
+							<view class="integral-item-price">
+								<!-- <text class="rmb"></text> -->
+								<text class="integral-item-price-text">{{item.price/100 }}</text>
+								<text class="rmb">元</text>
+							</view>
+							<text class="integral-item-des">{{item.description || '' }}</text>
+						</view>
+					</view>
+				</view>
+
+				<button class="btn" @click="selectPay()">立即充值</button>
+
+				<view class="tips">
+
+					<view style="color: #000000;font-size: 30upx;margin-top:40upx;">充值说明</view>
+					<view style="color: #666666;font-size: 24upx;margin-top:40upx;">1、充值仅限微信在线支付方式，充值金额实时到账</view>
+					<view style="color: #666666;font-size: 24upx;margin-top:20upx;">2、本产品属于虚拟产品，一经充值不予退款</view>
+					<view style="color: #666666;font-size: 24upx;margin-top:20upx;">3、用户推广，可赚取现金收益</view>
+					<view style="color: #666666;font-size: 24upx;margin-top:20upx;">4、无法充值请联系微信客服：xssj0906</view>
+
+
+				</view>
+
+			</view>
 		</view>
+		</view>
+
 	</n-page>
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex'
+	// #ifdef H5
+	import wx from 'jweixin-module';
+	// #endif
+	
 	let rewardedVideoAd = null
 	export default {
 		data() {
 			return {
+				integralList: [],
+				current: 0,
 				list: [],
 				adLoad: false,
 				task: null
@@ -61,6 +104,7 @@
 		},
 		onLoad() {
 			this.getList();
+			this.getIntegralList()
 		},
 		onShow() {
 			this.$login()
@@ -151,6 +195,95 @@
 					});
 				}
 			},
+			//	加载列表
+			async getIntegralList() {
+				uni.showLoading({
+					title: '加载中'
+				});
+				const {
+					data
+				} = await uni.$u.http.post('/app/integral/info/list')
+				uni.hideLoading();
+				if (data.code === 1000) {
+					this.list = data?.data
+				} else {
+					uni.showToast({
+						icon: 'none',
+						title: data.message
+					});
+				}
+			},
+
+			async selectPay() {
+
+				const item = this.list[this.current]
+				console.log('item', item.id)
+				console.log('item2', item.price)
+				console.log('item2', item.title)
+				const user = uni.getStorageSync("appUserInfo")
+				console.log('user', user.id)
+
+				const {
+					data
+				} = await uni.$u.http.post("/app/demo/pay/wx", {
+
+					uid: user.id,
+					pid: item.id,
+					openid: user.openid,
+					price: item.price
+
+				});
+
+				//用户id，产品id
+				console.log('data', data)
+
+				// 初始化微信 JS-SDK
+				wx.config({
+					debug: false,
+					appId: data.data.appId,
+					timestamp: data.data.timeStamp,
+					nonceStr: data.data.nonceStr,
+					signature: data.data.paySign,
+					jsApiList: [
+						'chooseWXPay' // 需要使用的JS接口列表
+					]
+				})
+
+
+				wx.ready(function() {
+					wx.chooseWXPay({
+						appId: data.data.appId, //小程序Appid
+						timestamp: data.data.timeStamp, //创建订单时间戳
+						nonceStr: data.data.nonceStr,
+						package: data.data.package, // 订单包 package:"prepay_id=wx21**************"
+						signType: data.data.signType, // 加密方式统一'MD5'
+						paySign: data.data.paySign, // 后台支付签名返回
+						success: function(res) {
+							console.log('测试' + res)
+							// 支付成功的回调函数
+							uni.showToast({
+								title: "支付成功",
+								icon: 'none',
+								duration: 2000
+							});
+						},
+						fail: function(res) {
+							console.log('失败' + res)
+							uni.showToast({
+								title: "支付失败",
+								icon: 'none',
+								duration: 2000
+							});
+						}
+					});
+				});
+
+
+
+
+			},
+
+
 			async getReward() {
 				const {
 					data
@@ -176,24 +309,10 @@
 
 <style lang="scss" scoped>
 	.user-task {
-		height: 100%;
 		width: 100%;
 		background: var(--bg);
 		color: var(--font-black);
 
-		&-list {
-			height: calc(100% - 120rpx);
-
-			/deep/.u-cell__title-text {
-				color: var(--font-black)
-			}
-
-			.u-cell__title-text {
-				color: var(--font-black)
-			}
-
-
-		}
 
 		.title {
 			color: var(--font-black);
@@ -213,6 +332,102 @@
 
 		.frequency {
 			color: $uni-color-primary;
+		}
+
+	}
+
+	.integral {
+		width: 100%;
+		padding: 20rpx;
+		box-sizing: border-box;
+		background: #FFFFFF;
+		// background: var(--bg);
+
+		.title,
+		.subtitle {
+			color: var(--font-black);
+			width: 100%;
+			text-align: center;
+
+		}
+
+		.subtitle {
+			color: #999;
+		}
+
+		.integral {
+
+			display: flex;
+			justify-content: center;
+			// margin: 40rpx 30rpx;
+			flex-wrap: wrap;
+
+
+
+			&-item {
+				padding: 10rpx 0;
+				border-radius: 20rpx;
+				flex-direction: column;
+				align-items: center;
+				justify-content: center;
+				width: 185rpx;
+				margin: 10rpx;
+				position: relative;
+				// width: 200rpx;
+				height: 200rpx;
+
+				display: flex;
+
+				border: solid 3rpx #007aff;
+
+
+				&-active {
+					border-color: #007aff;
+					background-color: rgba(0, 85, 255, 0.1);
+				}
+
+				&-duration {
+					margin-bottom: 20rpx;
+					font-size: 26rpx;
+					color: #1C1C1C;
+				}
+
+				&-price {
+					margin-bottom: 20rpx;
+					display: flex;
+					flex-direction: row;
+					align-items: baseline;
+
+					&-text {
+						font-size: 48rpx;
+						color: #007aff;
+					}
+				}
+
+				&-des {
+					font-size: 22rpx;
+					color: #A5A3A2;
+				}
+			}
+		}
+
+
+		.btn {
+			margin-top: 60upx;
+			background-color: #007aff;
+			color: #fff;
+			width: 500upx;
+			height: 80upx;
+			/* line-height: 102upx; */
+			text-align: center;
+			font-size: 32upx;
+			border-radius: 50upx;
+		}
+
+		.tips {
+			margin-top: 80upx;
+			margin-left: 50upx;
+
 		}
 
 	}

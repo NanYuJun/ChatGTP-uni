@@ -4,8 +4,7 @@ export default {
 			if (!this.$login()) {
 				return
 			}
-			let userInfo = uni.getStorageSync('appUserInfo')
-			if (!userInfo.expireTime && item.isVip) {
+			if (!this.userInfo.expireTime && item.isVip) {
 				uni.showToast({
 					title: '会员专享，请先开通会员',
 					icon: 'none'

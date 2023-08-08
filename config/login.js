@@ -3,6 +3,10 @@ import {
 	isMobile
 } from '@/utils/utils.js'
 
+import {
+	baseURL
+} from './request.js'
+
 
 /*
  ** 检测并跳转登录页面
@@ -51,14 +55,6 @@ export const login = (e) => {
 };
 
 
-// 获取用户信息
-export const getUserInfo = async () => {
-	const {
-		data
-	} = await uni.$u.http.post("/app/user/info/userInfo");
-	s
-	uni.setStorageSync('appUserInfo', data.data)
-}
 
 // 微信登录
 // 在微信内则授权 不在则扫码
@@ -68,24 +64,24 @@ export const wechatLogin = (userId) => {
 	let webWechatUrl
 	let offiaccountUrl
 	let urlParams = ''
-	
-	if(userId && inviterUserId){
+
+	if (userId && inviterUserId) {
 		urlParams = `?userId=${userId}&inviterUserId=${inviterUserId}`
-	}else if(userId){
-		urlParams= `?userId=${userId}`
-	}else if(inviterUserId){
+	} else if (userId) {
+		urlParams = `?userId=${userId}`
+	} else if (inviterUserId) {
 		urlParams = `?inviterUserId=${inviterUserId}`
 	}
-	
+
 	if (config.offiaccount) {
 		offiaccountUrl =
 			`https://open.weixin.qq.com/connect/oauth2/authorize?appid=${config.offiaccount.param1}&redirect_uri=${encodeURI(
-			`${window.location.origin}/app/user/info/offiaccountLogin${urlParams}`
+			`${baseURL}/app/user/info/offiaccountLogin${urlParams}`
 		)}&response_type=code&scope=snsapi_userinfo&state=STATE&#wechat_redirect`
 	}
 	if (config.webWechat) {
 		webWechatUrl = `https://open.weixin.qq.com/connect/qrconnect?appid=${config.webWechat.param1}&redirect_uri=${encodeURI(
-			`${window.location.origin}/app/user/info/webWechatLogin${urlParams}`
+			`${baseURL}/app/user/info/webWechatLogin${urlParams}`
 		)}&response_type=code&scope=snsapi_login&state=STATE#wechat_redirect`
 	}
 

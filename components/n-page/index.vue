@@ -1,11 +1,37 @@
 <template>
-	<view class="n-page" :class="theme">
-
+	<view class="n-page" :class="theme" :style="{background: background}">
 		<!-- #ifndef MP-TOUTIAO -->
-		<u-navbar v-if="navbarShow && !isWeixin" :title="titleText" :leftIconSize="isTabbar ? 0 : 20" :autoBack="true"
+		<u-navbar v-if="navbarShow && !isWeixin" :title="title || titleText" :leftIconSize="isTabbar ? 0 : 20" :autoBack="true"
 			leftIconColor="#fff" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
 			:placeholder="true" titleStyle="color:#fff">
 		</u-navbar>
+		<!-- #ifdef MP-WEIXIN -->
+	<!-- 	<view v-if="navbarShow" class=" n-flex n-row-between n-col-center"
+			style="height: 100rpx;padding: 20rpx;margin-top: 60rpx">
+			<image style="width: 50rpx;height: 50rpx;" v-if="isTabbar" src="../../static/navbar/logo.png" />
+			<image style="width: 50rpx;height: 50rpx;" v-else src="../../static/navbar/back.png" @tap="back" />
+			<view style="font-size: 40rpx;font-weight: bold;" v-if="title">
+				{{title}}
+			</view>
+			<view style="font-size: 40rpx;font-weight: bold;" v-else>
+				ChaChaAI
+			</view>
+			<view style="width: 50rpx;height: 50rpx;"></view>
+		</view> -->
+		<!-- #endif -->
+		<!-- #ifndef MP-WEIXIN -->
+		<!-- <view v-if="navbarShow" class=" n-flex n-row-between n-col-center" style="height: 100rpx;padding: 20rpx;">
+			<image style="width: 50rpx;height: 50rpx;" v-if="isTabbar" src="../../static/navbar/logo.png" />
+			<image style="width: 50rpx;height: 50rpx;" v-else src="../../static/navbar/back.png" @tap="back" />
+			<view style="font-size: 40rpx;font-weight: bold;" v-if="title">
+				{{title}}
+			</view>
+			<view style="font-size: 40rpx;font-weight: bold;" v-else>
+				ChaChaAI
+			</view>
+			<view style="width: 50rpx;height: 50rpx;"></view>
+		</view> -->
+		<!-- #endif -->
 		<!-- #endif -->
 		<view class="n-page__inner">
 			<slot />
@@ -15,7 +41,7 @@
 </template>
 
 <script>
-	import page from '@/pages.json'
+	import pageConfig from '@/pages.json'
 	import tabbar from '@/components/tabbar.vue'
 	import {
 		mapState
@@ -33,6 +59,14 @@
 			navbarShow: {
 				type: Boolean,
 				default: true
+			},
+			title: {
+				type: String,
+				default: ''
+			},
+			background: {
+				type: String,
+				default: ''
 			}
 		},
 		components: {
@@ -50,14 +84,16 @@
 				let pages = getCurrentPages()
 				let page = pages[pages.length - 1]
 				// 对话页面显示模型标题
-				if(uni.$u.page() == '/pages/main/chat/index'){
+				if (uni.$u.page() == '/pages/main/chat/index') {
 					return this.$store.state.model.name
 				}
 				// #ifdef H5
 				return page?.$holder?.navigationBarTitleText || ''
 				// #endif
 				// #ifndef H5
-				return page.pages.filter(item =>  uni.$u.page() == '/' + item.path)?.[0]?.style?.navigationBarTitleText || ''
+				return pageConfig.pages.filter(item => uni.$u.page() == '/' + item.path)?.[0]?.style
+					?.navigationBarTitleText ||
+					''
 				// #endif
 			},
 			// 是否是tabbar页面

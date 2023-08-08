@@ -42,8 +42,7 @@
 				} = await uni.$u.http.post("/app/renovation/tabbar/list");
 				this.$store.commit('setTabbar', data.data?.filter(item => item.platform === platform || item
 					.platform === 0) || [])
-				var pages = getCurrentPages() // 获取栈实例
-				if (pages.length < 2 && uni.$u.page() != data.data?.[0]?.pagePath) {
+				if (uni.$u.page() === '/pages/index') {
 					this.$store.commit('setTabbarIndex', 0)
 					data?.data && uni.$u.route(data?.data?.[0]?.pagePath)
 				}
