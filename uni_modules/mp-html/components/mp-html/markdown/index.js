@@ -10,12 +10,11 @@ function Markdown (vm) {
   this.vm = vm
   vm._ids = {}
 }
+
 Markdown.prototype.onUpdate = function (content) {
-  if (this.vm.markdown) {
-    return marked.parse(content).replace(/(<code[^>]*>)([\s\S]*?)(<\/code>)/gm, (match, openingTag, content, closingTag) => {
-      return openingTag + content.trim() + closingTag;
-    });
-  }
+  if (this.vm.markdown) {
+    return marked(content)
+  }
 }
 
 Markdown.prototype.onParse = function (node, vm) {

@@ -24,7 +24,7 @@
 				<view class="chat-item">
 					<view v-for="item in ad('2')" :key="item.id">
 						<view class="chat-item__left u-flex">
-							<!-- <u-avatar :src="robot.img || '/static/avatar.jpeg'" shape="square" size="35"></u-avatar> -->
+
 							<view class="chat-item__left-right">
 								<view class="chat-item__left-name">
 									{{ model.name || "智能AI" }}
@@ -41,7 +41,7 @@
 				<view class="chat-item">
 					<view v-for="item in systemProblem" :key="item.id">
 						<view class="chat-item__left u-flex">
-							<!-- <u-avatar :src="model.img || '/static/avatar.jpeg'" shape="square" size="35"></u-avatar> -->
+
 							<view class="chat-item__left-right">
 								<view class="chat-item__left-name">
 									{{ model.name || "智能AI" }}
@@ -59,7 +59,7 @@
 					<!-- 机器人消息 -->
 					<u-transition :show="true" mode="fade-left" v-if="item.role == 'assistant'">
 						<view class="chat-item__left u-flex">
-							<!-- <u-avatar :src="model.img || '/static/avatar.jpeg'" shape="square" size="35"></u-avatar> -->
+
 
 							<view class="chat-item__left-right">
 								<view class="chat-item__left-name">
@@ -123,12 +123,12 @@
 				<view class="stopchat n-flex n-w n-row-center" v-if="chatLoading" @tap="stop">
 					<view class="stopchat-main">
 						<view class="stopchat-main__box">
-						
+
 						</view>
 						<view class="">
 							停止生成...
 						</view>
-						
+
 					</view>
 
 
@@ -362,23 +362,11 @@
 				Chat.next()
 			},
 			async getMenuList() {
-				let platform
-				// #ifdef MP-WEIXIN
-				platform = 1
-				// #endif
-				// #ifdef MP-TOUTIAO
-				platform = 2
-				// #endif
-				// #ifdef MP-KUAISHOU
-				platform = 3
-				// #endif
-				// #ifdef H5
-				platform = 4
-				// #endif
+
 				let {
 					data
 				} = await uni.$u.http.post("/app/renovation/chat/menu/list");
-				this.list = data.data?.filter(item => item.platform === platform || item
+				this.list = data.data?.filter(item => item.platform === this.$store.state.platform || item
 					.platform === 0) || []
 			},
 			// 滚动到最底部
@@ -728,7 +716,7 @@
 	}
 
 	.stopchat {
-		
+
 		&-main {
 			margin-bottom: 10rpx;
 			padding: 30rpx 20rpx;

@@ -1,6 +1,10 @@
 // 页面路径：store/index.js 
 import Vue from 'vue'
 import Vuex from 'vuex'
+import {
+	isWeixin,
+	isMobile
+} from '@/utils/utils.js'
 
 Vue.use(Vuex); //vue的插件机制
 
@@ -16,7 +20,8 @@ const store = new Vuex.Store({
 		theme: uni.getStorageSync('appTheme') || 'light',
 		model: uni.getStorageSync('model') || {},
 		chatLoading: false,
-		userInfo: uni.getStorageSync('appUserInfo') || {}
+		userInfo: uni.getStorageSync('appUserInfo') || {},
+		platform: uni.getStorageSync('platform') || 1
 	},
 	actions: {
 		async getUserInfo({
@@ -31,6 +36,23 @@ const store = new Vuex.Store({
 		}
 	},
 	mutations: {
+		getPlatform(state, data) {
+			// #ifdef MP-WEIXIN
+			state.platform = 1
+			// #endif
+			// #ifdef MP-TOUTIAO
+			state.platform = 2
+			// #endif
+			// #ifdef MP-KUAISHOU
+			state.platform = 3
+			// #endif
+			// #ifdef H5
+			let platform = 4
+			if (!isMobile()) {
+				platform = 5
+			}
+			// #endif
+		},
 		setChatLoading(state, data) {
 			state.chatLoading = data
 		},

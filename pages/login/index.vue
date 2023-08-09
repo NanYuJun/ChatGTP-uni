@@ -74,7 +74,7 @@
 				</view>
 			</view>
 			<!-- 微信授权头像昵称 -->
-			<wx-user-info-modal v-model="userInfoShow" :currentUserInfo="userInfo" @updated="updatedUserInfo" />
+			<wx-user-info-modal v-model="userInfoShow" :currentUserInfo="loginUserInfo" @updated="updatedUserInfo" />
 		</view>
 	</n-page>
 </template>
@@ -99,7 +99,7 @@
 				passwordV: "",
 				disabled: false,
 				userInfoShow: false,
-				userInfo: {
+				loginUserInfo: {
 					avatar: "",
 					nickname: "",
 				},
@@ -183,7 +183,7 @@
 					uni.hideLoading()
 					if (data.code == 1000) {
 						uni.removeStorageSync('inviterUserId')
-						this.userInfo = data.data;
+						this.loginUserInfo = data.data;
 						uni.setStorageSync("appToken", data.data.token);
 						this.$store.commit('setUserInfo', data.data)
 						this.loginBackPage()
@@ -220,11 +220,11 @@
 					});
 					uni.hideLoading()
 					if (data.code == 1000) {
-						this.userInfo = data.data;
+						this.loginUserInfo = data.data;
 						uni.setStorageSync("appToken", data.data.token);
 						// #ifdef MP-WEIXIN
-						if (!this.userInfo.avatar || !this.userInfo.nickname) {
-							return (this.userInfoShow = true);
+						if (!this.loginUserInfo.avatar || !this.loginUserInfo.nickname) {
+							return (this.loginUserInfoShow = true);
 						}
 						// #endif
 						this.$store.commit('setUserInfo', data.data)
@@ -278,8 +278,8 @@
 				}
 			},
 			async updatedUserInfo(e) {
-				this.userInfo = {
-					...this.userInfo,
+				this.loginUserInfo = {
+					...this.loginUserInfo,
 					...e,
 					avatar: await this.uploadAvatar(e),
 				};
@@ -292,11 +292,11 @@
 						data
 					} = await uni.$u.http.post(
 						"/app/user/info/update",
-						this.userInfo
+						this.loginUserInfo
 					);
 					uni.hideLoading()
 					if (data.code == 1000) {
-						this.$store.commit('setUserInfo', this.userInfo)
+						this.$store.commit('setUserInfo', this.loginUserInfo)
 						this.loginBackPage()
 					} else {
 						uni.showToast({

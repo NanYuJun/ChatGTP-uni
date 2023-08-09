@@ -1,24 +1,24 @@
 <template>
 	<n-page>
-	<!-- 我的邀请 -->
-	<view class="user-invitation" >
-		<u-list class="user-invitation-list" @scrolltolower="scrolltolower" @upperThreshold="init" :lowerThreshold="100">
-			<u-list-item v-for="(item, index) in list" :key="index">
-				<u-cell :title="item.inviterUserName" :label="item.createTime">
-					<view class="title" slot="title">{{item.inviterUserName}} 充值{{item.price/100}}元</view>
-					<u-avatar slot="icon" shape="square" size="35" :src="item.inviterAvatar || '/static/userAvatar.png'"
-						customStyle="margin: -3px 5px -3px 0">
-					</u-avatar>
-					<view class="frequency" slot="value">
-						+{{item.income/100}}元
-					</view>
-				</u-cell>
-			</u-list-item>
-			<view class="list-tips">
-				{{tips}}
-			</view>
-		</u-list>
-	</view>
+
+		<view class="user-invitation">
+			<u-list class="user-invitation-list" @scrolltolower="scrolltolower" @upperThreshold="init"
+				:lowerThreshold="100">
+				<u-list-item v-for="(item, index) in list" :key="index">
+					<u-cell :title="item.inviterUserName" :label="item.createTime">
+						<view class="title" slot="title">{{item.title}}</view>
+
+						<view class="frequency" slot="value">
+							<text>{{item.income > 0 ? '+' : ''}}</text>
+							{{item.income/100}}元
+						</view>
+					</u-cell>
+				</u-list-item>
+				<view class="list-tips">
+					{{tips}}
+				</view>
+			</u-list>
+		</view>
 	</n-page>
 </template>
 
@@ -107,24 +107,28 @@
 		&-list {
 			height: calc(100% - 120rpx);
 
-			
+
 
 			/deep/.u-cell__title-text {
 				color: var(--font-black)
 			}
+
 			.u-cell__title-text {
 				color: var(--font-black)
 			}
 
-			
+
 		}
 	}
-	.title{
+
+	.title {
 		color: var(--font-black)
 	}
+
 	.frequency {
 		color: $uni-color-primary;
 	}
+
 	.list-tips {
 		color: #999;
 		font-size: 24rpx;

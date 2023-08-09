@@ -2,7 +2,7 @@ import io from '@hyoga/uni-socket.io';
 import {
 	login
 } from '@/config/login'
-import config from '@/config/request.js'
+import {baseURL} from '@/config/request.js'
 import store from "../store";
 import {
 	delay
@@ -19,7 +19,7 @@ class Chat {
 		this.isFirst = false
 	}
 	setup() {
-		this.socket = io(process.env.NODE_ENV === 'development' ? 'https://ai.qqip.net' : config.baseURL, {
+		this.socket = io(process.env.NODE_ENV === 'development' ? 'https://ai.qqip.net' : baseURL, {
 			transports: ['websocket', 'polling'],
 			timeout: 5000,
 		});

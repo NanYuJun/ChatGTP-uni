@@ -58,7 +58,7 @@ Highlight.prototype.onParse = function (node, vm) {
           name: 'div',
           attrs: {
             class: 'hl-language',
-            style: 'user-select:text'
+            style: 'user-select:none'
           },
           children: [{
             type: 'text',
@@ -67,7 +67,7 @@ Highlight.prototype.onParse = function (node, vm) {
         })
       }
       if (config.copyByLongPress) {
-        node.attrs.style += (node.attrs.style || '') + ';user-select:text'
+        node.attrs.style += (node.attrs.style || '') + ';user-select:none'
         node.attrs['data-content'] = text
         vm.expose()
       }

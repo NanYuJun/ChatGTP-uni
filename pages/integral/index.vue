@@ -1,30 +1,37 @@
 <template>
 	<n-page>
 		<view class="integral">
-
+			<mp-html :content="item.desc" v-for="item in ad('11')" :key="item.id"></mp-html>
 			<view class="integral-content u-flex u-flex-between">
 				<view class="recharge">
 					<view class="recharge-item" :class="current == index ? 'recharge-item-active': ''"
 						v-for="(item, index) in list" :key="index" :style="{marginLeft: !index ? '15rpx': ''}"
 						@click="rechargeChange(index)">
 
-						<text class="recharge-item-duration">{{ item.num }}积分</text>
+						<text class="recharge-item-duration">{{ item.price }}元</text>
+						<text class="recharge-item-duration">原价<strike>{{item.originalPrice}}</strike>元</text>
+
 						<view class="recharge-item-price">
 							<!-- <text class="rmb"></text> -->
-							<text class="recharge-item-price-text">{{item.price }}</text>
-							<text class="rmb">元</text>
+							<text class="recharge-item-price-text">{{item.num }}</text>
+							<text class="rmb">次</text>
 						</view>
-						<text class="recharge-item-des">赠送{{item.giveNum || '' }}积分</text>
+						<text class="recharge-item-des" v-if="item.giveNum">赠送{{item.giveNum }}次</text>
 					</view>
 				</view>
 			</view>
-
 			<button class="btn" @click="selectPay()">立即充值</button>
-
-			
-
+			<mp-html :content="list[current].description"></mp-html>
+			<mp-html :content="item.desc" v-for="item in ad('12')" :key="item.id"></mp-html>
 		</view>
-		</view>
+		<u-popup :show="show" mode="center" :closeable="true" @close="show = false">
+			<view class="u-m-60">
+				<image :src="this.qrcode" style="width: 400rpx;height: 400rpx;"></image>
+				<view class="u-flex u-row-center">
+					<u-button text="已支付" style="width: 200rpx;" @click="isPay()"></u-button>
+				</view>
+			</view>
+		</u-popup>
 	</n-page>
 </template>
 
@@ -33,15 +40,26 @@
 		mapState
 	} from 'vuex'
 	// #ifdef H5
+	import {
+		isMobile
+	} from '@/utils/utils.js'
 	import wx from 'jweixin-module';
+	import QRCode from 'qrcode'
 	// #endif
-	
+
 	export default {
 		data() {
 			return {
+				show: false,
+				qrcode: '',
 				list: [],
 				current: 0,
+				timer: null,
+				orderInfo: {}
 			};
+		},
+		onUnload() {
+			this.timer = null
 		},
 		onShow() {
 			this.getList();
@@ -69,41 +87,80 @@
 					});
 				}
 			},
-
+			async isPay(id) {
+				const {
+					data: {
+						data
+					}
+				} = await uni.$u.http.get("/app/integral/order/info", {
+					params: {
+						id: id || orderInfo.id,
+					},
+				});
+				if (data.status === 1) {
+					uni.showToast({
+						title: "支付成功",
+						icon: 'success',
+						duration: 2000
+					});
+					clearInterval(this.timer)
+					this.timer = null
+					this.show = false
+				} else if (!id) {
+					uni.showToast({
+						title: "尚未支付成功！",
+						icon: 'none',
+						duration: 2000
+					});
+				}
+			},
 			async selectPay() {
 				const item = this.list[this.current]
-				const user = uni.getStorageSync("appUserInfo")
-				const {
-					data
-				} = await uni.$u.http.post("/app/integral/info/pay", {
-					uid: user.id,
-					pid: item.id,
-					openid: user.openid,
-					price: item.price
 
+				const {
+					data: {
+						data
+					}
+				} = await uni.$u.http.post("/app/integral/info/pay", {
+					pid: item.id,
+					type: isMobile() ? '' : 'NATIVE'
 				});
-				console.log(data)
+				const payParams = data.data
+				if (!isMobile()) {
+					this.orderInfo = data
+					QRCode.toDataURL(payParams.code_url)
+						.then(url => {
+							this.qrcode = url
+							this.show = true
+							this.timer = setInterval(async () => {
+								await this.isPay(data.id)
+							}, 1000)
+						})
+						.catch(err => {
+							console.error(err)
+						})
+
+					return
+				}
 				// 初始化微信 JS-SDK
 				wx.config({
-					debug: false,
-					appId: data.data.appId,
-					timestamp: data.data.timeStamp,
-					nonceStr: data.data.nonceStr,
-					signature: data.data.paySign,
+					debug: true,
+					appId: payParams.appId,
+					timestamp: payParams.timestamp,
+					nonceStr: payParams.nonceStr,
+					signature: payParams.paySign,
 					jsApiList: [
 						'chooseWXPay' // 需要使用的JS接口列表
 					]
 				})
-
-
 				wx.ready(function() {
 					wx.chooseWXPay({
-						appId: data.data.appId, //小程序Appid
-						timestamp: data.data.timeStamp, //创建订单时间戳
-						nonceStr: data.data.nonceStr,
-						package: data.data.package, // 订单包 package:"prepay_id=wx21**************"
-						signType: data.data.signType, // 加密方式统一'MD5'
-						paySign: data.data.paySign, // 后台支付签名返回
+						appId: payParams.appId, //小程序Appid
+						timestamp: payParams.timestamp, //创建订单时间戳
+						nonceStr: payParams.nonceStr,
+						package: payParams.package, // 订单包 package:"prepay_id=wx21**************"
+						signType: payParams.signType, // 加密方式统一'MD5'
+						paySign: payParams.paySign, // 后台支付签名返回
 						success: function(res) {
 							alert(ok)
 							console.log('测试' + res)
@@ -180,7 +237,7 @@
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				width: 185rpx;
+				width: 180rpx;
 				margin: 10rpx;
 				position: relative;
 				// width: 200rpx;

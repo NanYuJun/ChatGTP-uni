@@ -5,7 +5,6 @@
 				<image :src="item.title" v-for="item in ad('6').slice(0, 3)" :key="item.id" @tap="handleAdClick(item)">
 				</image>
 			</view>
-			<mp-html content=" ## 引言" :markdown="true"></mp-html>
 			<scroll-view scroll-y="true" class="chat-main" :scroll-into-view="scrollId" scroll-with-animation="true">
 				<view class="chat-item">
 					<view v-for="item in ad('2')" :key="item.id">
@@ -49,18 +48,13 @@
 							<view class="chat-item__left-right">
 								<view class="chat-item__left-bottom">
 									<view class="chat-item__left-message" @longtap="copy(item.content)">
-										<mp-html :class="{
-															loading:item.status == 'loading'
-														}" :markdown="true" :content="item.content" :selectable="true">
+										<mp-html :class="{loading:item.status == 'loading'}" :markdown="true" :content="item.content" :selectable="true">
 											<uni-rich-text>
 												<li style="list-style: none;">
 													<view class="md-p"></view>
 												</li>
-
 											</uni-rich-text>
 										</mp-html>
-
-
 									</view>
 									<!-- #ifdef H5 -->
 									<view
@@ -325,23 +319,11 @@
 				Chat.next()
 			},
 			async getMenuList() {
-				let platform
-				// #ifdef MP-WEIXIN
-				platform = 1
-				// #endif
-				// #ifdef MP-TOUTIAO
-				platform = 2
-				// #endif
-				// #ifdef MP-KUAISHOU
-				platform = 3
-				// #endif
-				// #ifdef H5
-				platform = 4
-				// #endif
+				
 				let {
 					data
 				} = await uni.$u.http.post("/app/renovation/chat/menu/list");
-				this.list = data.data?.filter(item => item.platform === platform || item
+				this.list = data.data?.filter(item => item.platform === this.$store.state.platform || item
 					.platform === 0) || []
 			},
 			// 滚动到最底部

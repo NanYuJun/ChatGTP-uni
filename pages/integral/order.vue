@@ -1,12 +1,13 @@
 <template>
 	<n-page>
+		
 		<!-- 我的邀请 -->
 		<view class="user-invitation">
 			<u-list class="user-invitation-list" @scrolltolower="scrolltolower" @upperThreshold="init"
 				:lowerThreshold="100">
 				<u-list-item v-for="(item, index) in list" :key="index">
-					<u-cell :title="item.inviterUserName" :label="item.createTime">
-						<view class="title" slot="title">提现{{ item.money / 100 }}元</view>
+					<u-cell :title="item.name" :label="item.createTime">
+
 
 						<view class="frequency" slot="value">
 							<view class="" @click="item.status ==2 && handleReject(item)">
@@ -33,14 +34,11 @@
 				list: [],
 				tips: "暂无数据",
 				enum: [{
-					label: '处理中',
+					label: '待支付',
 					value: 0
 				}, {
-					label: '成功',
+					label: '已完成',
 					value: 1
-				}, {
-					label: '驳回 查看原因',
-					value: 2
 				}]
 			};
 		},
@@ -81,7 +79,7 @@
 				});
 				const {
 					data
-				} = await uni.$u.http.post("/app/user/cash/page", {
+				} = await uni.$u.http.post("/app/integral/order/page", {
 					page: this.page,
 					size: 10,
 				});

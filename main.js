@@ -3,7 +3,6 @@ import Vue from "vue";
 
 import uView from "uview-ui";
 Vue.use(uView);
-console.log(uni.$u)
 
 // 全局路由拦截
 import "@/config/route.js";

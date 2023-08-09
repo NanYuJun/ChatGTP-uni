@@ -154,17 +154,8 @@
 				} = await uni.$u.http.post('/app/user/task/list')
 				uni.hideLoading();
 				if (data.code === 1000) {
-					let platform
-					// #ifdef MP-WEIXIN
-					platform = 1
-					// #endif
-					// #ifdef MP-TOUTIAO
-					platform = 2
-					// #endif
-					// #ifdef MP-KUAISHOU
-					platform = 3
-					// #endif
-					this.list = data?.data?.filter(item => item.platform === 0 || item.platform === platform)
+					
+					this.list = data?.data?.filter(item => item.platform === 0 || item.platform === this.$store.state.platform)
 					let ad = this.list.filter(item => item.type == 0)?.[0] || {}
 					if (uni.createRewardedVideoAd && ad) {
 						rewardedVideoAd = uni.createRewardedVideoAd({

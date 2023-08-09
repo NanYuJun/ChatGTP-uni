@@ -4,20 +4,21 @@
 		<view class="cash">
 			<view style="">支付宝账号</view>
 			<u-input v-model="params.account" style="border-bottom: 1px solid #f5f5f5;padding-left: 0;" type="text"
-				placeholder="请输入支付宝账号" :border="false"></u-input>
+				placeholder="请输入支付宝账号" border="false"></u-input>
 
 
 			<view style="margin-top:40upx;">真实姓名</view>
 			<u-input v-model="params.name" style="border-bottom: 1px solid #f5f5f5;padding-left: 0;" type="text"
-				placeholder="请输入真实姓名" :border="false"></u-input>
+				placeholder="请输入真实姓名" border="false"></u-input>
 
 
 			<view style="margin-top:40upx">提现金额</view>
 			<u-input v-model="params.money" style="border-bottom: 1px solid #f5f5f5;padding-left: 0;" type="text"
-				placeholder="请输入提现金额" :border="false"></u-input>
+				placeholder="请输入提现金额" border="false"></u-input>
 
 			<view style="color: #666666;font-size: 22upx;" class="u-m-t-20">
 				可提现金额
+
 				{{userInfo.balance / 100}} 元
 			</view>
 			<u-button type="primary" shape="circle" class="u-m-t-20" @tap="add">立即提现</u-button>
@@ -47,7 +48,7 @@
 
 		methods: {
 			async add() {
-				if (!/^\d+$/.test(this.params.money)) {
+				if (!/(^[1-9]\d*(\.\d{1,2})?$)|(^0(\.\d{1,2})?$)/.test(this.params.money)) {
 					uni.showToast({
 						icon: 'none',
 						title: '请输入正确金额，不能包含中文，英文，特殊字符和小数'
@@ -56,7 +57,10 @@
 				}
 				const {
 					data
-				} = await uni.$u.http.post('/app/user/cash/add', this.params)
+				} = await uni.$u.http.post('/app/user/cash/add', {
+					...this.params,
+					money: this.params.money * 100
+				})
 				if (data.code === 1000) {
 					uni.showToast({
 						title: data.message,
