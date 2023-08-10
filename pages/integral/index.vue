@@ -21,7 +21,7 @@
 				</view>
 			</view>
 			<button class="btn" @click="selectPay()">立即充值</button>
-			<mp-html :content="list[current].description"></mp-html>
+			<mp-html :content="list[current] && list[current].description"></mp-html>
 			<mp-html :content="item.desc" v-for="item in ad('12')" :key="item.id"></mp-html>
 		</view>
 		<u-popup :show="show" mode="center" :closeable="true" @close="show = false">
@@ -41,7 +41,8 @@
 	} from 'vuex'
 	// #ifdef H5
 	import {
-		isMobile
+		isMobile,
+		isWeixin
 	} from '@/utils/utils.js'
 	import wx from 'jweixin-module';
 	import QRCode from 'qrcode'
@@ -126,7 +127,7 @@
 					type: isMobile() ? '' : 'NATIVE'
 				});
 				const payParams = data.data
-				if (!isMobile()) {
+				if (!isMobile() || !isWeixin()) {
 					this.orderInfo = data
 					QRCode.toDataURL(payParams.code_url)
 						.then(url => {
@@ -144,7 +145,7 @@
 				}
 				// 初始化微信 JS-SDK
 				wx.config({
-					debug: true,
+					debug: false,
 					appId: payParams.appId,
 					timestamp: payParams.timestamp,
 					nonceStr: payParams.nonceStr,
@@ -237,7 +238,7 @@
 				flex-direction: column;
 				align-items: center;
 				justify-content: center;
-				width: 180rpx;
+				width: 210rpx;
 				margin: 10rpx;
 				position: relative;
 				// width: 200rpx;

@@ -103,7 +103,7 @@
 	}
 
 	.container {
-		width: 92%;
+		
 
 		.userinfo-card {
 			.card-box {
@@ -174,15 +174,16 @@
 				}
 
 				.balance-card-wrap {
-					width: 100%;
+					// width: 100%;
 					height: 200upx;
-					padding: 0 20upx;
+					// padding: 0 20upx;
+					margin: 0 20rpx;
 					position: absolute;
 					bottom: 0;
 					z-index: 10;
 
 					.balance-card {
-						width: 94%;
+				
 						height: 140upx;
 						background: linear-gradient(90deg, #007aff 0%, #007aff 100%);
 						border-radius: 15upx;
@@ -288,7 +289,7 @@
 
 			.tool-card {
 				background-color: #ffffff;
-				width: 100%;
+		
 				padding: 0 30upx;
 				margin-top: 20upx;
 				border-radius: 20upx;
