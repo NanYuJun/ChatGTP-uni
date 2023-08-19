@@ -7,7 +7,7 @@
 			</view>
 			<view v-for="(item, index) in list" :key="index" class="n-flex n-p-20">
 
-				<u-avatar shape="square" size="35" :src="item.img" >
+				<u-avatar shape="square" size="35" :src="item.img">
 				</u-avatar>
 				<view>
 					<view class="title">
@@ -35,9 +35,11 @@
 
 				</view>
 				<view style="width: 100rpx;">
-					<u-button v-if="item.type === 0" type="primary" size="mini" shape="circle" @tap="startTask(item)">看广告
+					<u-button v-if="item.type === 0" type="primary" size="mini" shape="circle"
+						@tap="startTask(item)">看广告
 					</u-button>
-					<u-button v-else type="primary" shape="circle" openType="share" @tap="task = item" size="mini" >分享</u-button>
+					<u-button v-else type="primary" shape="circle" openType="share" @tap="task = item"
+						size="mini">分享</u-button>
 				</view>
 			</view>
 
@@ -45,38 +47,7 @@
 				<mp-html :content="item.desc" v-for="item in ad('1')" :key="item.id"></mp-html>
 			</view>
 
-			<view class="integral">
-				<view class="integral-content u-flex u-flex-between">
-					<view class="integral">
-						<view class="integral-item" :class="current == index ? 'integral-item-active': ''"
-							v-for="(item, index) in integralList" :key="index"
-							:style="{marginLeft: !index ? '15rpx': ''}" @click="integralChange(index)">
 
-							<text class="integral-item-duration">{{ item.title }}</text>
-							<view class="integral-item-price">
-								<!-- <text class="rmb"></text> -->
-								<text class="integral-item-price-text">{{item.price/100 }}</text>
-								<text class="rmb">元</text>
-							</view>
-							<text class="integral-item-des">{{item.description || '' }}</text>
-						</view>
-					</view>
-				</view>
-
-				<button class="btn" @click="selectPay()">立即充值</button>
-
-				<view class="tips">
-
-					<view style="color: #000000;font-size: 30upx;margin-top:40upx;">充值说明</view>
-					<view style="color: #666666;font-size: 24upx;margin-top:40upx;">1、充值仅限微信在线支付方式，充值金额实时到账</view>
-					<view style="color: #666666;font-size: 24upx;margin-top:20upx;">2、本产品属于虚拟产品，一经充值不予退款</view>
-					<view style="color: #666666;font-size: 24upx;margin-top:20upx;">3、用户推广，可赚取现金收益</view>
-					<view style="color: #666666;font-size: 24upx;margin-top:20upx;">4、无法充值请联系微信客服：xssj0906</view>
-
-
-				</view>
-
-			</view>
 		</view>
 		</view>
 
@@ -87,16 +58,12 @@
 	import {
 		mapState
 	} from 'vuex'
-	// #ifdef H5
-	import wx from 'jweixin-module';
-	// #endif
-	
+
 	let rewardedVideoAd = null
 	export default {
 		data() {
 			return {
-				integralList: [],
-				current: 0,
+
 				list: [],
 				adLoad: false,
 				task: null
@@ -154,8 +121,9 @@
 				} = await uni.$u.http.post('/app/user/task/list')
 				uni.hideLoading();
 				if (data.code === 1000) {
-					
-					this.list = data?.data?.filter(item => item.platform === 0 || item.platform === this.$store.state.platform)
+
+					this.list = data?.data?.filter(item => item.platform === 0 || item.platform === this.$store.state
+						.platform)
 					let ad = this.list.filter(item => item.type == 0)?.[0] || {}
 					if (uni.createRewardedVideoAd && ad) {
 						rewardedVideoAd = uni.createRewardedVideoAd({
@@ -185,93 +153,6 @@
 						title: data.message
 					});
 				}
-			},
-			//	加载列表
-			async getIntegralList() {
-				uni.showLoading({
-					title: '加载中'
-				});
-				const {
-					data
-				} = await uni.$u.http.post('/app/integral/info/list')
-				uni.hideLoading();
-				if (data.code === 1000) {
-					this.list = data?.data
-				} else {
-					uni.showToast({
-						icon: 'none',
-						title: data.message
-					});
-				}
-			},
-
-			async selectPay() {
-
-				const item = this.list[this.current]
-				console.log('item', item.id)
-				console.log('item2', item.price)
-				console.log('item2', item.title)
-				const user = uni.getStorageSync("appUserInfo")
-				console.log('user', user.id)
-
-				const {
-					data
-				} = await uni.$u.http.post("/app/demo/pay/wx", {
-
-					uid: user.id,
-					pid: item.id,
-					openid: user.openid,
-					price: item.price
-
-				});
-
-				//用户id，产品id
-				console.log('data', data)
-
-				// 初始化微信 JS-SDK
-				wx.config({
-					debug: false,
-					appId: data.data.appId,
-					timestamp: data.data.timeStamp,
-					nonceStr: data.data.nonceStr,
-					signature: data.data.paySign,
-					jsApiList: [
-						'chooseWXPay' // 需要使用的JS接口列表
-					]
-				})
-
-
-				wx.ready(function() {
-					wx.chooseWXPay({
-						appId: data.data.appId, //小程序Appid
-						timestamp: data.data.timeStamp, //创建订单时间戳
-						nonceStr: data.data.nonceStr,
-						package: data.data.package, // 订单包 package:"prepay_id=wx21**************"
-						signType: data.data.signType, // 加密方式统一'MD5'
-						paySign: data.data.paySign, // 后台支付签名返回
-						success: function(res) {
-							console.log('测试' + res)
-							// 支付成功的回调函数
-							uni.showToast({
-								title: "支付成功",
-								icon: 'none',
-								duration: 2000
-							});
-						},
-						fail: function(res) {
-							console.log('失败' + res)
-							uni.showToast({
-								title: "支付失败",
-								icon: 'none',
-								duration: 2000
-							});
-						}
-					});
-				});
-
-
-
-
 			},
 
 

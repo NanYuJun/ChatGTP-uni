@@ -14,8 +14,6 @@ import store from './store'
 // 注册全局组件
 import nPage from "@/components/n-page";
 Vue.component("n-page", nPage);
-import wInput from '@/components/watch-login/watch-input.vue' //input
-Vue.component('wInput', wInput);
 // end
 
 // 全局mixin

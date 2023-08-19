@@ -10,7 +10,7 @@
 
 						<text class="recharge-item-duration">{{ item.price }}元</text>
 						<text class="recharge-item-duration">原价<strike>{{item.originalPrice}}</strike>元</text>
-						
+
 						<view class="recharge-item-price">
 							<!-- <text class="rmb"></text> -->
 							<text class="recharge-item-price-text">{{item.name }}</text>
@@ -42,7 +42,8 @@
 
 	// #ifdef H5
 	import {
-		isMobile,isWeixin
+		isMobile,
+		isWeixin
 	} from '@/utils/utils.js'
 	import wx from 'jweixin-module';
 	import QRCode from 'qrcode'
@@ -133,7 +134,7 @@
 				});
 				const payParams = data.data
 				if (!isMobile() || !isWeixin()) {
-					console.log(payParams)
+
 					this.orderInfo = data
 					QRCode.toDataURL(payParams.code_url)
 						.then(url => {
@@ -149,6 +150,33 @@
 
 					return
 				}
+				// #ifdef MP-WEIXIN
+				uni.requestPayment({
+					timeStamp: payParams.timestamp, //创建订单时间戳
+					nonceStr: payParams.nonceStr,
+					package: payParams.package, // 订单包 package:"prepay_id=wx21**************"
+					signType: payParams.signType, // 加密方式统一'MD5'
+					paySign: payParams.paySign, // 后台支付签名返回
+					success: function(res) {
+
+						// 支付成功的回调函数
+						uni.showToast({
+							title: "支付成功",
+							icon: 'none',
+							duration: 2000
+						});
+					},
+					fail: function(res) {
+						console.log('失败' + res)
+						uni.showToast({
+							title: "支付失败",
+							icon: 'none',
+							duration: 2000
+						});
+					}
+				})
+				return
+				// #endif
 				// 初始化微信 JS-SDK
 				wx.config({
 					debug: false,

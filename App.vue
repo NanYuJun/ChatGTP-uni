@@ -15,7 +15,7 @@
 			);
 			uni.hideTabBar();
 			this.$store.commit('getPlatform')
-			this.$store.dispatch('getUserInfo')
+			// this.$store.dispatch('getUserInfo')
 			// 获取基本配置
 			this.getTabbar();
 			this.getLoginConfig();

@@ -143,6 +143,33 @@
 
 					return
 				}
+				// #ifdef MP-WEIXIN
+				uni.requestPayment({
+					timeStamp: payParams.timestamp, //创建订单时间戳
+					nonceStr: payParams.nonceStr,
+					package: payParams.package, // 订单包 package:"prepay_id=wx21**************"
+					signType: payParams.signType, // 加密方式统一'MD5'
+					paySign: payParams.paySign, // 后台支付签名返回
+					success: function(res) {
+
+						// 支付成功的回调函数
+						uni.showToast({
+							title: "支付成功",
+							icon: 'none',
+							duration: 2000
+						});
+					},
+					fail: function(res) {
+						console.log('失败' + res)
+						uni.showToast({
+							title: "支付失败",
+							icon: 'none',
+							duration: 2000
+						});
+					}
+				})
+				return
+				// #endif
 				// 初始化微信 JS-SDK
 				wx.config({
 					debug: false,
@@ -163,8 +190,7 @@
 						signType: payParams.signType, // 加密方式统一'MD5'
 						paySign: payParams.paySign, // 后台支付签名返回
 						success: function(res) {
-							alert(ok)
-							console.log('测试' + res)
+
 							// 支付成功的回调函数
 							uni.showToast({
 								title: "支付成功",

@@ -1,4 +1,6 @@
-export const baseURL = process.env.NODE_ENV === 'development' ? 'https://ai.qqip.net' : 'https://ai.qqip.net'
+import {
+	baseURL
+} from './config.js'
 import {
 	login
 } from '@/config/login.js'

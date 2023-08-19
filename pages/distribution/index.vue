@@ -1,93 +1,72 @@
 <template>
 	<n-page>
-		<view class="container">
-			<view class="userinfo-card">
-				<view class="card-box">
-					<view class="user-section">
-						<view class="avatar-wrap">
-							<image class="avatar" :src="userInfo.avatar || '/static/userAvatar.jpg'"></image>
-						</view>
-						<view class="portrait-box">
-							<view class="info-box">
-								<text class="username" @click="goLogin">{{
-                  userInfo.nickname
-                }}</text>
-							</view>
-							<view class="tuan">
-								<text>邀请人数：{{ inviteTotal }}</text>
-							</view>
-						</view>
+		<view class="distribution">
+			<view class="distribution-head n-flex n-col-center u-p-20">
+				<u-avatar :size="60" :src="userInfo.avatar || '/static/userAvatar.jpg'"></u-avatar>
+				<view class="u-m-l-20">
+					<view style="font-size: 40rpx;font-weight: bold;">
+						{{userInfo.nickname}}
 					</view>
-					<view class="balance-card-wrap">
-						<view class="balance-card">
-							<view class="tit">余额</view>
-							<view class="xia">
-								<view class="num">
-									<text style="font-size: 40upx">￥</text>{{ userInfo.balance / 100 }}
-								</view>
-								<view @click="go('pages/distribution/cash')" class="withdraw-btn">立即提现</view>
-							</view>
-						</view>
+					<view class="">
+						邀请人数：{{ inviteTotal || 0 }}
 					</view>
 				</view>
 			</view>
-			<view class="main">
-				<!-- 工具 -->
-				<view class="tool-card">
-					<view class="tool-item" @click="go('pages/share/index')">
-						<image src="@/static/rindex/haibao.png" mode="widthFix" class="view-image-left"></image>
-						<view class="item-right">
-							<view class="view-text">推广海报</view>
-							<image src="@/static/right_icon.png" class="view-image-right"></image>
-						</view>
+			<view class="distribution-balance n-flex n-row-between n-col-center">
+				<view>
+					余额
+					<view class="balance">
+						￥{{ userInfo.balance / 100 || 0 }}
 					</view>
-					<view class="tool-item" @click="go('pages/user/invitation')">
-						<image src="@/static/rindex/tuandui.png" mode="widthFix" class="view-image-left"></image>
-						<view class="item-right">
-							<view class="view-text">我的邀请</view>
-							<image src="@/static/right_icon.png" class="view-image-right"></image>
-						</view>
-					</view>
-					<view class="tool-item" @click="go('pages/distribution/cashlist')">
-						<image src="@/static/rindex/tixian.png" mode="widthFix" class="view-image-left"></image>
-						<view class="item-right">
-							<view class="view-text">提现记录</view>
-							<image src="@/static/right_icon.png" class="view-image-right"></image>
-						</view>
-					</view>
-					<view class="tool-item" @click="go('pages/distribution/income')">
-						<image src="@/static/rindex/shouyi.png" mode="widthFix" class="view-image-left"></image>
-						<view class="item-right">
-							<view class="view-text">收支明细</view>
-							<image src="@/static/right_icon.png" class="view-image-right"></image>
-						</view>
-					</view>
-
 				</view>
+				<u-button text="立即提现" style="width: 80px;color:#007aff;height: 60rpx;margin-right: 0;"
+					@tap="go('pages/distribution/cash')"></u-button>
 			</view>
+			<u-cell-group>
+				<u-cell :title="item.title" isLink :icon="item.icon" v-for="item in [
+				{
+					title:'推广海报',
+					icon:'/static/rindex/haibao.png',
+					id:0,
+					url:'pages/share/index'
+				},
+				{
+					title:'我的邀请',
+					icon:'/static/rindex/tuandui.png',
+					id:0,
+					url:'pages/user/invitation'
+				},
+				{
+					title:'提现记录',
+					icon:'/static/rindex/tixian.png',
+					id:0,
+					url:'pages/distribution/cashlist'
+				},
+				{
+					title:'收支明细',
+					icon:'/static/rindex/shouyi.png',
+					id:0,
+					url:'pages/distribution/income'
+				}
+			]" :key="item.id" @tap="go(item.url)"></u-cell>
+			</u-cell-group>
 		</view>
+
+		</view>
+
 	</n-page>
 </template>
 <script>
-	import {
-		mapState
-	} from "vuex";
 	export default {
 		data() {
 			return {
 				inviteTotal: 0,
 			};
 		},
-
 		onLoad() {
-
 			this.getInviterTotal();
 		},
-		computed: {
-			...mapState(["userInfo"]),
-		},
 		methods: {
-
 			async getInviterTotal() {
 				const {
 					data
@@ -98,236 +77,33 @@
 	};
 </script>
 <style lang="scss" scoped>
-	page {
-		background: #f2f3f7;
+	.light .u-cell-group {
+		background-color: #fff!important;
 	}
 
-	.container {
-		
+	.distribution {
+		height: 100%;
+		overflow-y: auto;
 
-		.userinfo-card {
-			.card-box {
-				width: 100%;
-				height: 400upx;
-				position: relative;
-				z-index: 0;
+		&-balance {
+			height: 70px;
+			background: linear-gradient(90deg, #007aff, #007aff);
+			border-radius: 7px;
+			padding: 15px;
+			color: #fff;
+			margin: 20rpx;
 
-				.user-section {
-					position: absolute;
-					top: 0;
-					z-index: 10;
-					width: 100%;
-					padding: 50upx 30upx 210upx;
-					display: flex;
-
-					.avatar-wrap {
-						width: 100upx;
-						height: 100upx;
-						border-radius: 50%;
-						overflow: hidden;
-
-						.avatar {
-							width: 100%;
-							height: 100%;
-						}
-					}
-
-					.portrait-box {
-						margin-left: 18upx;
-						display: flex;
-						flex-direction: column;
-						justify-content: space-between;
-
-						.info-box {
-							font-size: 38upx;
-							font-family: PingFang SC;
-							font-weight: bold;
-							color: #333;
-						}
-
-						.tuan {
-							display: flex;
-							align-items: center;
-
-							.ma {
-								font-size: 24upx;
-								font-family: PingFang SC;
-								font-weight: 500;
-								color: #333;
-							}
-
-							.fuzi {
-								width: 64upx;
-								height: 34upx;
-								background: #cccccc;
-								border-radius: 15upx;
-								font-size: 20upx;
-								font-family: PingFang SC;
-								font-weight: 500;
-								color: #333333;
-								text-align: center;
-								line-height: 34upx;
-								margin-left: 10upx;
-							}
-						}
-					}
-				}
-
-				.balance-card-wrap {
-					// width: 100%;
-					height: 200upx;
-					// padding: 0 20upx;
-					margin: 0 20rpx;
-					position: absolute;
-					bottom: 0;
-					z-index: 10;
-
-					.balance-card {
-				
-						height: 140upx;
-						background: linear-gradient(90deg, #007aff 0%, #007aff 100%);
-						border-radius: 15upx;
-						padding: 30upx;
-
-						.tit {
-							font-size: 32upx;
-							font-family: PingFang SC;
-							font-weight: bold;
-							color: #fff;
-						}
-
-						.xia {
-							width: 100%;
-							display: flex;
-							justify-content: space-between;
-
-							.num {
-								font-size: 70upx;
-								font-family: DINPro;
-								font-weight: bold;
-								color: #fff;
-							}
-
-							.withdraw-btn {
-								width: 150upx;
-								height: 60upx;
-								line-height: 60upx;
-								text-align: center;
-								background: #fff;
-								font-size: 28upx;
-								font-family: PingFang SC;
-								font-weight: 500;
-								color: #007aff;
-								border-radius: 10upx;
-							}
-						}
-					}
-				}
+			.balance {
+				font-size: 70rpx;
+				font-weight: bolder;
 			}
+
 		}
 
-		.main {
-			padding: 20upx;
-
-			.income-card {
-				width: 100%;
-				background-color: #fff;
-				border-radius: 20upx;
-				padding: 30upx;
-				margin-top: 20upx;
-
-				.tit {
-					display: flex;
-					align-items: center;
-					justify-content: space-between;
-					font-size: 32upx;
-					line-height: 32upx;
-					font-family: PingFang SC;
-					font-weight: bold;
-					color: #333333;
-
-					image {
-						width: 10upx;
-						height: 21upx;
-					}
-				}
-
-				.show-content {
-					display: flex;
-					justify-content: space-around;
-					align-items: center;
-					margin-top: 40upx;
-
-					.view-category {
-						display: flex;
-						flex-direction: column;
-						align-items: center;
-						justify-content: center;
-
-						.num {
-							font-size: 38upx;
-							font-family: PingFang SC;
-							font-weight: 800;
-							color: #333333;
-						}
-
-						.text {
-							font-size: 24upx;
-							font-family: PingFang SC;
-							font-weight: 500;
-							color: #999999;
-						}
-					}
-
-					.line {
-						width: 1px;
-						height: 65upx;
-						background-color: #e6e6e6;
-					}
-				}
-			}
-
-			.tool-card {
-				background-color: #ffffff;
-		
-				padding: 0 30upx;
-				margin-top: 20upx;
-				border-radius: 20upx;
-
-				.tool-item {
-					display: flex;
-					flex-direction: row;
-					width: 100%;
-					height: 100upx;
-					align-items: center;
-					justify-content: space-between;
-
-					.view-image-left {
-						width: 44upx;
-					}
-
-					.item-right {
-						flex: 1;
-						display: flex;
-						flex-direction: row;
-						align-items: center;
-						justify-content: space-between;
-
-						.view-text {
-							margin-left: 22upx;
-							font-size: 28upx;
-							font-family: PingFang SC;
-							// font-weight: bold;
-							color: #707070;
-						}
-
-						.view-image-right {
-							width: 10upx;
-							height: 21upx;
-						}
-					}
-				}
-			}
+		.u-cell-group {
+			margin: 20rpx;
+			border-radius: 20rpx;
+			background-color: var(--bg);
 		}
 	}
 </style>
