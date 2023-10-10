@@ -93,6 +93,7 @@
 						width: 25%;
 						padding: 10rpx 20rpx;
 						box-sizing: border-box;
+						position: relative;
 						
 						.title {
 							color: var(--font-black);
@@ -110,10 +111,10 @@
 						
 						.isVip {
 							position: absolute;
-							top: 20rpx;
-							left: 20rpx;
-							width: 50rpx;
-							height: 50rpx;
+							top: 10rpx;
+							right: 50rpx;
+							width: 30rpx;
+							height: 30rpx;
 						}
 					}
 

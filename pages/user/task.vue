@@ -2,10 +2,10 @@
 	<n-page>
 		<!-- 用户任务 -->
 		<view class="user-task">
-			<view class="n-p-20">
+			<view class="u-p-20">
 				<mp-html :content="item.desc" v-for="item in ad('5')" :key="item.id"></mp-html>
 			</view>
-			<view v-for="(item, index) in list" :key="index" class="n-flex n-p-20">
+			<view v-for="(item, index) in list" :key="index" class="n-flex u-p-20">
 
 				<u-avatar shape="square" size="35" :src="item.img">
 				</u-avatar>

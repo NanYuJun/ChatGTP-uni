@@ -1,37 +1,10 @@
 <template>
 	<view class="n-page" :class="theme" :style="{background: background}">
 		<!-- #ifndef MP-TOUTIAO -->
-		<u-navbar v-if="navbarShow && !isWeixin" :title="title || titleText" :leftIconSize="isTabbar ? 0 : 20" :autoBack="true"
-			leftIconColor="#fff" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'" :safeAreaInsetTop="true"
-			:placeholder="true" titleStyle="color:#fff">
+		<u-navbar v-if="navbarShow && !isWeixin" :title="title || titleText" :leftIconSize="isTabbar ? 0 : 20"
+			:autoBack="true" leftIconColor="#fff" :bgColor="theme == 'light' ? '#0071ff' : '#2c2c2c'"
+			:safeAreaInsetTop="true" :placeholder="true" titleStyle="color:#fff">
 		</u-navbar>
-		<!-- #ifdef MP-WEIXIN -->
-	<!-- 	<view v-if="navbarShow" class=" n-flex n-row-between n-col-center"
-			style="height: 100rpx;padding: 20rpx;margin-top: 60rpx">
-			<image style="width: 50rpx;height: 50rpx;" v-if="isTabbar" src="../../static/navbar/logo.png" />
-			<image style="width: 50rpx;height: 50rpx;" v-else src="../../static/navbar/back.png" @tap="back" />
-			<view style="font-size: 40rpx;font-weight: bold;" v-if="title">
-				{{title}}
-			</view>
-			<view style="font-size: 40rpx;font-weight: bold;" v-else>
-				ChaChaAI
-			</view>
-			<view style="width: 50rpx;height: 50rpx;"></view>
-		</view> -->
-		<!-- #endif -->
-		<!-- #ifndef MP-WEIXIN -->
-		<!-- <view v-if="navbarShow" class=" n-flex n-row-between n-col-center" style="height: 100rpx;padding: 20rpx;">
-			<image style="width: 50rpx;height: 50rpx;" v-if="isTabbar" src="../../static/navbar/logo.png" />
-			<image style="width: 50rpx;height: 50rpx;" v-else src="../../static/navbar/back.png" @tap="back" />
-			<view style="font-size: 40rpx;font-weight: bold;" v-if="title">
-				{{title}}
-			</view>
-			<view style="font-size: 40rpx;font-weight: bold;" v-else>
-				ChaChaAI
-			</view>
-			<view style="width: 50rpx;height: 50rpx;"></view>
-		</view> -->
-		<!-- #endif -->
 		<!-- #endif -->
 		<view class="n-page__inner">
 			<slot />

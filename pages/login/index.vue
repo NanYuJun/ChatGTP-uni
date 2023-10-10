@@ -83,7 +83,7 @@
 	import {
 		wechatLogin
 	} from '@/config/login.js'
-	import requestConfig from "@/config/request.js";
+	import {baseURL} from "@/config/config.js";
 
 	import WxUserInfoModal from "@/uni_modules/tuniaoui-wx-user-info/components/tuniaoui-wx-user-info/tuniaoui-wx-user-info.vue";
 
@@ -224,7 +224,8 @@
 						uni.setStorageSync("appToken", data.data.token);
 						// #ifdef MP-WEIXIN
 						if (!this.loginUserInfo.avatar || !this.loginUserInfo.nickname) {
-							return (this.loginUserInfoShow = true);
+							this.userInfoShow = true
+							return
 						}
 						// #endif
 						this.$store.commit('setUserInfo', data.data)
@@ -249,7 +250,7 @@
 			uploadAvatar(e) {
 				return new Promise((resolve, reject) => {
 					uni.uploadFile({
-						url: requestConfig.baseURL + "/app/base/comm/upload",
+						url: baseURL + "/app/base/comm/upload",
 						filePath: e.avatar,
 						name: "file",
 						success: (res) => {
@@ -278,11 +279,13 @@
 				}
 			},
 			async updatedUserInfo(e) {
+				
 				this.loginUserInfo = {
 					...this.loginUserInfo,
 					...e,
 					avatar: await this.uploadAvatar(e),
 				};
+				console.log(e)
 				try {
 					uni.showLoading({
 						title: '登录中～',

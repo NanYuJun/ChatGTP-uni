@@ -5,7 +5,7 @@ import {
 
 import {
 	baseURL
-} from './request.js'
+} from './config.js'
 
 
 /*

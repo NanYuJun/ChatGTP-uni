@@ -25,7 +25,6 @@ uni.$u.http.interceptors.response.use((response) => {
 	return response
 }, (response) => {
 	// 对响应错误做点什么 （statusCode !== 200）
-	console.log(response)
 	switch (response.statusCode) {
 		case 401:
 			login(401)

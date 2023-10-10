@@ -9,30 +9,6 @@
 			}
 		},
 		{
-			"path": "pages/main/index/index_2",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/main/chat/index_2",
-			"style": {
-				"navigationBarTitleText": "对话"
-			}
-		},
-		{
-			"path": "pages/main/model/index_2",
-			"style": {
-				"navigationBarTitleText": "模型"
-			}
-		},
-		{
-			"path": "pages/user/index_2",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
-		{
 			"path": "pages/main/chat/index",
 			"style": {
 				"navigationBarTitleText": "对话"
@@ -90,12 +66,7 @@
 			}
 		},
 
-		{
-			"path": "pages/user/index2",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
+
 		{
 			"path": "pages/webview/index",
 			"style": {
@@ -117,15 +88,24 @@
 			}
 		},
 		{
+			"path": "pages/main/model/index_2",
+			"style": {
+				"navigationBarTitleText": "模型"
+
+			}
+		},
+		{
 			"path": "pages/main/model/index_robot",
 			"style": {
-				"navigationBarTitleText": "助手"
+				"navigationBarTitleText": "模型"
+
 			}
 		},
 		{
 			"path": "pages/main/model/index_tool",
 			"style": {
-				"navigationBarTitleText": "应用"
+				"navigationBarTitleText": "模型"
+
 			}
 		},
 		{

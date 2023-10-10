@@ -1,5 +1,5 @@
 {
-    "name" : "南羽云AI助手",
+    "name" : "珀宇AI",
     "appid" : "__UNI__4AC1694",
     "description" : "",
     "versionName" : "1.0.0",
@@ -78,7 +78,7 @@
     },
     "quickapp" : {},
     "mp-weixin" : {
-        "appid" : "wxb28f6ae212175d0d",
+        "appid" : "wx8b362001e86ae9c7",
         "setting" : {
             "urlCheck" : true,
             "es6" : true,
