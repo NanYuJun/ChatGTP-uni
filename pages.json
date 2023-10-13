@@ -3,29 +3,50 @@
 		"^u-(.*)": "uview-ui/components/u-$1/u-$1.vue"
 	},
 	"pages": [
+
 		{
-				"path": "pages/index",
-				"style": {
-					"navigationBarTitleText": "首页"
-				}
-			},
-		{
-			"path": "pages/main/chat/index",
+			"path": "pages/index/index",
 			"style": {
-				"navigationBarTitleText": "对话"
+				"navigationBarTitleText": "人才超市"
 			}
 		},
 		{
-			"path": "pages/main/chat/log",
+			"path": "pages/index/info",
 			"style": {
-				"navigationBarTitleText": "对话记录",
-				"enablePullDownRefresh": true
+				"navigationBarTitleText": "人才"
 			}
 		},
 		{
-			"path": "pages/cdk/index",
+			"path": "pages/message/index",
 			"style": {
-				"navigationBarTitleText": "卡密兑换"
+				"navigationBarTitleText": "留言"
+			}
+		},
+		
+		{
+			"path": "pages/index/submit",
+			"style": {
+				"navigationBarTitleText": "提交"
+			}
+		},
+			
+		{
+			"path": "pages/order/index",
+			"style": {
+				"navigationBarTitleText": "咨询"
+			}
+		},
+		{
+			"path": "pages/order/info",
+			"style": {
+				"navigationBarTitleText": "详情"
+			}
+		},
+		{
+			"path": "pages/user/index",
+			"style": {
+				"navigationBarTitleText": "我的",
+				"navigationStyle": "custom"
 			}
 		},
 		{
@@ -33,93 +54,40 @@
 			"style": {
 				"navigationBarTitleText": "登录"
 			}
-		}, {
-			"path": "pages/main/about/index",
-			"style": {
-				"navigationBarTitleText": "关于"
-			}
-		},
-		{
-			"path": "pages/user/invitation",
-			"style": {
-				"navigationBarTitleText": "我的邀请",
-				"enablePullDownRefresh": true
-			}
-		},
-		{
-			"path": "pages/user/task",
-			"style": {
-				"navigationBarTitleText": "任务中心"
-
-			}
-		},
-		{
-			"path": "pages/user/index",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
-		{
-			"path": "pages/user/setting",
-			"style": {
-				"navigationBarTitleText": "个人资料"
-			}
-		},
-		{
-			"path": "pages/user/index2",
-			"style": {
-				"navigationBarTitleText": "我的"
-			}
-		},
-		{
-			"path": "pages/webview/index",
-			"style": {
-				"navigationBarTitleText": "外链"
-
-			}
-		},
-		{
-			"path": "pages/param/index",
-			"style": {
-				"navigationBarTitleText": ""
-			}
-		},
-		{
-			"path": "pages/main/model/index",
-			"style": {
-				"navigationBarTitleText": "模型"
-
-			}
-		},
-		{
-			"path": "pages/main/model/index_robot",
-			"style": {
-				"navigationBarTitleText": "助手"
-			}
-		},
-		{
-			"path": "pages/main/model/index_tool",
-			"style": {
-				"navigationBarTitleText": "应用"
-			}
-		},
-		{
-			"path": "pages/share/index",
-			"style": {
-				"navigationBarTitleText": "分享"
-			}
 		}
 	],
+	"tabBar": {
+		"color": "#7A7E83",
+		"selectedColor": "#0071ff",
+		"borderStyle": "black",
+		"backgroundColor": "#ffffff",
+		"list": [{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/tabbar/recai.png",
+				"selectedIconPath": "static/tabbar/recai1.png",
+				"text": "人才"
+			},
+			{
+				"pagePath": "pages/order/index",
+				"iconPath": "static/tabbar/message-language.png",
+				"selectedIconPath": "static/tabbar/message-language (1).png",
+				"text": "咨询"
+			},
+			{
+				"pagePath": "pages/user/index",
+				"iconPath": "static/tabbar/customer-bussinessman.png",
+				"selectedIconPath": "static/tabbar/customer-bussinessman (1).png",
+				"text": "我的"
+			}
+		]
+	},
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "",
 		"navigationBarBackgroundColor": "#0071ff",
 		"backgroundColor": "#ffffff",
-		"enablePullDownRefresh": false,
-		"navigationStyle": "custom",
-		"mp-tuotiao": {
-			"navigationStyle": "default"
-		}
+		"enablePullDownRefresh": false
+
 	},
 	"uniIdRouter": {}
 }

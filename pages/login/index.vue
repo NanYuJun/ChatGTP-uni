@@ -1,37 +1,30 @@
 <template>
-	<n-page>
-	<view class="login" >
+	<view class="login">
 		<!-- 账号密码登录 -->
-		<view class="login-account" v-if="type == 'useraccount'">
+		<view class="login-account" v-if="type == 'login'">
 			<view class="login-account-header">
 				<view class="hello">
 					<text>Hi，欢迎使用</text>
 				</view>
 			</view>
 			<view class="login-account-content">
-				<view class="login-account-content-tip">账号</view>
-				<input v-model="nickname" type="text" placeholder="请输入账号" placeholder-class="placeholder" />
+				<view class="login-account-content-tip">手机号</view>
+				<input v-model="loginParams.tak_account" type="text" placeholder="请输入手机号"
+					placeholder-class="placeholder" />
 				<view class="login-account-content-tip">密码</view>
-				<input v-model="password" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
-				<view class="login-account-content-tip">验证码</view>
-				<view class="login-account-content-captcha">
-					<input v-model="captcha" type="text" placeholder="请输入验证码" placeholder-class="placeholder" />
-					<image class="captchaImg" :src="captchaImg" @tap="getCaptcha">
-				</view>
+				<input v-model="loginParams.tak_pwd" type="password" placeholder="请输入密码"
+					placeholder-class="placeholder" />
+
 
 				<view class="login-account-content-tip link" @tap="type = 'register'">还没有账号？快去注册吧</view>
-				<button type="button" @click="login({nickname: nickname,password: password,})">
+				<button type="button" @click="login()">
 					登录
 				</button>
-				<view class="login-outher">
-					<view class="login-outher-item" @tap="wechatLogin" v-if="">
-						<u-icon name="weixin-fill" color="#fff" size="30"></u-icon>
-					</view>
-				</view>
+
 			</view>
 		</view>
 		<!-- 注册 -->
-		<view class="login-register"  v-if="type == 'register'">
+		<view class="login-register" v-if="type == 'register'">
 			<view class="login-register-header">
 				<view class="hello">
 					<text>Hi，欢迎注册</text>
@@ -39,134 +32,59 @@
 			</view>
 			<view class="login-register-content">
 
-				<view class="login-register-content-tip">账号</view>
-				<input v-model="nickname" type="text" placeholder="请输入账号" placeholder-class="placeholder" />
-				<view class="login-register-content-tip">密码</view>
-				<input v-model="password" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
-				<view class="login-register-content-tip">重复密码</view>
-				<input v-model="passwordV" type="password" placeholder="请输入密码" placeholder-class="placeholder" />
-				<view class="login-register-content-tip">邀请人ID</view>
-				<input v-model="inviterUserId" type="text" placeholder="非必填" :disabled="disabled"
-					placeholder-class="placeholder" />
 				<view class="login-register-content-tip">手机号</view>
-				<input v-model="phone" placeholder="用于同步平台统一身份信息" placeholder-class="placeholder" />
+				<input v-model="registerParams.tak_phone" placeholder="请输入手机号" placeholder-class="placeholder" />
+				<view class="login-register-content-tip">密码</view>
+				<input v-model="registerParams.tak_pwd" type="password" placeholder="请输入密码"
+					placeholder-class="placeholder" />
+				<view class="login-register-content-tip">重复密码</view>
+				<input v-model="registerParams.tak_pwd2" type="password" placeholder="请输入密码"
+					placeholder-class="placeholder" />
+				<view class="login-register-content-tip">姓名</view>
+				<input v-model="registerParams.tak_name" type="text" placeholder="请输入姓名"
+					placeholder-class="placeholder" />
+
 				<view class="login-register-content-tip link" @tap="type = 'useraccount'">已有账号，前往登录</view>
 				<button type="button" @click="register()">注册</button>
 			</view>
 		</view>
-		<!-- 微信小程序登录 -->
-		<view class="login-wechat"  v-if="type == 'miniprogram'">
-			<!-- 内容区域 -->
-			<view class="login-wechat__wrapper">
-				<view class="login-wechat__sub-img">
-					<image src="/static/login.png"></image>
-				</view>
-				<!-- 标题 -->
-				<view class="login-wechat__title">授权登录</view>
-				<!-- tips -->
-				<view class="login-wechat__sub-title">
-					一键授权登录，完整功能体验
-				</view>
-				<!-- 保存按钮 -->
-				<view class="login-wechat__submit-btn" @tap="getLoginCode">
-					一 键 登 录
-				</view>
-			</view>
-		</view>
-		<!-- 微信授权头像昵称 -->
-		<wx-user-info-modal v-model="userInfoShow" :currentUserInfo="userInfo" @updated="updatedUserInfo" />
+
 	</view>
-</n-page>
 </template>
 
 <script>
-	import {
-		wechatLogin
-	} from '@/config/login.js'
-	import requestConfig from "@/config/request.js";
-	
-	import WxUserInfoModal from "@/uni_modules/tuniaoui-wx-user-info/components/tuniaoui-wx-user-info/tuniaoui-wx-user-info.vue";
-
 	export default {
 		data() {
 			return {
-				type: "useraccount",
-				inviterUserId: "",
-				nickname: "",
-				password: "",
-				phone: "",
-				captcha: '',
-				passwordV: "",
-				disabled: false,
-				userInfoShow: false,
-				userInfo: {
-					avatar: "",
-					nickname: "",
+				type: "login",
+				loginParams: {
+					tak_account: '',
+					tak_pwd: '',
 				},
-				captchaId: '',
-				captchaImg: '',
+				registerParams: {
+					tak_name: '',
+					tak_pwd: '',
+					tak_pwd2: '',
+					tak_phone: '',
+					tak_type: '1',
+				}
 
 			};
 		},
-		components: {
-			WxUserInfoModal,
-		},
-		onLoad(e) {
-			// #ifdef H5
-			this.type = e.type || 'useraccount'; // 默认为账号密码登录
-			// #endif
-			// #ifdef MP-WEIXIN
-			this.type = e.type || 'miniprogram'; // 默认为账号密码登录
-			// #endif
 
 
-		},
-		onShow() {
-			this.getCaptcha()
-			this.inviterUserId = uni.getStorageSync('inviterUserId') || ''
-			// #ifdef H5
-			if (this.inviterUserId) {
-				this.type = 'register'
-			}
-			// #endif
-		},
 		methods: {
-			wechatLogin() {
-				wechatLogin()
-			},
-			async getCaptcha() {
-				this.captcha = ''
-				const {
-					data
-				} = await uni.$u.http.get("/app/base/open/captcha?type=base64&height=30&width=150");
-				if (data.code === 1000) {
-					this.captchaId = data.data.captchaId
-					this.captchaImg = data.data.data
-				}
-			},
-			// 获取code
-			getLoginCode() {
-				uni.login({
-					success: (e) => {
-						this.login(e);
-					},
-				});
-			},
+
 			// 注册
 			async register() {
-				if (this.password != this.passwordV) {
+				if (this.registerParams.tak_pwd != this.registerParams.tak_pwd2) {
 					uni.showToast({
 						title: "两次密码不一致",
 						icon: "none",
 					});
 					return;
 				}
-				if (this.nickname.length > 1) {
 
-				}
-				if (!this.phone) {
-
-				}
 				uni.showLoading({
 					title: '注册中～',
 					mask: true
@@ -174,26 +92,14 @@
 				try {
 					const {
 						data
-					} = await uni.$u.http.post("/app/user/info/register", {
-						nickname: this.nickname,
-						password: this.password,
-						passwordV: this.passwordV,
-						inviterUserId: this.inviterUserId || null
-					});
+					} = await uni.$u.http.post(
+						`/TakInfo/Add_Person_TakInfo?Jsonstr=${JSON.stringify(this.registerParams)}`)
 					uni.hideLoading()
-					if (data.code == 1000) {
-						uni.removeStorageSync('inviterUserId')
-						this.userInfo = data.data;
-						uni.setStorageSync("appToken", data.data.token);
-						uni.setStorageSync("appUserInfo", data.data);
-						this.loginBackPage()
-
-					} else {
-						uni.showToast({
-							title: data.message,
-							icon: "none",
-						});
-					}
+					uni.showToast({
+						title: data.Message,
+						icon: "none",
+					});
+					this.type = 'login'
 				} catch (e) {
 					uni.hideLoading()
 					uni.showToast({
@@ -203,104 +109,43 @@
 				}
 			},
 			// 微信登录
-			async login(e) {
+			async login() {
 				try {
 					uni.showLoading({
 						title: '登录中～',
 						mask: true
 					})
-					const {
-						data
-					} = await uni.$u.http.post("/app/user/info/login", {
-						...e,
-						type: this.type,
-						captchaId: this.captchaId,
-						captcha: this.captcha,
-						inviterUserId: this.inviterUserId,
-					});
-					uni.hideLoading()
-					if (data.code == 1000) {
-						this.userInfo = data.data;
-						uni.setStorageSync("appToken", data.data.token);
-						// #ifdef MP-WEIXIN
-						if (!this.userInfo.avatar || !this.userInfo.nickname) {
-							return (this.userInfoShow = true);
+					try {
+						const {
+							data
+						} = await uni.$u.http.get(
+							'/TakInfo/GetTakInfoByAccount', {
+								params: this.loginParams
+							})
+						try {
+							this.$store.commit('setUserInfo', JSON.parse(data.Data)?.ds?.[0])
+							uni.switchTab({
+								url:'/pages/index/index'
+							})
+							uni.showToast({
+								title: data.Message,
+								icon: "none",
+							});
+						} catch (e) {
+							uni.showToast({
+								title: '获取用户信息失败',
+								icon: "none",
+							});
 						}
-						// #endif
-						uni.setStorageSync("appUserInfo", data.data);
-						this.loginBackPage()
-					} else {
-						uni.showToast({
-							title: data.message,
-							icon: "none",
-						});
-						this.getCaptcha()
 
-					}
-				} catch (e) {
-					uni.hideLoading()
-					uni.showToast({
-						title: JSON.stringify(e),
-						icon: "none",
-					});
-				}
+						uni.hideLoading()
 
-			},
-			uploadAvatar(e) {
-				return new Promise((resolve, reject) => {
-					uni.uploadFile({
-						url: requestConfig.baseURL + "/app/base/comm/upload",
-						filePath: e.avatar,
-						name: "file",
-						success: (res) => {
-							const fileData = JSON.parse(res.data);
-							if (fileData.code == 1000) {
-								resolve(fileData.data);
-							} else {
-								uni.showToast({
-									title: "头像上传失败，请重试～",
-									icon: "none",
-								});
-								throw "头像上传失败，请重试～";
-							}
-						},
-					});
-				});
-			},
-			// 退回上一页 如果没有则跳转首页
-			loginBackPage() {
-				let pages = getCurrentPages() // 获取栈实例
-				if (pages.length > 1) {
-					uni.navigateBack()
-				} else {
-					const tabbar = uni.getStorageSync('tabbar')
-					this.go(tabbar[0].pagePath);
-				}
-			},
-			async updatedUserInfo(e) {
-				this.userInfo = {
-					...this.userInfo,
-					...e,
-					avatar: await this.uploadAvatar(e),
-				};
-				try {
-					uni.showLoading({
-						title: '登录中～',
-						mask: true
-					})
-					const {
-						data
-					} = await uni.$u.http.post(
-						"/app/user/info/update",
-						this.userInfo
-					);
-					uni.hideLoading()
-					if (data.code == 1000) {
-						uni.setStorageSync("appUserInfo", this.userInfo);
-						this.loginBackPage()
-					} else {
+
+						this.type = 'login'
+					} catch (e) {
+						uni.hideLoading()
 						uni.showToast({
-							title: data.message,
+							title: JSON.stringify(e),
 							icon: "none",
 						});
 					}
@@ -313,6 +158,7 @@
 				}
 
 			},
+
 		},
 	};
 </script>
@@ -452,7 +298,7 @@
 				color: #ffffff;
 				margin-top: 30rpx;
 				border-radius: 10rpx;
-				padding: 25rpx;
+				padding: 0 25rpx;
 				font-size: 32rpx;
 				display: flex;
 				align-items: center;

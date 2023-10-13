@@ -1,7 +1,4 @@
-const baseURL = process.env.NODE_ENV === 'development' ? 'https://ai.qqip.net' : ''
-import {
-	login
-} from '@/config/login.js'
+const baseURL = 'http://121.17.248.74:9000/api'
 
 uni.$u.http.setConfig((config) => {
 	config.baseURL = baseURL;
@@ -9,30 +6,16 @@ uni.$u.http.setConfig((config) => {
 })
 
 uni.$u.http.interceptors.request.use((config) => { // 可使用async await 做异步操作
-	config.header.Authorization = uni.getStorageSync('appToken')
+	
 	return config
 }, config => { // 可使用async await 做异步操作
 	return Promise.reject(config)
 })
 
 uni.$u.http.interceptors.response.use((response) => {
-	if (response.statusCode !== 200) {
-		return Promise.reject(response)
-	}
+	
 	return response
 }, (response) => {
-	// 对响应错误做点什么 （statusCode !== 200）
-	console.log(response)
-	switch (response.statusCode) {
-		case 401:
-			login(401)
-			break;
-		default:
-			break;
-	}
+	
 	return Promise.reject(response)
 })
-
-export default {
-	baseURL
-}
